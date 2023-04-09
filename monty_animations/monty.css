@@ -1,0 +1,34 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 62.5%;
+  font-family: "Rubik", sans-serif;
+}
+
+body {
+  background-color: #efefef;
+}
+
+.knight-section {
+  height: 120rem;
+  width: 120rem;
+  position: relative;
+}
+
+.kn-img {
+  /* display: block; */
+  height: 25%;
+  width: 25%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.knight-img {
+  transform: translate(-25rem, -25rem);
+}
+
+.dog-img {
+  transform: translate(0, 100rem);
+}

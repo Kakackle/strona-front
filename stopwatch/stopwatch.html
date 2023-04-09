@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stopwatches</title>
+    <link rel="stylesheet" href="stopwatch.css" />
+  </head>
+  <body>
+    <section class="timer-section">
+      <div class="timer">
+        <div class="timer-left">
+          <span class="timer-title"
+            >Timer title 1
+            <ion-icon class="timer-icon" name="stopwatch-outline"></ion-icon
+          ></span>
+          <div class="timer-buttons">
+            <button class="start-button timer-button">
+              <ion-icon class="icon start-icon" name="play"></ion-icon>
+            </button>
+            <button class="pause-button timer-button">
+              <ion-icon class="icon pause-icon" name="pause"></ion-icon>
+            </button>
+            <button class="stop-button timer-button">
+              <ion-icon class="icon stop-icon" name="stop"></ion-icon>
+            </button>
+            <button class="lap-button timer-button">
+              <ion-icon class="icon stop-icon" name="bookmark"></ion-icon>
+            </button>
+          </div>
+        </div>
+        <div class="timer-right">
+          <span class="timer-time">00:00:00</span>
+          <ol class="lap-list"></ol>
+        </div>
+      </div>
+      <div class="timer">
+        <div class="timer-left">
+          <span class="timer-title"
+            >Timer title 1
+            <ion-icon class="timer-icon" name="stopwatch-outline"></ion-icon
+          ></span>
+          <div class="timer-buttons">
+            <button class="start-button2 timer-button">
+              <ion-icon class="icon start-icon" name="play"></ion-icon>
+            </button>
+            <button class="pause-button2 timer-button">
+              <ion-icon class="icon pause-icon" name="pause"></ion-icon>
+            </button>
+            <button class="stop-button2 timer-button">
+              <ion-icon class="icon stop-icon" name="stop"></ion-icon>
+            </button>
+            <button class="lap-button2 timer-button">
+              <ion-icon class="icon stop-icon" name="bookmark"></ion-icon>
+            </button>
+          </div>
+        </div>
+        <div class="timer-right">
+          <span class="timer-time2">00:00:00</span>
+          <ol class="lap-list"></ol>
+        </div>
+      </div>
+    </section>
+    <script src="https://unpkg.com/ionicons@latest/dist/ionicons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="stopwatch.js"></script>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apis</title>
+    <link rel="stylesheet" href="apis.css" />
+  </head>
+  <body>
+    <section class="joke-section">
+      <div class="centered">
+        <div class="loader-joke lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+        <p class="joke-title">Click the button to get a Joke!</p>
+        <button class="joke-button">Get a very funny joke</button>
+        <p class="joke">Your joke here</p>
+      </div>
+    </section>
+    <section class="kanye-section">
+      <div class="centered">
+        <div class="loader-kanye lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+        <p class="joke-title">
+          Click the button to get a
+          <span class="line-through">Joke!</span> Kanye quote!
+        </p>
+        <button class="kanye-button">
+          Get a very inspirational Kanye quote
+        </button>
+        <p class="quote">Your quote here</p>
+      </div>
+    </section>
+    <section class="nationalize-section">
+      <div class="centered">
+        <div class="loader-nation lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+        <div class="name-input-div">
+          <label class="name-label" for="name">Enter your name:</label>
+          <input type="text" id="name-input" name="name" placeholder="Diego" />
+        </div>
+        <p class="joke-title">Click the button to get the name's nationality</p>
+        <button class="nation-button">Get it</button>
+        <p class="nation">Your nationality</p>
+      </div>
+    </section>
+    <section class="linktitle-section">
+      <div class="centered">
+        <div class="loader-linktitle lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+        <div class="link-input-div">
+          <label class="link-label" for="link">Enter your name:</label>
+          <input
+            type="text"
+            id="link-input"
+            name="link"
+            placeholder="https://yourwebsite.com"
+          />
+        </div>
+        <p class="joke-title">Click the button to get the link's title</p>
+        <button class="link-button">Get it</button>
+        <p class="linktitle">The link title</p>
+        <div class="link-icon"></div>
+      </div>
+    </section>
+    <section class="drink-section">
+      <div class="centered">
+        <div class="loader-drink lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+        <div class="drink-input-div">
+          <label class="drink-label" for="drink">Enter an ingredient:</label>
+          <input type="text" id="drink-input" name="drink" placeholder="Gin" />
+        </div>
+        <p class="joke-title">Click the button to get the name's nationality</p>
+        <button class="drink-button">Let's get it started</button>
+        <p class="drink">Your drink</p>
+        <p class="drink-ingredients-title">First 4 ingredients:</p>
+        <ul class="drink-ingredients"></ul>
+      </div>
+    </section>
+    <section class="dog-section">
+      <div class="centered">
+        <p class="joke-title">Get a dog img</p>
+        <button class="dog-button">Click me woof</button>
+        <img class="dog-img" />
+      </div>
+    </section>
+    <script src="apis.js"></script>
+  </body>
+</html>

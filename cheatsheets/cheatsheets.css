@@ -1,0 +1,315 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 62.5%;
+  font-family: "Rubik", sans-serif;
+}
+
+body {
+  background-color: #efefef;
+}
+
+.breadcrumb-section {
+  width: 100%;
+  height: 4rem;
+  padding: 0.4rem 2rem;
+  /* background-color: ; */
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.breadcrumb-item a {
+  display: inline;
+  text-decoration: none;
+  color: gray;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.breadcrumb-item:before {
+  color: gray;
+  font-size: 1.5rem;
+  /* padding: 8px; */
+  padding-right: 2rem;
+  content: ">>";
+}
+
+.breadcrumb-item:first-child:before {
+  content: none;
+}
+
+.breadcrumb-item a:hover {
+  color: rgba(0, 128, 0, 0.8);
+}
+
+.bread-curr a {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.title-section {
+  width: 100%;
+  height: 8rem;
+  display: flex;
+  align-items: center;
+}
+
+.title-section p {
+  font-size: 7.2rem;
+  text-transform: uppercase;
+  color: rgb(50, 50, 50);
+}
+
+.fav-section {
+  width: 100vw;
+  height: 50rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* .fav-area {
+  height: 40rem;
+  width: 40rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  border: 4px dashed black;
+  padding: 1rem;
+  overflow: scroll;
+} */
+
+.fav-title-area {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  height: 4rem;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 3.2rem;
+  padding: 0 4rem;
+}
+
+.star-icon {
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+.fav-search {
+  width: 16rem;
+  border-radius: 0.2rem;
+}
+
+.fav-area {
+  height: 40rem;
+  width: 80rem;
+  border: 4px dashed rgb(50, 50, 50);
+  padding: 1rem;
+  overflow: scroll;
+  display: grid;
+  grid-template-rows: 10rem 10rem 10rem; /* 3 rows of 10rem */
+  grid-auto-flow: column; /* a column flow */
+  grid-auto-columns: 20rem; /* each column will 20rem of width */
+  grid-gap: 1rem;
+  /* overflow: auto; */
+  position: absolute;
+  left: 4rem;
+}
+
+.tag-area {
+  height: 40rem;
+  width: 30rem;
+  border-left: 4px solid rgba(50, 50, 50, 0.5);
+  position: absolute;
+  right: 4rem;
+  background-color: rgba(50, 50, 50, 0.1);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tag-area-title {
+  font-size: 2rem;
+}
+
+.tag-section {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 10rem;
+  width: 95%;
+  background-color: rgba(255, 255, 255, 0.3);
+  overflow-y: scroll;
+}
+
+.tag-sect-title {
+  font-size: 1.8rem;
+  color: rgba(50, 50, 50, 0.8);
+}
+
+.tag-checkbox {
+  height: 1.8rem;
+  /* width: 1.8rem; */
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tag-checkbox label {
+  font-size: 1.8rem;
+  width: 20rem;
+}
+
+.fav {
+  width: 20rem;
+  height: 10rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 10rem;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  padding: 1rem;
+  position: relative;
+}
+
+.fav p {
+  font-size: 2.2rem;
+}
+
+.fav-applied-tags {
+  position: absolute;
+  bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.fav-tag {
+  font-size: 1.5rem;
+}
+
+.fav-date {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.fav-clicks {
+  position: absolute;
+  top: 2.4rem;
+  right: 1rem;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.link-copy {
+  text-decoration: none;
+  /* background-color: rgba(50, 50, 50, 0.2); */
+  color: black;
+}
+
+.prog {
+  border: 2px dashed rgba(0, 128, 0, 0.8);
+  background-color: rgba(0, 128, 0, 0.2);
+}
+
+.diy {
+  border: 2px dashed rgba(255, 165, 0, 0.8);
+  background-color: rgba(255, 165, 0, 0.2);
+}
+
+.network {
+  border: 2px dashed rgba(255, 192, 203, 0.8);
+  background-color: rgba(255, 192, 203, 0.2);
+}
+
+.fav:hover {
+  transform: scale(1.2);
+}
+
+.most-section {
+  width: 100vw;
+  height: 50rem;
+  /* background-color: antiquewhite; */
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  position: relative;
+  padding: 4rem;
+}
+
+.most-section-title {
+  position: absolute;
+  top: 0rem;
+  left: 4rem;
+  font-size: 4.8rem;
+  padding: 1rem;
+  color: rgb(50, 50, 50);
+}
+
+.most-div {
+  position: absolute;
+  top: 7rem;
+  height: 40rem;
+  width: 100rem;
+  background-color: rgba(50, 50, 50, 0.2);
+}
+
+.most-div-head {
+  width: 100%;
+  height: 3.2rem;
+  background-color: rgba(50, 50, 50, 0.5);
+  border-bottom: 4px solid rgb(50, 50, 50);
+  display: flex;
+  font-size: 2.4rem;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 4rem;
+}
+
+.most-links {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: decimal;
+}
+
+.most-links li {
+  width: 100%;
+  display: flex;
+  font-size: 2.4rem;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 4rem;
+}
+
+.most-div-head-long {
+  min-width: 50rem;
+}
+
+.most-link-short {
+  min-width: 8rem;
+}
+
+.most-pages {
+  position: absolute;
+  bottom: 0;
+  right: 30rem;
+  font-size: 3.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.curr-page {
+  font-weight: 700;
+}
