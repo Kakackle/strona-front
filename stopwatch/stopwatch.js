@@ -19,6 +19,10 @@ let timerInterval = setInterval(() => {
 
 clearInterval(timerInterval);
 
+function exampleChange() {
+  // I do absolutely fucking nothing fuck you vscode
+}
+
 function updateTimerText() {
   let seconds_text = "";
   let minutes_text = "";
