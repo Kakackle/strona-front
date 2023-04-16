@@ -93,12 +93,32 @@
         <img class="over-img-4 over-img-long" src="imgs/git/git_1.png" />
       </div>
     </section>
+    <section class="threed-section">
+      <model-viewer
+        class="pedal-model"
+        src="imgs/yellow/model/scene.gltf"
+        alt="guitar pedal model"
+        auto-rotate
+        camera-controls
+        ar
+        ios-src="imgs/yellow/model/scene.gltf"
+        shadow-intensity="0.5"
+      ></model-viewer>
+    </section>
 
     <!-- <div class="png-test">
       <div class="background">
         <img src="imgs/yellow/yellow_1.png" class="png-img" />
       </div>
     </div> -->
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"
+    ></script>
     <script src="pedaly.js"></script>
   </body>
 </html>

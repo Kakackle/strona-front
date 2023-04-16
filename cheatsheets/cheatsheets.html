@@ -19,7 +19,8 @@
         </ul>
       </section>
       <section class="title-section"><p>Cheatsheets & Useful Links</p></section>
-      <!-- <section class="fav-section">
+      <section class="commented-flex-fav-section">
+        <!-- <section class="fav-section">
         <div class="fav-area">
           <div class="fav prog">
             <p>Title 1</p>
@@ -44,7 +45,7 @@
           </div>
         </div>
       </section> -->
-
+      </section>
       <section class="fav-section">
         <div class="fav-title-area">
           <p class="fav-title">
@@ -62,7 +63,7 @@
                 href="https://www.youtube.com/playlist?list=PLc0mBJHoWgQNCvPh6Upf2JAjyQ9yb2Ouh"
                 target="_blank"
                 rel="noopener noreferrer"
-                >INTERMEDIUM</a
+                >https://www.youtube.com/playlist?list=PLc0mBJHoWgQNCvPh6Upf2JAjyQ9yb2Ouh</a
               >
             </p>
             <div class="fav-applied-tags">
@@ -81,30 +82,6 @@
           </div>
           <div class="fav prog">
             <p>Title 4</p>
-          </div>
-          <div class="fav network">
-            <p>Title 5</p>
-          </div>
-          <div class="fav prog">
-            <p>Title 6</p>
-          </div>
-          <div class="fav network">
-            <p>Title 7</p>
-          </div>
-          <div class="fav prog">
-            <p>Title 8</p>
-          </div>
-          <div class="fav network">
-            <p>Title 9</p>
-          </div>
-          <div class="fav prog">
-            <p>Title 10</p>
-          </div>
-          <div class="fav network">
-            <p>Title 11</p>
-          </div>
-          <div class="fav prog">
-            <p>Title 12</p>
           </div>
         </div>
         <div class="tag-area">
@@ -205,6 +182,48 @@
               <label class="tag-checkbox" for="prog"> &lt; 1 year </label>
             </div>
           </div>
+        </div>
+      </section>
+      <section class="add-section">
+        <span class="add-section-title">
+          <ion-icon class="add-icon" name="add-circle"></ion-icon>
+          <span class="add-title-text">ADD A NEW LINK</span></span
+        >
+        <div class="add-drop">
+          <div class="add-drop-labels">
+            <label class="add-label" for="add-title">Link title:</label>
+            <label class="add-label" for="add-link">Link:</label>
+            <label class="add-label" for="add-tag1">Tag 1:</label>
+            <label class="add-label" for="add-tag2">Tag 2:</label>
+          </div>
+          <div class="add-drop-inputs">
+            <input
+              class="add-text-long add-title"
+              name="add-title"
+              type="text"
+              placeholder="Javascript using localStorage"
+            />
+            <input
+              class="add-text-long add-link"
+              name="add-link"
+              type="text"
+              placeholder="https://blog.logrocket.com/localstorage-javascript-complete-guide/"
+            />
+            <input
+              class="add-text-short add-tag1"
+              name="add-tag1"
+              type="text"
+              placeholder="programming"
+            />
+            <input
+              class="add-text-short add-tag2"
+              name="add-tag2"
+              type="text"
+              placeholder="programming"
+            />
+          </div>
+          <button class="submit-link">ADD LINK</button>
+          <button class="close-drop"><ion-icon name="close"></ion-icon></button>
         </div>
       </section>
 

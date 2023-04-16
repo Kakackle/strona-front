@@ -181,6 +181,8 @@ body {
 
 .fav p {
   font-size: 2.2rem;
+  overflow: hidden;
+  height: 2.4rem;
 }
 
 .fav-applied-tags {
@@ -233,6 +235,110 @@ body {
 
 .fav:hover {
   transform: scale(1.2);
+}
+
+.add-section {
+  /* height: 4rem; */
+  width: 100%;
+  padding: 0rem 4rem;
+}
+
+.add-icon,
+.add-title-text {
+  font-size: 2.4rem;
+  color: rgb(50, 50, 50);
+}
+
+.add-icon:hover,
+.add-title-text:hover {
+  color: black;
+  cursor: pointer;
+}
+
+.add-section-title {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* .add-section-title:hover + .add-drop {
+  display: flex;
+} */
+
+.add-drop {
+  display: none;
+  height: 12rem;
+  position: relative;
+  gap: 2rem;
+}
+
+.add-drop-labels,
+.add-drop-inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  align-items: start;
+}
+
+.add-label {
+  font-size: 1.5rem;
+}
+
+/* .add-drop-inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 0.5rem;
+} */
+
+.add-text-long,
+.add-text-short {
+  height: 1.6rem;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.add-text-long {
+  width: 80rem;
+}
+
+.add-text-short {
+  width: 16rem;
+}
+
+.submit-link {
+  position: absolute;
+  background-color: rgb(50, 50, 50);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  right: 2rem;
+  bottom: 0;
+  font-size: 2rem;
+  width: 12rem;
+  height: 3rem;
+  /* padding: 0.5rem; */
+}
+
+.submit-link:hover {
+  background-color: #000;
+}
+
+.close-drop {
+  color: rgb(50, 50, 50);
+  font-size: 4rem;
+  position: absolute;
+  right: 2rem;
+  top: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.close-drop:hover {
+  color: #000;
 }
 
 .most-section {

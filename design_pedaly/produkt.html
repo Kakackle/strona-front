@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="magnifier.css" />
+    <link rel="stylesheet" href="produkt.css" />
+  </head>
+  <body>
+    <section class="nav-section">
+      <nav class="navbar">
+        <div class="navbar-left">
+          <a href="#" class="logo">Kalopsia</a>
+        </div>
+        <div class="navbar-right">
+          <div class="navbar-links">
+            <a href="#">Link 1</a>
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+            <a href="#">Link 4</a>
+          </div>
+          <a class="navbar-acc">Acc</a>
+        </div>
+      </nav>
+    </section>
+    <section class="breadcrumb-section">
+      <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">HOME</a></li>
+        <li class="breadcrumb-item"><a href="#">STORE</a></li>
+        <li class="breadcrumb-item"><a href="#">EFFECTS</a></li>
+        <li class="breadcrumb-item bread-curr">
+          <a href="#">YELLOW</a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="product-section grid grid--2cols">
+      <div class="product-left">
+        <div class="product-left-img">
+          <span class="arr-right">&gt;</span>
+          <span class="arr-left">&lt;</span>
+          <div class="background-img">
+            <div class="magnifier-thumb-wrapper">
+              <img class="img" id="thumb" src="imgs/yellow/yellow_1.png" />
+            </div>
+            <!-- <div
+              class="magnifier-preview"
+              id="preview"
+              style="width: 0px; height: 0px"
+            ></div> -->
+          </div>
+        </div>
+        <div class="product-photos">
+          <img
+            class="extra-img"
+            src="imgs/yellow/yellow_1.png"
+            data-index="0"
+          />
+          <img
+            class="extra-img"
+            src="imgs/yellow/yellow_3.png"
+            data-index="1"
+          />
+          <img
+            class="extra-img"
+            src="imgs/yellow/yellow_front.png"
+            data-index="2"
+          />
+          <img
+            class="extra-img"
+            src="imgs/yellow/yellow_1.png"
+            data-index="3"
+          />
+          <img
+            class="extra-img"
+            src="imgs/yellow/yellow_1.png"
+            data-index="4"
+          />
+        </div>
+      </div>
+      <div class="product-right">
+        <div class="product-title-div">
+          <div class="product-title">
+            <span class="title">PRODUCT TITLE</span>
+            <span class="title-new">NEW</span>
+          </div>
+          <div class="product-tags">
+            <p class="tag">TAG 1</p>
+            <p class="tag">TAG 2</p>
+          </div>
+        </div>
+        <!-- <div class="product-right" -->
+        <div class="product-details">
+          <ul class="details-ul">
+            <li class="details-li">wow so cool</li>
+            <li class="details-li">product details 1</li>
+            <li class="details-li">product details 2 product</li>
+          </ul>
+        </div>
+        <div class="product-price">
+          <span class="price">349.00 ,-</span>
+        </div>
+        <button class="product-buy"><span>BUY NOW</span></button>
+      </div>
+    </section>
+    <section class="similar-products">
+      <span class="similar-title"> SIMILAR PRODUCTS </span>
+      <div class="similar-products-carousel">
+        <img class="sim-img" src="imgs/fuzz/fuzz_1.png" />
+        <img class="sim-img" src="imgs/used/used_1.png" />
+        <img class="sim-img" src="imgs/board/board_1.png" />
+      </div>
+    </section>
+
+    <script src="https://unpkg.com/ionicons@latest/dist/ionicons.js"></script>
+    <script type="text/javascript" src="Event.js"></script>
+    <script src="Magnifier.js"></script>
+    <script src="produkt.js"></script>
+  </body>
+</html>
