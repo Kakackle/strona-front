@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="cheatsheets.css" />
   </head>
   <body>
+    <button class="clear-button">Clear cache</button>
     <main>
       <section class="breadcrumb-section">
         <ul class="breadcrumb">
@@ -56,7 +57,7 @@
         </div>
         <div class="fav-area">
           <div class="fav prog">
-            <p class="fav-title">Title 1</p>
+            <p class="fav-title">INTERMEDIUM</p>
             <p class="fav-link">
               <a
                 class="link-copy"
@@ -73,24 +74,17 @@
             </div>
             <span class="fav-date">04-04-2023</span>
             <span class="fav-clicks">276 clicks</span>
-          </div>
-          <div class="fav diy">
-            <p>Title 2</p>
-          </div>
-          <div class="fav network">
-            <p>Title 3</p>
-          </div>
-          <div class="fav prog">
-            <p>Title 4</p>
+            <ion-icon class="fav-icon fav-delete" name="trash-bin"></ion-icon>
+            <ion-icon class="fav-icon fav-remove" name="close"></ion-icon>
           </div>
         </div>
         <div class="tag-area">
           <p class="tag-area-title">CHOOSE A CATEGORY:</p>
-          <div class="tag-section">
+          <div class="tag-section type-tags">
             <p class="tag-sect-title">Link type:</p>
             <div class="tag-checkbox">
               <input
-                class="tag-checkbox"
+                class="tag-checkbox-box"
                 type="checkbox"
                 id="prog"
                 name="prog"
@@ -98,48 +92,8 @@
               />
               <label class="tag-checkbox" for="prog"> Prog </label>
             </div>
-            <div class="tag-checkbox">
-              <input
-                class="tag-checkbox"
-                type="checkbox"
-                id="prog"
-                name="prog"
-                value="prog"
-              />
-              <label class="tag-checkbox" for="prog"> DIY </label>
-            </div>
-            <div class="tag-checkbox">
-              <input
-                class="tag-checkbox"
-                type="checkbox"
-                id="prog"
-                name="prog"
-                value="prog"
-              />
-              <label class="tag-checkbox" for="prog"> Tag1 </label>
-            </div>
-            <div class="tag-checkbox">
-              <input
-                class="tag-checkbox"
-                type="checkbox"
-                id="prog"
-                name="prog"
-                value="prog"
-              />
-              <label class="tag-checkbox" for="prog"> Tag2 </label>
-            </div>
-            <div class="tag-checkbox">
-              <input
-                class="tag-checkbox"
-                type="checkbox"
-                id="prog"
-                name="prog"
-                value="prog"
-              />
-              <label class="tag-checkbox" for="prog"> Tag3 </label>
-            </div>
           </div>
-          <div class="tag-section">
+          <div class="tag-section time-tags">
             <p class="tag-sect-title">Time added:</p>
             <div class="tag-checkbox">
               <input
@@ -182,6 +136,7 @@
               <label class="tag-checkbox" for="prog"> &lt; 1 year </label>
             </div>
           </div>
+          <button class="filter-button">APPLY FILTERS</button>
         </div>
       </section>
       <section class="add-section">
@@ -195,6 +150,7 @@
             <label class="add-label" for="add-link">Link:</label>
             <label class="add-label" for="add-tag1">Tag 1:</label>
             <label class="add-label" for="add-tag2">Tag 2:</label>
+            <label class="add-label" for="isFavCheck">Favourite?</label>
           </div>
           <div class="add-drop-inputs">
             <input
@@ -221,6 +177,7 @@
               type="text"
               placeholder="programming"
             />
+            <input class="add-fav-check" name="isFavCheck" type="checkbox" />
           </div>
           <button class="submit-link">ADD LINK</button>
           <button class="close-drop"><ion-icon name="close"></ion-icon></button>
@@ -230,7 +187,7 @@
       <section class="most-section">
         <span class="most-section-title">MOST OFTEN CLICKED</span>
         <div class="most-pages">
-          <span class="curr-page">1</span>
+          <span class="curr-page-most">1</span>
           <span>2</span>
           <span>3</span>
           <span>...</span>
@@ -248,39 +205,69 @@
           <div class="most-div-area">
             <ol class="most-links">
               <li>
-                <a
-                  class="link-copy most-div-head-long"
-                  href="https://www.youtube.com/playlist?list=PLc0mBJHoWgQNCvPh6Upf2JAjyQ9yb2Ouh"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >INTERMEDIUM</a
-                >
-                <div class="most-link-tags most-link-short">
-                  <span>Tag1</span>
-                  <span>Tag2</span>
-                  <span>Tag3</span>
+                <div class="li-div">
+                  <a
+                    class="link-copy most-div-head-long"
+                    href="https://www.youtube.com/playlist?list=PLc0mBJHoWgQNCvPh6Upf2JAjyQ9yb2Ouh"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >INTERMEDIUM</a
+                  >
+                  <div class="most-link-tags most-link-short">
+                    <span>Tag1</span>
+                    <span>Tag2</span>
+                    <span>Tag3</span>
+                  </div>
+                  <p>276</p>
+                  <p>04-04-2023</p>
+                  <p>01-01-2023</p>
+                  <ion-icon class="most-delete" name="trash-bin"></ion-icon>
                 </div>
-                <p>276</p>
-                <p>04-04-2023</p>
-                <p>01-01-2023</p>
               </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="all-section">
+        <span class="all-section-title">ALL LINKS AND SHEETS</span>
+        <div class="all-pages">
+          <span class="curr-page-all">1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>...</span>
+          <span class="all-pages-last">99</span>
+        </div>
+        <div class="most-div">
+          <div class="most-div-head">
+            <p class="most-div-head-long">Link</p>
+            <!-- <div class="most-div-head-tags">Tags</div> -->
+            <p class="most-link-short">Tags</p>
+            <p class="most-link-short">Clicks</p>
+            <p class="most-link-short">Viewed</p>
+            <p class="most-link-short">Added</p>
+          </div>
+          <div class="most-div-area">
+            <ol class="all-links">
               <li>
-                <a
-                  class="link-copy"
-                  href="https://lowcygier.pl/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Cheap Gaems</a
-                >
-              </li>
-              <li>
-                <a
-                  class="link-copy"
-                  href="https://twitch.tv/jerma985"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Jerman</a
-                >
+                <div class="li-div">
+                  <a
+                    class="link-copy most-div-head-long"
+                    href="https://www.youtube.com/playlist?list=PLc0mBJHoWgQNCvPh6Upf2JAjyQ9yb2Ouh"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >INTERMEDIUM</a
+                  >
+                  <div class="most-link-tags most-link-short">
+                    <span>Tag1</span>
+                    <span>Tag2</span>
+                    <span>Tag3</span>
+                  </div>
+                  <p>276</p>
+                  <p>04-04-2023</p>
+                  <p>01-01-2023</p>
+                  <ion-icon class="all-delete" name="trash-bin"></ion-icon>
+                </div>
               </li>
             </ol>
           </div>
