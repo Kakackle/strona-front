@@ -59,7 +59,7 @@ const filterButton = document.querySelector(".filter-button");
 //searchbar
 const fav_search = document.querySelector(".fav-search");
 
-//obsluga widocznosci menu dodawania sheetow
+//obsluga widocznosci menu dodawania linkow
 add_new_link.addEventListener("click", (e) => {
   e.preventDefault();
   add_dropdown.style.display = "flex";
