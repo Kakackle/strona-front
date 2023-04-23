@@ -4,6 +4,12 @@
 // 3. filtracja tablic przed renderem
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
+// TODO: edycja pol, tagow itd
+// TODO: sledzenie klikniec, sortowanie most clicked
+// TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
+// TODO: paginacja, mam funkcje render, moze moge podzielic tablice i wywolywac funckje z podawaniem jej czesci
+// TODO: aaaaaa
+
 let cheatsheets = []; //tablica linkow w systemie
 let tags = []; //tablica tagow
 let appliedTags = []; //tagi do filtracji
