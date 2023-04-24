@@ -5,11 +5,15 @@
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
 // TODO: edycja pol, tagow itd
-// TODO: sledzenie klikniec
+// TODO: sledzenie ilosci klikniec jest, ale poniewaz najpierw otwiera link, to nie aktualizuje sie na stronie bez refreshu?
 // TODO: sortowanie, po dacie, kliknieciach
 // TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
 // TODO: paginacja, mam funkcje render, moze moge podzielic tablice i wywolywac funckje z podawaniem jej czesci
 // TODO: sposob dodawania z obiektow typu json ktore mozesz wklejac tekstem albo z pliku, z wykorzystaniem funckji tworzenia nowego obiektu cheat
+// TODO: zastanowic sie, ze renderowanie calej strony rzadko jest tak naprawde potrzebne
+// duzo czesciej, wymagane jest dodanie tylko jednego obiektu albo zmiana jednego pola
+// co jest latwe samo w sobie, ale czy nie da sie tego zrealizowac jakos w funkcji
+// bo inaczej moze sie troche zbyt rozdrobnic we wlasne funkcje do zmiany kazdej malej rzeczy
 
 let cheatsheets = []; //tablica linkow w systemie
 let tags = []; //tablica tagow
@@ -38,6 +42,8 @@ const fav_area = document.querySelector(".fav-area");
 const most_links = document.querySelector(".most-links");
 const all_links = document.querySelector(".all-links");
 
+//wszystkie linki - do obslugi eventow na kliknieciu ich w dowolnym miejscu na stronie
+let all_link_elements = [];
 //obszar tagow
 const type_tags = document.querySelector(".type-tags");
 let tag_checkboxes = document.querySelectorAll(".tag-checkbox-box");
@@ -89,21 +95,8 @@ const clearObjects = function () {
 };
 
 //--------- obsluga dodania/usuwania elementow tablic --------
-//TODO: strasznie na sline wszystko, przydaloby sie zuniweralizowac
-//usuwanie elementow z tablicy i localstorage z roznych miejsc
-//!!!!!!!powinno brac w argument jaki element chce usunac jakos
-const deleteEntryList = function (e) {
-  const counterIndex =
-    e.target.parentNode.parentNode.querySelector(".counter-el").innerHTML;
-  console.log(counterIndex);
-  cheatsheets.splice(counterIndex, 1);
-  renderWebsite();
-  saveToLocalStorage(cheatsheets, "cheatsheets");
-};
-//zrobione na sline, bo w przypadku list target musi wyjsc do parent node 2 razy, w przypadku fav raz,
-//bo tak ukryty jest przycisk w htmlu
-const deleteEntryFav = function (e) {
-  // console.log(e.target.parentNode);
+
+const deleteEntry = function (e) {
   const counterIndex =
     e.target.parentNode.querySelector(".counter-el").innerHTML;
   console.log(counterIndex);
@@ -128,6 +121,7 @@ const addFav = function (e) {
   cheatsheets[counterIndex].isFav = true;
   renderFavLinksEntries(cheatsheets);
   createEventListeners();
+  saveToLocalStorage(cheatsheets, "cheatsheets");
 };
 
 //// zebranie istniejacych tagow, moze powinno byc wywolywane przy dodawaniu
@@ -151,8 +145,10 @@ const renderAllLinksEntries = function (renderList) {
   renderList.forEach((cheat) => {
     const all_li = document.createElement("li");
     all_li.innerHTML = `
-    <p class="hidden counter-el">${renderList.indexOf(cheat)}</p>
     <div class="li-div">
+    <p data-count="${renderList.indexOf(cheat)}"
+    class="hidden counter-el">${renderList.indexOf(cheat)}</p>
+    <p>
     <a
       class="link-copy most-div-head-long"
       href="${cheat.link}"
@@ -160,12 +156,13 @@ const renderAllLinksEntries = function (renderList) {
       rel="noopener noreferrer"
       >${cheat.title}</a
     >
+    </p>
     <div class="most-link-tags most-link-short">
       <span>${cheat.tags[0]}</span>
       <span>${cheat.tags[1]}</span>
       <span>${cheat.tags[2]}</span>
     </div>
-    <p>${cheat.clicks}</p>
+    <p>${cheat.clicks} cl.</p>
     <p>${cheat.date}</p>
     <p>${cheat.dateLast}</p>
     <ion-icon class="most-delete md hydrated" name="trash-bin" role="img" aria-label="trash bin"></ion-icon>
@@ -181,8 +178,10 @@ const renderMostClickedEntries = function (renderList) {
   renderList.forEach((cheat) => {
     const most_li = document.createElement("li");
     most_li.innerHTML = `
-    <p class="hidden counter-el">${renderList.indexOf(cheat)}</p>
     <div class="li-div">
+    <p data-count="${renderList.indexOf(cheat)}"
+    class="hidden counter-el">${renderList.indexOf(cheat)}</p>
+    <p>
       <a
         class="link-copy most-div-head-long"
         href="${cheat.link}"
@@ -190,12 +189,13 @@ const renderMostClickedEntries = function (renderList) {
         rel="noopener noreferrer"
         >${cheat.title}</a
       >
+      </p>
       <div class="most-link-tags most-link-short">
         <span>${cheat.tags[0]}</span>
         <span>${cheat.tags[1]}</span>
         <span>${cheat.tags[2]}</span>
       </div>
-      <p>${cheat.clicks}</p>
+      <p>${cheat.clicks} cl.</p>
       <p>${cheat.date}</p>
       <p>${cheat.dateLast}</p>
       <ion-icon class="most-delete md hydrated" name="trash-bin" role="img" aria-label="trash bin"></ion-icon>
@@ -216,7 +216,8 @@ const renderFavLinksEntries = function (renderList) {
     //pierwszy tag jako definujacy wyglad?
     fav_div.classList.add(`${cheat.tags[0]}-border`);
     fav_div.innerHTML = `
-    <p class="hidden counter-el">${renderList.indexOf(cheat)}</p>
+    <p data-count="${renderList.indexOf(cheat)}"
+    class="hidden counter-el">${renderList.indexOf(cheat)}</p>
     <p class="fav-title">${cheat.title}</p>
       <p class="fav-link">
         <a
@@ -233,7 +234,7 @@ const renderFavLinksEntries = function (renderList) {
         <span class="fav-tag ${cheat.tags[2]}"> ${cheat.tags[2]} </span>
       </div>
       <span class="fav-date">${cheat.date}</span>
-      <span class="fav-clicks">${cheat.clicks} clicks</span>
+      <span class="fav-clicks">${cheat.clicks} cl.</span>
       <ion-icon class="fav-icon fav-delete" name="trash-bin"></ion-icon>
       <ion-icon class="fav-icon fav-remove" name="close"></ion-icon>`;
     fav_area.appendChild(fav_div);
@@ -264,7 +265,7 @@ const createEventListeners = function () {
   const mostDeleteList = document.querySelectorAll(".most-delete");
   mostDeleteList.forEach((most_delete) => {
     most_delete.addEventListener("click", (e) => {
-      deleteEntryList(e);
+      deleteEntry(e);
     });
   });
   const mostAddFavList = document.querySelectorAll(".most-addfav");
@@ -276,13 +277,19 @@ const createEventListeners = function () {
   const favDeleteList = document.querySelectorAll(".fav-delete");
   favDeleteList.forEach((fav_delete) => {
     fav_delete.addEventListener("click", (e) => {
-      deleteEntryFav(e);
+      deleteEntry(e);
     });
   });
   const favRemoveList = document.querySelectorAll(".fav-remove");
   favRemoveList.forEach((fav_remove) => {
     fav_remove.addEventListener("click", (e) => {
       removeFav(e);
+    });
+  });
+  collectLinks();
+  all_link_elements.forEach((link_elem) => {
+    link_elem.addEventListener("click", (e) => {
+      countClick(e);
     });
   });
 };
@@ -302,6 +309,35 @@ const resetAddInputs = function () {
   tag1_input.value = "";
   tag2_input.value = "";
   tag3_input.value = "";
+};
+
+// collect all link elements for event listeners
+const collectLinks = function () {
+  // let fav_links = document.querySelectorAll(".fav-link");
+  // let table_links = document.querySelectorAll(".link-copy");
+  // all_link_elements = fav_links.concat(table_links);
+  all_link_elements = document.querySelectorAll(".fav-link, .link-copy");
+};
+
+//zliczanie klikniecia i aktualizacja tekstu
+const countClick = function (e) {
+  //selekcja obiektu
+  const counterIndex =
+    e.target.parentNode.parentNode.querySelector(".counter-el").innerHTML;
+  console.log(counterIndex);
+  cheatsheets[counterIndex].clicks += 1;
+  //wszystkie wystapienia
+  const elems = collectByCounter(counterIndex);
+  // console.log(`elems: ${elems}`);
+  //aktualizacja tekstu
+  elems.forEach((el) => (el.textContent = cheatsheets[counterIndex].clicks));
+  saveToLocalStorage(cheatsheets, "cheatsheets");
+};
+
+//collect and actualize all fav-clicks elements by data value
+const collectByCounter = function (count) {
+  const elems = document.querySelectorAll(`[data-count="${count}"]`);
+  return elems;
 };
 
 // ----------- filtracja -------------
@@ -376,6 +412,7 @@ link_submit_button.addEventListener("click", (e) => {
   saveToLocalStorage(cheatsheets, "cheatsheets");
   renderWebsite();
   createEventListeners();
+  collectLinks();
 });
 
 //filtracja
@@ -394,6 +431,7 @@ clearButton.addEventListener("click", (e) => {
   clearStorage(); //czysci pamiec
   getFromLocal(); //aktualizuje wewnetrzne dane
   renderWebsite(); //renderuje strone
+  collectLinks();
 });
 
 // ---------- call at load -------------
