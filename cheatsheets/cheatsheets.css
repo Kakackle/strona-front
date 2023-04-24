@@ -135,7 +135,7 @@ body {
   display: grid;
   grid-template-rows: 10rem 10rem 10rem; /* 3 rows of 10rem */
   grid-auto-flow: column; /* a column flow */
-  grid-auto-columns: 24rem; /* each column will 20rem of width */
+  grid-auto-columns: 36rem; /* each column will 20rem of width */
   grid-gap: 1rem;
   /* overflow: auto; */
   position: absolute;
@@ -203,7 +203,7 @@ body {
 }
 
 .fav {
-  width: 24rem;
+  width: 36rem;
   height: 10rem;
   flex-grow: 0;
   flex-shrink: 0;
@@ -218,6 +218,17 @@ body {
   font-size: 2.2rem;
   overflow: hidden;
   height: 2.4rem;
+  font-weight: 500;
+}
+
+.fav p a {
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.5);
+  /* color: blue; */
+}
+
+.fav p a:hover {
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .fav-applied-tags {
@@ -233,16 +244,16 @@ body {
 
 .fav-date {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  bottom: 1rem;
+  right: 10rem;
   font-size: 1.2rem;
   color: rgba(0, 0, 0, 0.5);
 }
 
 .fav-clicks {
   position: absolute;
-  top: 2.4rem;
-  right: 1rem;
+  bottom: 1rem;
+  right: 5rem;
   font-size: 1.2rem;
   color: rgba(0, 0, 0, 0.7);
 }
@@ -274,16 +285,27 @@ body {
 }
 
 .prog {
+  padding: 0 2px;
   border: 2px dashed rgba(0, 128, 0, 0.8);
   background-color: rgba(0, 128, 0, 0.2);
 }
 
-.diy {
+.prog-border {
+  border: 4px dashed rgba(0, 128, 0, 0.8);
+  background-color: white;
+}
+
+.javascript {
   border: 2px dashed rgba(255, 165, 0, 0.8);
   background-color: rgba(255, 165, 0, 0.2);
 }
 
-.network {
+.css {
+  border: 2px dashed rgba(100, 100, 225, 0.8);
+  background-color: rgba(255, 165, 0, 0.2);
+}
+
+.howto {
   border: 2px dashed rgba(255, 192, 203, 0.8);
   background-color: rgba(255, 192, 203, 0.2);
 }
@@ -431,11 +453,11 @@ body {
   height: 3.2rem;
   background-color: rgba(50, 50, 50, 0.5);
   border-bottom: 4px solid rgb(50, 50, 50);
-  display: flex;
   font-size: 2.4rem;
-  align-items: center;
   padding: 0 2rem;
-  gap: 4rem;
+  display: grid;
+  grid-template-columns: 6fr 1fr 1fr 1fr 1fr 1fr;
+  align-content: center;
 }
 
 .most-links,
@@ -451,12 +473,12 @@ body {
 .most-links .li-div,
 .all-links .li-div {
   width: 100%;
-  display: flex;
   /* display: list-item; */
   font-size: 2.4rem;
-  align-items: center;
   /* padding: 0 2rem; */
-  gap: 4rem;
+  display: grid;
+  grid-template-columns: 6fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
+  align-content: center;
 }
 
 .most-links li,

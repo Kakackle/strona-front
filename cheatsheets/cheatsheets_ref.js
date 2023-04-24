@@ -5,10 +5,11 @@
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
 // TODO: edycja pol, tagow itd
-// TODO: sledzenie klikniec, sortowanie most clicked
+// TODO: sledzenie klikniec
+// TODO: sortowanie, po dacie, kliknieciach
 // TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
 // TODO: paginacja, mam funkcje render, moze moge podzielic tablice i wywolywac funckje z podawaniem jej czesci
-// TODO: aaaaaa
+// TODO: sposob dodawania z obiektow typu json ktore mozesz wklejac tekstem albo z pliku, z wykorzystaniem funckji tworzenia nowego obiektu cheat
 
 let cheatsheets = []; //tablica linkow w systemie
 let tags = []; //tablica tagow
@@ -144,7 +145,7 @@ const gatherTags = function () {
 
 //tabela linkow wszystkich template
 //TODO: all i most sa praktycznie identyczne w tym momencie, kod ten sam
-//  ale moze mozna wymyslic jakies roznice
+//  ale moze mozna wymyslic jakies roznice, a jesli nie to w jedna funkcje
 const renderAllLinksEntries = function (renderList) {
   all_links.innerHTML = ``;
   renderList.forEach((cheat) => {
@@ -211,7 +212,9 @@ const renderFavLinksEntries = function (renderList) {
   favCheatsheets.forEach((cheat) => {
     const fav_div = document.createElement("div");
     fav_div.classList.add("fav"); //klasa glowna
-    cheat.tags.forEach((tag) => fav_div.classList.add(`${tag}`)); //klasy tagow
+    // cheat.tags.forEach((tag) => fav_div.classList.add(`${tag}`)); //klasy tagow
+    //pierwszy tag jako definujacy wyglad?
+    fav_div.classList.add(`${cheat.tags[0]}-border`);
     fav_div.innerHTML = `
     <p class="hidden counter-el">${renderList.indexOf(cheat)}</p>
     <p class="fav-title">${cheat.title}</p>
