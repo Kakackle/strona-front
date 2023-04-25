@@ -162,7 +162,7 @@ const renderAllLinksEntries = function (renderList) {
       <span>${cheat.tags[1]}</span>
       <span>${cheat.tags[2]}</span>
     </div>
-    <p>${cheat.clicks} cl.</p>
+    <p class="click-counter">${cheat.clicks} cl.</p>
     <p>${cheat.date}</p>
     <p>${cheat.dateLast}</p>
     <ion-icon class="most-delete md hydrated" name="trash-bin" role="img" aria-label="trash bin"></ion-icon>
@@ -195,7 +195,7 @@ const renderMostClickedEntries = function (renderList) {
         <span>${cheat.tags[1]}</span>
         <span>${cheat.tags[2]}</span>
       </div>
-      <p>${cheat.clicks} cl.</p>
+      <p class="click-counter">${cheat.clicks} cl.</p>
       <p>${cheat.date}</p>
       <p>${cheat.dateLast}</p>
       <ion-icon class="most-delete md hydrated" name="trash-bin" role="img" aria-label="trash bin"></ion-icon>
@@ -234,7 +234,7 @@ const renderFavLinksEntries = function (renderList) {
         <span class="fav-tag ${cheat.tags[2]}"> ${cheat.tags[2]} </span>
       </div>
       <span class="fav-date">${cheat.date}</span>
-      <span class="fav-clicks">${cheat.clicks} cl.</span>
+      <span class="fav-clicks click-counter">${cheat.clicks} cl.</span>
       <ion-icon class="fav-icon fav-delete" name="trash-bin"></ion-icon>
       <ion-icon class="fav-icon fav-remove" name="close"></ion-icon>`;
     fav_area.appendChild(fav_div);
@@ -289,6 +289,7 @@ const createEventListeners = function () {
   collectLinks();
   all_link_elements.forEach((link_elem) => {
     link_elem.addEventListener("click", (e) => {
+      e.stopPropagation();
       countClick(e);
     });
   });
@@ -328,9 +329,15 @@ const countClick = function (e) {
   cheatsheets[counterIndex].clicks += 1;
   //wszystkie wystapienia
   const elems = collectByCounter(counterIndex);
-  // console.log(`elems: ${elems}`);
   //aktualizacja tekstu
-  elems.forEach((el) => (el.textContent = cheatsheets[counterIndex].clicks));
+  elems.forEach((el) => {
+    el.parentNode.querySelector(
+      ".click-counter"
+    ).textContent = `${cheatsheets[counterIndex].clicks} cl.`;
+  });
+  console.log(
+    `counter: ${counterIndex}, clicks: ${cheatsheets[counterIndex].clicks}`
+  );
   saveToLocalStorage(cheatsheets, "cheatsheets");
 };
 
