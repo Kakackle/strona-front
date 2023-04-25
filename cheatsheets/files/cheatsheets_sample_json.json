@@ -1,0 +1,82 @@
+[
+  {
+    "title": "10 ways to hide elements in CSS",
+    "link": "https://www.sitepoint.com/hide-elements-in-css/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Curated CSS gradients",
+    "link": "https://gradients.shecodes.io/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": false
+  },
+  {
+    "title": "A collection of popular layouts CSS",
+    "link": "https://csslayout.io/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": false
+  },
+  {
+    "title": "A complete guide to Flexbox",
+    "link": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "guide",
+    "isFav": false
+  },
+  {
+    "title": "Box alignment in grid layout",
+    "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Box_Alignment_in_CSS_Grid_Layout",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "guide",
+    "isFav": false
+  },
+  {
+    "title": "Button with shine animation guide",
+    "link": "https://dev.to/designyff/button-with-shine-animation-step-by-step-guide-15l5",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": false
+  },
+  {
+    "title": "Carousel slider tutorial with HTML, CSS and Javascript",
+    "link": "https://programmingduck.com/articles/javascript-carousel",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": false
+  },
+  {
+    "title": "Create a color palette",
+    "link": "https://coolors.co/e45525-ffffff-e7c15f-251605-282a2a",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": false
+  },
+  {
+    "title": "Color tinting images using the filter property",
+    "link": "https://stackoverflow.com/questions/47032831/color-tinting-on-images-using-the-filter-property",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": false
+  },
+  {
+    "title": "Convert hexadecimal color to rgba",
+    "link": "https://stackoverflow.com/questions/14860874/how-do-i-convert-a-hexadecimal-color-to-rgba-with-the-less-compiler",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": false
+  }
+]

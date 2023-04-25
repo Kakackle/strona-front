@@ -1,0 +1,722 @@
+[
+  {
+    "title": "10 ways to hide elements in CSS",
+    "link": "https://www.sitepoint.com/hide-elements-in-css/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Curated CSS gradients",
+    "link": "https://gradients.shecodes.io/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "A collection of popular layouts CSS",
+    "link": "https://csslayout.io/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": false
+  },
+  {
+    "title": "A complete guide to Flexbox",
+    "link": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "guide",
+    "isFav": false
+  },
+  {
+    "title": "Box alignment in grid layout",
+    "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Box_Alignment_in_CSS_Grid_Layout",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "guide",
+    "isFav": true
+  },
+  {
+    "title": "Button with shine animation guide",
+    "link": "https://dev.to/designyff/button-with-shine-animation-step-by-step-guide-15l5",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Carousel slider tutorial with HTML, CSS and Javascript",
+    "link": "https://programmingduck.com/articles/javascript-carousel",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Create a color palette",
+    "link": "https://coolors.co/e45525-ffffff-e7c15f-251605-282a2a",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": false
+  },
+  {
+    "title": "Color tinting images using the filter property",
+    "link": "https://stackoverflow.com/questions/47032831/color-tinting-on-images-using-the-filter-property",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Convert hexadecimal color to rgba",
+    "link": "https://stackoverflow.com/questions/14860874/how-do-i-convert-a-hexadecimal-color-to-rgba-with-the-less-compiler",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": false
+  },
+  {
+    "title": "Display flexbox items in two rows",
+    "link": "https://stackoverflow.com/questions/56332282/is-it-possible-to-display-flexbox-items-in-two-rows-instead-of-one",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "What is the opposite of :hover?",
+    "link": "https://stackoverflow.com/questions/10995165/what-is-the-opposite-of-hover-on-mouse-leave",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": false
+  },
+  {
+    "title": "CSS ::before and ::afer for custom animations and transitions",
+    "link": "https://blog.logrocket.com/css-before-after-custom-animations-transitions/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "AJAX with Dad Jokes fetching howto",
+    "link": "https://wesbos.com/javascript/13-ajax-and-fetching-data/76-dad-jokes",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "CSS Grid layout with image span",
+    "link": "https://www.youtube.com/watch?v=-qOe8lBAChE",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "guide",
+    "isFav": true
+  },
+  {
+    "title": "Add a list item through JavaScript",
+    "link": "https://stackoverflow.com/questions/17773938/add-a-list-item-through-javascript",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Drop shadow for PNG images in CSS",
+    "link": "https://stackoverflow.com/questions/3186688/drop-shadow-for-png-image-in-css",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": false
+  },
+  {
+    "title": "How to remove a class from elements in JavaScript",
+    "link": "https://stackoverflow.com/questions/22270664/how-to-remove-a-class-from-elements-in-pure-javascript",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": false
+  },
+  {
+    "title": "Getting started with CSS Layout",
+    "link": "https://www.smashingmagazine.com/2018/05/guide-css-layout/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "guide",
+    "isFav": false
+  },
+  {
+    "title": "CSS glass / blur effect",
+    "link": "https://css.glass/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": false
+  },
+  {
+    "title": "Gradient Borders in CSS",
+    "link": "https://css-tricks.com/gradient-borders-in-css/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Css Grid MDN web docs",
+    "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/grid",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": false
+  },
+  {
+    "title": "Create a draggable carousel using JavaScript",
+    "link": "https://stackabuse.com/how-to-create-a-draggable-carousel-using-vanilla-javascript/",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "How to add a vertical line using CSS",
+    "link": "https://www.w3schools.com/howto/howto_css_vertical_line.asp",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "How to Javascript progress bar",
+    "link": "https://www.w3schools.com/howto/howto_js_progressbar.asp",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "How to make a breadcrumb in CSS",
+    "link": "https://www.educative.io/answers/how-to-make-a-breadcrumb-in-html---css",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Align input elements and lables into two separate columns",
+    "link": "https://stackoverflow.com/questions/24216429/align-input-elements-and-labels-into-two-seperate-columns",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "use css-grid to display unknown number of items in two rows",
+    "link": "https://stackoverflow.com/questions/65240397/can-i-use-css-grid-to-display-an-unknown-number-of-items-in-left-to-right-readi",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Make all images of different height and width the same via CSS",
+    "link": "https://stackoverflow.com/questions/19414856/how-can-i-make-all-images-of-different-height-and-width-the-same-via-css",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "How to affect other elements when one element is hovered",
+    "link": "https://stackoverflow.com/questions/4502633/how-to-affect-other-elements-when-one-element-is-hovered",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Infinite carousel codepen",
+    "link": "https://codepen.io/Marouen/pen/OxyEEY",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "example",
+    "isFav": true
+  },
+  {
+    "title": "Open source icons svg",
+    "link": "https://ionic.io/ionicons",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "Infinite carousel code stackoverflow",
+    "link": "https://stackoverflow.com/questions/72690608/carousel-slideshow-with-infinite-loop",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "example",
+    "isFav": false
+  },
+  {
+    "title": "Full-screen iframe with a height of 100%",
+    "link": "https://stackoverflow.com/questions/5867985/full-screen-iframe-with-a-height-of-100",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": false
+  },
+  {
+    "title": "How to reset the setInterval timer",
+    "link": "https://stackoverflow.com/questions/8126466/how-do-i-reset-the-setinterval-timer",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "pass arguments to addEventListener listener function",
+    "link": "https://stackoverflow.com/questions/256754/how-to-pass-arguments-to-addeventlistener-listener-function",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "remove a <li> from <ul>",
+    "link": "https://stackoverflow.com/questions/10750137/remove-all-li-from-ul",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Wait until setInterval() is done",
+    "link": "https://stackoverflow.com/questions/11055530/wait-until-setinterval-is-done",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Mini Music Player CodePen",
+    "link": "https://codepen.io/cbanlawi/pen/xxRpggg",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "example",
+    "isFav": true
+  },
+  {
+    "title": "3D model viewer library",
+    "link": "https://modelviewer.dev/",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "resources",
+    "isFav": false
+  },
+  {
+    "title": "Make a button shine with CSS",
+    "link": "https://blog.bitsrc.io/pure-css-to-make-a-button-shine-and-gently-change-colors-over-time-5b685d9c6a7e",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Random grid items shuffle Codpen",
+    "link": "https://codepen.io/GreenSock/pen/KKNJYZM",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "example",
+    "isFav": true
+  },
+  {
+    "title": "CSS vignettes 3 ways",
+    "link": "https://una.im/vignettes/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "howto",
+    "isFav": false
+  },
+  {
+    "title": "How to replace and item in Javascript array",
+    "link": "https://www.geeksforgeeks.org/how-to-replace-an-item-from-an-array-in-javascript/",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Add drop-down list (<select>) programmatically",
+    "link": "https://stackoverflow.com/questions/17001961/how-to-add-drop-down-list-select-programmatically",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Find an object by property value in an array of Javascript objects",
+    "link": "https://www.tutorialrepublic.com/faq/how-to-find-an-object-by-property-value-in-an-array-of-javascript-objects.php",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Javascript .find() MDN",
+    "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "localStorage in Javascript guide",
+    "link": "https://blog.logrocket.com/localstorage-javascript-complete-guide/",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "guide",
+    "isFav": true
+  },
+  {
+    "title": "Javascript array of objects guide",
+    "link": "https://www.freecodecamp.org/news/javascript-array-of-objects-tutorial-how-to-create-update-and-loop-through-objects-using-js-array-methods/",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "guide",
+    "isFav": true
+  },
+  {
+    "title": "Javascript get current date",
+    "link": "https://www.freecodecamp.org/news/javascript-get-current-date-todays-date-in-js/",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "howto",
+    "isFav": true
+  },
+  {
+    "title": "Sight reading trainer",
+    "link": "https://sightreading.training/",
+    "tag1": "music",
+    "tag2": "piano",
+    "tag3": "tool",
+    "isFav": true
+  },
+  {
+    "title": "Native Instruments komplete start bundle",
+    "link": "https://www.native-instruments.com/en/products/komplete/bundles/komplete-start/",
+    "tag1": "music",
+    "tag2": "plugins",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "REST API tutorial",
+    "link": "https://github.com/tfredrich/RestApiTutorial.com",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "Javascript design patterns",
+    "link": "https://www.patterns.dev/posts#design-patterns",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "Wes bos css grid course",
+    "link": "https://courses.wesbos.com/account/access/642f08c9f3592f3b0debc41b/view/249559631",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "Diablo 2 Elemental druid guide",
+    "link": "https://fextralife.com/druid-build-guide-diablo-2-resurrected-best-elemental-druid-fissure/",
+    "tag1": "gaming",
+    "tag2": "guide",
+    "tag3": "",
+    "isFav": true
+  },
+  {
+    "title": "Stranger of paradise job spreadsheet",
+    "link": "https://docs.google.com/spreadsheets/d/1Ixa7GC6CMrgN6P2jfgXGaZtFtOOp88SZ0CqFOMB2Ncw/edit#gid=274612812",
+    "tag1": "gaming",
+    "tag2": "guide",
+    "tag3": "",
+    "isFav": true
+  },
+  {
+    "title": "Divinity 2 achievements mod",
+    "link": "https://www.nexusmods.com/divinityoriginalsin2/mods/210",
+    "tag1": "gaming",
+    "tag2": "mod",
+    "tag3": "",
+    "isFav": true
+  },
+  {
+    "title": "Smash bros faq",
+    "link": "https://www.reddit.com/r/smashbros/wiki/faq/",
+    "tag1": "gaming",
+    "tag2": "guide",
+    "tag3": "",
+    "isFav": true
+  },
+  {
+    "title": "Layout patterns",
+    "link": "https://web.dev/patterns/layout/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "Anatomy of a web page: 14 common elements",
+    "link": "https://blog.tubikstudio.com/anatomy-of-web-page/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "The Odin Project",
+    "link": "https://www.theodinproject.com/",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "Catalog of javascript design patterns",
+    "link": "https://refactoring.guru/design-patterns/catalog",
+    "tag1": "prog",
+    "tag2": "javascript",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "UX Library",
+    "link": "https://www.uxlibrary.org/explore/ui-design/ui-patterns-and-inspiration",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "UI patterns compilation and use cases",
+    "link": "https://ui-patterns.com/patterns/navigation/list",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "12 timeless ui patterns explained",
+    "link": "https://www.uxpin.com/studio/blog/web-layout-best-practices-12-timeless-ui-patterns-explained/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "Cool practical HTML guide idk",
+    "link": "https://learn.shayhowe.com/html-css/writing-your-best-code/",
+    "tag1": "prog",
+    "tag2": "html",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "Background patterns resources",
+    "link": "https://www.awwwards.com/background-patterns-designs-and-resources-for-websites.html",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "resources",
+    "isFav": false
+  },
+  {
+    "title": "Web dev resources 1",
+    "link": "https://webdevresources.info/",
+    "tag1": "prog",
+    "tag2": "todo",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "Web dev resources 2",
+    "link": "https://web-dev-resources.com/#/",
+    "tag1": "prog",
+    "tag2": "todo",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "Web dev resources 3",
+    "link": "https://github.com/iamismile/web-dev-resources",
+    "tag1": "prog",
+    "tag2": "todo",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "Web dev resources 4",
+    "link": "https://dev.to/alexomeyer/top-20-web-development-learning-resources-from-beginner-to-advanced-4h8a",
+    "tag1": "prog",
+    "tag2": "todo",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "CSS Grid patterns, examples",
+    "link": "https://gridbyexample.com/",
+    "tag1": "prog",
+    "tag2": "todo",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "responsive web design course",
+    "link": "https://www.freecodecamp.org/learn/2022/responsive-web-design/#learn-html-by-building-a-cat-photo-app",
+    "tag1": "prog",
+    "tag2": "todo",
+    "tag3": "guide",
+    "isFav": true
+  },
+  {
+    "title": "modern css practices",
+    "link": "https://moderncss.dev/",
+    "tag1": "prog",
+    "tag2": "css",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "guide to responsive web design",
+    "link": "https://ishadeed.com/article/responsive-design/",
+    "tag1": "prog",
+    "tag2": "todo",
+    "tag3": "guide",
+    "isFav": true
+  },
+  {
+    "title": "website planning templates",
+    "link": "https://creately.com/guides/website-planning-templates/",
+    "tag1": "prog",
+    "tag2": "resources",
+    "tag3": "guide",
+    "isFav": true
+  },
+  {
+    "title": "Markdown getting started guide",
+    "link": "https://www.markdownguide.org/getting-started/",
+    "tag1": "prog",
+    "tag2": "markdown",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "Markdown cheatsheet",
+    "link": "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet",
+    "tag1": "prog",
+    "tag2": "markdown",
+    "tag3": "cheatsheet",
+    "isFav": true
+  },
+  {
+    "title": "Python regex",
+    "link": "https://www.w3schools.com/python/python_regex.asp",
+    "tag1": "prog",
+    "tag2": "regex",
+    "tag3": "todo",
+    "isFav": true
+  },
+  {
+    "title": "Git book",
+    "link": "https://git-scm.com/book/en/v2",
+    "tag1": "prog",
+    "tag2": "git",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "Simple git guide",
+    "link": "https://rogerdudler.github.io/git-guide/",
+    "tag1": "prog",
+    "tag2": "git",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "git workflow",
+    "link": "https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow",
+    "tag1": "prog",
+    "tag2": "git",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "Interval ear training",
+    "link": "https://www.iwasdoingallright.com/tools/ear_training/online/",
+    "tag1": "music",
+    "tag2": "",
+    "tag3": "tool",
+    "isFav": true
+  },
+  {
+    "title": "Chord progression generator",
+    "link": "https://autochords.com/",
+    "tag1": "music",
+    "tag2": "",
+    "tag3": "tool",
+    "isFav": true
+  },
+  {
+    "title": "Guitar fretboard tool",
+    "link": "https://fretastic.com/guitar",
+    "tag1": "music",
+    "tag2": "guitar",
+    "tag3": "tool",
+    "isFav": true
+  },
+  {
+    "title": "Guitar resources mega link",
+    "link": "https://mega.nz/folder/KIoilagC#3KtnUYdTW53VsQu9QrJS_g",
+    "tag1": "music",
+    "tag2": "guitar",
+    "tag3": "resources",
+    "isFav": true
+  },
+  {
+    "title": "lista komend cmd",
+    "link": "https://winiso.pl/poradniki/polecenia-cmd/lista-komend-wiersz-polecen",
+    "tag1": "pc",
+    "tag2": "cmd",
+    "tag3": "cheatsheet",
+    "isFav": true
+  },
+  {
+    "title": "problemy z hdd",
+    "link": "https://www.benchmark.pl/testy_i_recenzje/rozwiazywanie-podstawowych-problemow-z-dyskami-hdd.html",
+    "tag1": "pc",
+    "tag2": "",
+    "tag3": "",
+    "isFav": true
+  },
+  {
+    "title": "Web coding challenges",
+    "link": "https://zerotomastery.io/community/coding-challenges/",
+    "tag1": "prog",
+    "tag2": "challenge",
+    "tag3": "javascript",
+    "isFav": true
+  }
+]

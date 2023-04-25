@@ -1,0 +1,11 @@
+title,link,tag1,tag2,tag3,isFav
+10 ways to hide elements in CSS,https://www.sitepoint.com/hide-elements-in-css/ ,prog,css,howto,true
+Curated CSS gradients,https://gradients.shecodes.io/ ,prog,css,resources,false
+A collection of popular layouts CSS,https://csslayout.io/ ,prog,css,resources,false
+A complete guide to Flexbox,https://css-tricks.com/snippets/css/a-guide-to-flexbox/ ,prog,css,guide,false
+Box alignment in grid layout,https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Box_Alignment_in_CSS_Grid_Layout ,prog,css,guide,false
+Button with shine animation guide,https://dev.to/designyff/button-with-shine-animation-step-by-step-guide-15l5 ,prog,css,howto,false
+"Carousel slider tutorial with HTML, CSS and Javascript",https://programmingduck.com/articles/javascript-carousel ,prog,javascript,howto,false
+Create a color palette,https://coolors.co/e45525-ffffff-e7c15f-251605-282a2a ,prog,css,resources,false
+Color tinting images using the filter property,https://stackoverflow.com/questions/47032831/color-tinting-on-images-using-the-filter-property ,prog,css,howto,false
+Convert hexadecimal color to rgba,https://stackoverflow.com/questions/14860874/how-do-i-convert-a-hexadecimal-color-to-rgba-with-the-less-compiler ,prog,css,howto,false
