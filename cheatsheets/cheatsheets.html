@@ -9,6 +9,7 @@
   </head>
   <body>
     <button class="clear-button">Clear cache</button>
+    <button class="example-button">Get example items</button>
     <main>
       <section class="breadcrumb-section">
         <ul class="breadcrumb">
@@ -190,7 +191,64 @@
           <button class="close-drop"><ion-icon name="close"></ion-icon></button>
         </div>
       </section>
-      <section class="add-json-section"></section>
+      <section class="add-json-section">
+        <span class="add-section-title json-title">
+          <ion-icon class="add-icon" name="document-text"></ion-icon>
+          <span class="add-title-text">ADD MULTIPLE LINKS FROM JSON</span>
+        </span>
+        <div class="add-drop-json">
+          <label for="json-text" class="add-label"
+            >Paste your JSON text here:
+          </label>
+          <textarea
+            class="json-text"
+            name="json-text"
+            type="text"
+            placeholder='{
+            "link": https://google.com,
+            "title:" google search engine,
+            "tags": ["tag1", "tag2", "tag3"],
+            "date": 22:04:2023 [optional],
+            "isFave" : true [optional]
+          }'
+          >
+          [
+          {
+            "link": "https://google.com",
+            "title": "google search engine",
+            "tag1": "tag1",
+            "tag2": "tag2",
+            "tag3": "tag3",
+            "isFav" : "true"
+          },
+          {
+            "link": "https://google2.com",
+            "title": "second google search engine",
+            "tag1": "tag1",
+            "tag2": "tag2",
+            "tag3": "tag3",
+            "isFav" : "false"
+          }
+          ]
+          </textarea>
+          <label for="json-file" class="add-label">or upload a json file</label>
+          <input
+            class="json-file"
+            name="json-file"
+            type="file"
+            accept=".json, .csv"
+          />
+          <add-drop class="submit-json">SUBMIT</add-drop>
+          <button class="close-drop-json">
+            <ion-icon
+              name="close"
+              role="img"
+              class="md hydrated"
+              aria-label="close"
+            ></ion-icon>
+          </button>
+        </div>
+      </section>
 
       <section class="most-section">
         <span class="most-section-title">MOST OFTEN CLICKED</span>

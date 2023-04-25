@@ -22,20 +22,26 @@ let appliedTags = []; //tagi do filtracji
 //------------- elementy DOM -------------
 //localStorage
 const clearButton = document.querySelector(".clear-button");
+const exampleButton = document.querySelector(".example-button");
 
 //otworz sekcje dodawania linkow
 const add_new_link = document.querySelector(".add-section-title");
+const add_json = document.querySelector(".json-title");
 //dropdown obszar wpisywania danych linkow
 const add_dropdown = document.querySelector(".add-drop");
+const add_json_dropdown = document.querySelector(".add-drop-json");
 const title_input = document.querySelector(".add-title");
 const link_input = document.querySelector(".add-link");
 const tag1_input = document.querySelector(".add-tag1");
 const tag2_input = document.querySelector(".add-tag2");
 const tag3_input = document.querySelector(".add-tag3");
 const favCheckbox = document.querySelector(".add-fav-check");
+const json_text_input = document.querySelector(".json-text");
 //submit dodawania
 const link_submit_button = document.querySelector(".submit-link");
+const submit_json = document.querySelector(".submit-json");
 const close_dropdown = document.querySelector(".close-drop");
+const close_drop_json = document.querySelector(".close-drop-json");
 
 //obszary do renderowania
 const fav_area = document.querySelector(".fav-area");
@@ -406,6 +412,16 @@ close_dropdown.addEventListener("click", (e) => {
   add_dropdown.style.display = "none";
 });
 
+add_json.addEventListener("click", (e) => {
+  e.preventDefault();
+  add_json_dropdown.style.display = "flex";
+});
+
+close_drop_json.addEventListener("click", (e) => {
+  e.preventDefault();
+  add_json_dropdown.style.display = "none";
+});
+
 //tworzenie nowych elementow z wypelnionych pol
 link_submit_button.addEventListener("click", (e) => {
   const cheat = createNewCheatsheet(
@@ -420,6 +436,40 @@ link_submit_button.addEventListener("click", (e) => {
   renderWebsite();
   createEventListeners();
   collectLinks();
+});
+
+//TODO: funkcja parsujaca JSON z textarea json_text_input
+
+const getJsonInput = function () {
+  //parse wartosci z pola
+  //stworzenie nowych obiektow moze wykorzystujac createnewcheatsheet?
+  //zapisywanie tych obiektow do tablicy
+  //na koniec do localstorage i render
+  //--- kwestie: ---
+  //przy czym uzytnik nie podaje wszystkich informacji w tekscie
+  //wiec najlepiej wykorzystac gotowa funkcje create
+  //a tekst wpakowac w nowy obiekt, a wlasciwie tablice obiektow
+  //i potem foreach i wyciagac z niej i wpakowywac w funkcje create
+  let json_text = JSON.parse(json_text_input.value);
+  // console.log(json_text);
+  json_text.forEach((item) => {
+    const cheat = createNewCheatsheet(
+      item.title,
+      item.link,
+      [item.tag1, item.tag2, item.tag3],
+      item.isFav === "true"
+    );
+    console.log(cheat);
+    cheatsheets.push(cheat);
+  });
+  saveToLocalStorage(cheatsheets, "cheatsheets");
+  renderWebsite();
+  createEventListeners();
+  collectLinks();
+};
+
+submit_json.addEventListener("click", (e) => {
+  getJsonInput();
 });
 
 //filtracja
@@ -441,6 +491,10 @@ clearButton.addEventListener("click", (e) => {
   collectLinks();
 });
 
+exampleButton.addEventListener("click", (e) => {
+  addTestObjects();
+});
+
 // ---------- call at load -------------
 const mainFunc = function () {
   getFromLocal();
@@ -450,17 +504,25 @@ const mainFunc = function () {
 
 mainFunc();
 
-// --------- tests -----------
+// ---------- tests -----------
 // predefiniowany obiekt do testow
-const addTestObj = function () {
-  const date = new Date();
-  const cheat1 = {
-    title: "Javascript array of objects",
-    link: "https://www.freecodecamp.org/news/javascript-array-of-objects-tutorial-how-to-create-update-and-loop-through-objects-using-js-array-methods/",
-    tags: ["programming", "javascript"],
-    date: `${date.getDate()}:${date.getMonth() + 1}:${date.getFullYear()}`,
-    clicks: 0,
-    isFav: true,
-  };
+const addTestObjects = function () {
+  const cheat1 = createNewCheatsheet(
+    "10 ways to hide elements in CSS",
+    "https://www.sitepoint.com/hide-elements-in-css/",
+    ["prog", "css", "howto"],
+    true
+  );
+  const cheat2 = createNewCheatsheet(
+    "Curated CSS gradients",
+    "https://gradients.shecodes.io/ ",
+    ["prog", "css", "resources"],
+    false
+  );
   cheatsheets.push(cheat1);
+  cheatsheets.push(cheat2);
+  saveToLocalStorage(cheatsheets, "cheatsheets");
+  renderWebsite();
+  collectLinks();
+  createEventListeners();
 };
