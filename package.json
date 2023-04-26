@@ -1,0 +1,24 @@
+{
+  "name": "strona-front",
+  "version": "1.0.0",
+  "description": "aka pracownicze repozytorium strony zbiorowej projektów front i back-endowych 2023",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "jsdoc -c jsdoc.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kakackle/strona-front.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kakackle/strona-front/issues"
+  },
+  "homepage": "https://github.com/Kakackle/strona-front#readme",
+  "devDependencies": {
+    "jsdoc": "^4.0.2"
+  }
+}
