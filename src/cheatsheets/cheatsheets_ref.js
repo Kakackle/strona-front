@@ -33,6 +33,7 @@ let appliedTags = []; //tagi do filtracji
 //localStorage
 const clearButton = document.querySelector(".clear-button");
 const exampleButton = document.querySelector(".example-button");
+const debugButton = document.querySelector(".debug-button");
 
 //otworz sekcje dodawania linkow
 const add_new_link = document.querySelector(".add-section-title");
@@ -137,9 +138,10 @@ const deleteEntry = function (e) {
   const counterIndex =
     e.target.parentNode.querySelector(".counter-el").innerHTML;
   console.log(counterIndex);
+  console.log(`cheatsheets before splice: ${cheatsheets}`);
   cheatsheets.splice(counterIndex, 1);
-  renderWebsite();
-  saveToLocalStorage(cheatsheets, "cheatsheets");
+  console.log(`cheatsheets AFTER splice: ${cheatsheets}`);
+  callCreationFunctions();
 };
 
 //dodanie od fav poprzez zmienienie isFav, czyli aktualizacje obiektu z cheatsheets
@@ -162,7 +164,6 @@ const addFav = function (e) {
 };
 
 //// zebranie istniejacych tagow, moze powinno byc wywolywane przy dodawaniu
-//TODO: dodawanie tagow przy dodawaniu obiektu a nie po fakcie
 const gatherTags = function () {
   cheatsheets.forEach((cheat) => {
     cheat.tags.forEach((tag) => {
@@ -177,11 +178,12 @@ const gatherTags = function () {
 //tabela linkow wszystkich template
 //TODO: all i most sa praktycznie identyczne w tym momencie, kod ten sam
 //  ale moze mozna wymyslic jakies roznice, a jesli nie to w jedna funkcje
-const renderAllLinksEntries = function (renderList) {
-  all_links.innerHTML = ``;
+
+const renderListEntries = function (renderList, list_container) {
+  list_container.innerHTML = ``;
   renderList.forEach((cheat) => {
-    const all_li = document.createElement("li");
-    all_li.innerHTML = `
+    const cont_li = document.createElement("li");
+    cont_li.innerHTML = `
     <div class="li-div">
     <p data-count="${renderList.indexOf(cheat)}"
     class="hidden counter-el">${renderList.indexOf(cheat)}</p>
@@ -206,39 +208,7 @@ const renderAllLinksEntries = function (renderList) {
     <ion-icon class="most-addfav md hydrated" name="checkmark" role="img" aria-label="checkmark"></ion-icon>
     </div>
     `;
-    all_links.appendChild(all_li);
-  });
-};
-
-const renderMostClickedEntries = function (renderList) {
-  most_links.innerHTML = ``;
-  renderList.forEach((cheat) => {
-    const most_li = document.createElement("li");
-    most_li.innerHTML = `
-    <div class="li-div">
-    <p data-count="${renderList.indexOf(cheat)}"
-    class="hidden counter-el">${renderList.indexOf(cheat)}</p>
-    <p>
-      <a
-        class="link-copy most-div-head-long"
-        href="${cheat.link}"
-        target="_blank"
-        rel="noopener noreferrer"
-        >${cheat.title}</a
-      >
-      </p>
-      <div class="most-link-tags most-link-short">
-        <span>${cheat.tags[0]}</span>
-        <span>${cheat.tags[1]}</span>
-        <span>${cheat.tags[2]}</span>
-      </div>
-      <p class="click-counter">${cheat.clicks} cl.</p>
-      <p>${cheat.date}</p>
-      <p>${cheat.dateLast}</p>
-      <ion-icon class="most-delete md hydrated" name="trash-bin" role="img" aria-label="trash bin"></ion-icon>
-      <ion-icon class="most-addfav md hydrated" name="checkmark" role="img" aria-label="checkmark"></ion-icon>
-    </div>`;
-    most_links.appendChild(most_li);
+    list_container.appendChild(cont_li);
   });
 };
 
@@ -334,9 +304,9 @@ const createEventListeners = function () {
 
 //render wszystkich grup obiektow na stronie
 const renderWebsite = function () {
-  renderMostClickedEntries(cheatsheets);
-  renderAllLinksEntries(cheatsheets);
   renderFavLinksEntries(cheatsheets);
+  renderListEntries(cheatsheets, all_links);
+  renderListEntries(cheatsheets, most_links);
   renderTags();
 };
 
@@ -463,13 +433,12 @@ link_submit_button.addEventListener("click", (e) => {
   );
   resetAddInputs();
   cheatsheets.push(cheat);
-  saveToLocalStorage(cheatsheets, "cheatsheets");
-  renderWebsite();
-  createEventListeners();
-  collectLinks();
+  //dodawanie tagow przy tworzeniu
+  cheat.tags.forEach((tag) => {
+    if (!tags.includes(tag)) tags.push(tag);
+  });
+  callCreationFunctions();
 });
-
-//TODO: funkcja parsujaca JSON z textarea json_text_input
 
 const getJsonInput = function () {
   //parse wartosci z pola
@@ -492,11 +461,11 @@ const getJsonInput = function () {
     );
     console.log(cheat);
     cheatsheets.push(cheat);
+    cheat.tags.forEach((tag) => {
+      if (!tags.includes(tag)) tags.push(tag);
+    });
   });
-  saveToLocalStorage(cheatsheets, "cheatsheets");
-  renderWebsite();
-  createEventListeners();
-  collectLinks();
+  callCreationFunctions();
 };
 
 submit_json.addEventListener("click", (e) => {
@@ -526,6 +495,19 @@ exampleButton.addEventListener("click", (e) => {
   addTestObjects();
 });
 
+debugButton.addEventListener("click", (e) => {
+  debugFunction();
+});
+
+//FIXME: kwestia potrzebnosci, sposobu realizacji
+//funkcja zbierajaca funkcje zwiazane z tworzeniem nowych cheatsheetow, bo powtarzaja sie
+const callCreationFunctions = function () {
+  saveToLocalStorage(cheatsheets, "cheatsheets");
+  renderWebsite();
+  createEventListeners();
+  collectLinks();
+};
+
 // ---------- call at load -------------
 const mainFunc = function () {
   getFromLocal();
@@ -552,8 +534,20 @@ const addTestObjects = function () {
   );
   cheatsheets.push(cheat1);
   cheatsheets.push(cheat2);
-  saveToLocalStorage(cheatsheets, "cheatsheets");
-  renderWebsite();
-  collectLinks();
-  createEventListeners();
+  callCreationFunctions();
+};
+
+const debugFunction = function () {
+  console.log(`------- new debug -------`);
+  const countElems = document.querySelectorAll(".counter-el");
+  countElems.forEach((count) => {
+    const countIndex = count.innerHTML;
+    console.log(
+      `cheatsheets:`,
+      "\n",
+      `${countIndex}: ${JSON.stringify(cheatsheets[countIndex])}`
+    );
+    // console.log(`${}`)
+  });
+  // console.log(`cheatsheets: ${JSON.stringify(cheatsheets)}`);
 };

@@ -11,8 +11,7 @@ body {
   position: relative;
 }
 
-.clear-button,
-.example-button {
+.dev-button {
   font-size: 1.2rem;
   position: absolute;
   right: 2rem;
@@ -25,8 +24,11 @@ body {
   top: 2.4rem;
 }
 
-.clear-button:hover,
-.example-button:hover {
+.debug-button {
+  top: 3.8rem;
+}
+
+.dev-button:hover {
   color: #000;
   cursor: pointer;
 }
