@@ -11,7 +11,7 @@
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
 // TODO: edycja pol, tagow itd
-// TODO: sledzenie ilosci klikniec jest, ale poniewaz najpierw otwiera link, to nie aktualizuje sie na stronie bez refreshu?
+// TODO: lista most clicked generowana automatycznie, z max limitem ile ich? 10? 30? 10% calej ilosci?
 // TODO: sortowanie, po dacie, kliknieciach
 // TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
 // TODO: paginacja, mam funkcje render, moze moge podzielic tablice i wywolywac funckje z podawaniem jej czesci
@@ -176,8 +176,6 @@ const gatherTags = function () {
 // --------- 2. render elementow tabel ---------
 
 //tabela linkow wszystkich template
-//TODO: all i most sa praktycznie identyczne w tym momencie, kod ten sam
-//  ale moze mozna wymyslic jakies roznice, a jesli nie to w jedna funkcje
 
 const renderListEntries = function (renderList, list_container) {
   list_container.innerHTML = ``;
@@ -187,7 +185,7 @@ const renderListEntries = function (renderList, list_container) {
     <div class="li-div">
     <p data-count="${renderList.indexOf(cheat)}"
     class="hidden counter-el">${renderList.indexOf(cheat)}</p>
-    <p>
+    <p class="list-title">
     <a
       class="link-copy most-div-head-long"
       href="${cheat.link}"
@@ -248,7 +246,10 @@ const renderFavLinksEntries = function (renderList) {
   });
 };
 
+//FIXME: dodaje na poczatku tagow elementy cale z listy ktorejs????
 const renderTags = function () {
+  gatherTags();
+  console.log(tags);
   type_tags.innerHTML = `<p class="tag-sect-title">Link type:</p>`;
   tags.forEach((tag) => {
     const tag_checkbox = document.createElement("div");
@@ -262,6 +263,7 @@ const renderTags = function () {
   />
   <label class="tag-checkbox" for="${tag}"> ${tag} </label>
     `;
+    type_tags.appendChild(tag_checkbox);
   });
   //aktualizacja tag checkboxes
   tag_checkboxes = document.querySelectorAll(".tag-checkbox-box");
@@ -300,6 +302,7 @@ const createEventListeners = function () {
       countClick(e);
     });
   });
+  addEditEvents();
 };
 
 //render wszystkich grup obiektow na stronie
@@ -354,8 +357,106 @@ const collectByCounter = function (count) {
   return elems;
 };
 
+//#region
+/* -------------------------------------------------------------------------- */
+/*                     obsluga edycji elementow na stronie                    */
+/* -------------------------------------------------------------------------- */
+
+//wybor wszystkich elementow tytulu
+const getTitleElements = function () {
+  const title_els = document.querySelectorAll(".fav-title, .list-title a");
+  return title_els;
+};
+//wybor wszystkich tagow
+const getTagElements = function () {
+  const tag_els = document.querySelectorAll(
+    ".most-link-tags span, .fav-applied-tags span"
+  );
+  return tag_els;
+};
+
+//selekcja elementu z counterem na podstawie tytulu
+const selectCounterByTitle = function (title_el) {
+  const counterEl = title_el.parentNode.querySelector(".counter-el");
+  //const counterIndex = counterEl.dataset.count;
+  const counterIndex = counterEl.innerHTML;
+  return counterIndex;
+};
+//selekcja elementu z counterem na podstawie tagu
+const selectCounterByTag = function (title_el) {
+  const counterEl = title_el.parentNode.parentNode.querySelector(".counter-el");
+  //const counterIndex = counterEl.dataset.count;
+  const counterIndex = counterEl.innerHTML;
+  return counterIndex;
+};
+
+//FIXME: niestety przewidziany problem pojawil sie - w listach najpierw obsluguje click, potem
+// dblclick, wiec trzeba bedzie dodac kolejny element po prostu zamiast a, ale mi sie nie chce tbh ahhh
+//umozliw edycje i na podstawie countera elementu zapisz to do bazy danych
+// funkcja do dodania do ustawiania event listenerow
+const addEditEvents = function () {
+  const title_elems = getTitleElements();
+  const tag_elems = getTagElements();
+  //dodanie obu eventow - na dblclick umozliw edycje, na wyjscie wylacz i zapisz zmiany
+  title_elems.forEach((title) => {
+    //event start edycji
+    title.addEventListener("dblclick", (e) => {
+      e.preventDefault();
+      e.target.setAttribute("contenteditable", "true");
+    });
+    //event koniec edycji
+    title.addEventListener("mouseleave", (e) => {
+      e.preventDefault();
+      // console.log(title.getAttribute("contenteditable"));
+      //prewencja odpalania eventu za kazdym razem jak myszka wyjdzie, tylko po edycji\
+      if (title.getAttribute("contenteditable") === "true") {
+        title.setAttribute("contenteditable", "false");
+        const newTitle = title.innerHTML;
+        // console.log(newTitle);
+        const countIndex = selectCounterByTitle(title);
+        cheatsheets[countIndex].title = newTitle;
+        callCreationFunctions();
+      }
+    });
+  });
+  //
+  tag_elems.forEach((tag) => {
+    let newTag = "";
+    let oldTag = "";
+    //event start edycji
+    tag.addEventListener("dblclick", (e) => {
+      e.preventDefault();
+      oldTag = e.target.textContent.trim();
+      e.target.setAttribute("contenteditable", "true");
+    });
+    //event koniec edycji
+    tag.addEventListener("mouseleave", (e) => {
+      e.preventDefault();
+      // console.log(title.getAttribute("contenteditable"));
+      //prewencja odpalania eventu za kazdym razem jak myszka wyjdzie, tylko po edycji\
+      if (tag.getAttribute("contenteditable") === "true") {
+        tag.setAttribute("contenteditable", "false");
+        newTag = tag.textContent.trim();
+        const countIndex = selectCounterByTag(tag);
+        cheatsheets[countIndex].tags.forEach((el_tag) => {
+          if (el_tag === oldTag) {
+            // el_tag = newTag;
+            cheatsheets[countIndex].tags[
+              cheatsheets[countIndex].tags.indexOf(el_tag)
+            ] = newTag;
+          }
+        });
+        callCreationFunctions();
+      }
+    });
+  });
+};
+
+//#endregion
+
 // ----------- filtracja -------------
 // aplikacja filtrow z tagow
+
 const filterByTags = function () {
   appliedTags = [];
   tag_checkboxes.forEach((tag) => {
@@ -371,9 +472,10 @@ const filterByTags = function () {
         appliedTags.includes(cheat.tags[1])
     );
   }
-  return renderList();
+  return renderList;
 };
-
+//FIXME: filtracja dzialala i przestala? AHHHHHHHHH
+// po prostu nie filtruje juz - XD?
 const filterBySearch = function () {
   let searchterm = fav_search.value;
   console.log(searchterm);
@@ -503,6 +605,7 @@ debugButton.addEventListener("click", (e) => {
 //funkcja zbierajaca funkcje zwiazane z tworzeniem nowych cheatsheetow, bo powtarzaja sie
 const callCreationFunctions = function () {
   saveToLocalStorage(cheatsheets, "cheatsheets");
+  saveToLocalStorage(tags, "tags");
   renderWebsite();
   createEventListeners();
   collectLinks();
