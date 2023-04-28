@@ -10,8 +10,7 @@
 // 3. filtracja tablic przed renderem
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
-// TODO: lista most clicked generowana automatycznie, z max limitem ile ich? 10? 30? 10% calej ilosci?
-// TODO: sortowanie, po dacie, kliknieciach
+// TODO: sortowanie, po dacie, kliknieciach to tam jebac
 // TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
 // TODO: paginacja, mam funkcje render, moze moge podzielic tablice i wywolywac funckje z podawaniem jej czesci
 // TODO: dodawanie z pliku json bezposrednio a nie przez tekst?
@@ -200,6 +199,18 @@ const renderListEntries = function (renderList, list_container) {
   });
 };
 
+//FIXME: sortowanie po najbardziej klikanych i render tylko pierwszych 20?
+const renderMostClicked = function (renderList) {
+  let mostList = [];
+  mostList = renderList.toSorted((a, b) => {
+    if (a.clicks > b.clicks) return -1; //a bedzie przed b
+    if (a.clicks < b.clicks) return 1;
+    return 0;
+  });
+  if (mostList.length < 3) renderListEntries(mostList, most_links);
+  else renderListEntries(mostList.slice(0, 3), most_links);
+};
+
 const renderFavLinksEntries = function (renderList) {
   //reset do stanu poczatkowego z predefiniowanym elementem na czas testow
   fav_area.innerHTML = ``;
@@ -288,6 +299,7 @@ const createEventListeners = function () {
     link_elem.addEventListener("click", (e) => {
       e.stopPropagation();
       countClick(e);
+      renderMostClicked(cheatsheets);
     });
   });
   addEditEvents();
@@ -297,7 +309,8 @@ const createEventListeners = function () {
 const renderWebsite = function (renderList) {
   renderFavLinksEntries(renderList);
   renderListEntries(renderList, all_links);
-  renderListEntries(renderList, most_links);
+  // renderListEntries(renderList, most_links);
+  renderMostClicked(renderList);
   renderTags();
 };
 
@@ -566,7 +579,8 @@ filterButton.addEventListener("click", (e) => {
   const renderList = filterByTags();
   renderFavLinksEntries(renderList);
   renderListEntries(renderList, all_links);
-  renderListEntries(renderList, most_links);
+  // renderListEntries(renderList, most_links);
+  renderMostClicked(renderList);
 });
 
 clearButton.addEventListener("click", (e) => {
