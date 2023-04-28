@@ -11,6 +11,8 @@ body {
   position: relative;
 }
 
+/* TODO: kwestia responsywnosci rozmiarow containerow fav i linkow do szerokosci okna i ilosci elementow */
+
 .dev-button {
   font-size: 1.2rem;
   position: absolute;
@@ -136,7 +138,8 @@ body {
 
 .fav-area {
   height: 40rem;
-  width: 80rem;
+  width: clamp(30rem, 60vw, 70rem);
+  /* width: 60vw; */
   border: 4px dashed rgb(50, 50, 50);
   padding: 1rem;
   overflow: scroll;
@@ -152,7 +155,8 @@ body {
 
 .tag-area {
   height: 40rem;
-  width: 30rem;
+  width: clamp(15rem, 30vw, 30rem);
+  /* width: 30vw; */
   border-left: 4px solid rgba(50, 50, 50, 0.5);
   position: absolute;
   right: 4rem;
@@ -477,9 +481,10 @@ body {
 .most-div {
   position: absolute;
   top: 7rem;
-  height: 40rem;
-  width: 100rem;
+  /* height: 40rem; */
+  width: clamp(60rem, 90vw, 120rem);
   background-color: rgba(50, 50, 50, 0.2);
+  padding-bottom: 2rem;
 }
 
 .most-div-head {
@@ -492,6 +497,7 @@ body {
   display: grid;
   grid-template-columns: 6fr 2fr 1fr 1fr 1fr 1fr;
   align-content: center;
+  margin-bottom: 0.4rem;
 }
 
 .most-links,

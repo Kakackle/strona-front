@@ -10,16 +10,11 @@
 // 3. filtracja tablic przed renderem
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
-// TODO: edycja pol, tagow itd
 // TODO: lista most clicked generowana automatycznie, z max limitem ile ich? 10? 30? 10% calej ilosci?
 // TODO: sortowanie, po dacie, kliknieciach
 // TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
 // TODO: paginacja, mam funkcje render, moze moge podzielic tablice i wywolywac funckje z podawaniem jej czesci
 // TODO: dodawanie z pliku json bezposrednio a nie przez tekst?
-// TODO: zastanowic sie, ze renderowanie calej strony rzadko jest tak naprawde potrzebne
-// duzo czesciej, wymagane jest dodanie tylko jednego obiektu albo zmiana jednego pola
-// co jest latwe samo w sobie, ale czy nie da sie tego zrealizowac jakos w funkcji
-// bo inaczej moze sie troche zbyt rozdrobnic we wlasne funkcje do zmiany kazdej malej rzeczy
 
 /**
  * Arrays of cheatsheet objects - See {@tutorial general-tutorial}
@@ -121,7 +116,7 @@ const getFromLocal = function () {
   const localCheatsheets = JSON.parse(localStorage.getItem("cheatsheets"));
   if (localCheatsheets) cheatsheets = localCheatsheets;
   else cheatsheets = [];
-  const localTags = JSON.parse(localStorage.getItem("cheatsheets"));
+  const localTags = JSON.parse(localStorage.getItem("tags"));
   if (localTags) tags = localTags;
   else tags = [];
 };
@@ -137,11 +132,8 @@ const clearObjects = function () {
 const deleteEntry = function (e) {
   const counterIndex =
     e.target.parentNode.querySelector(".counter-el").innerHTML;
-  console.log(counterIndex);
-  console.log(`cheatsheets before splice: ${cheatsheets}`);
   cheatsheets.splice(counterIndex, 1);
-  console.log(`cheatsheets AFTER splice: ${cheatsheets}`);
-  callCreationFunctions();
+  callCreationFunctions(cheatsheets);
 };
 
 //dodanie od fav poprzez zmienienie isFav, czyli aktualizacje obiektu z cheatsheets
@@ -149,14 +141,12 @@ const deleteEntry = function (e) {
 const removeFav = function (e) {
   const counterIndex =
     e.target.parentNode.querySelector(".counter-el").innerHTML;
-  console.log(counterIndex);
   cheatsheets[counterIndex].isFav = false;
   renderFavLinksEntries(cheatsheets);
 };
 const addFav = function (e) {
   const counterIndex =
     e.target.parentNode.parentNode.querySelector(".counter-el").innerHTML;
-  console.log(counterIndex);
   cheatsheets[counterIndex].isFav = true;
   renderFavLinksEntries(cheatsheets);
   createEventListeners();
@@ -203,7 +193,7 @@ const renderListEntries = function (renderList, list_container) {
     <p>${cheat.date}</p>
     <p>${cheat.dateLast}</p>
     <ion-icon class="most-delete md hydrated" name="trash-bin" role="img" aria-label="trash bin"></ion-icon>
-    <ion-icon class="most-addfav md hydrated" name="checkmark" role="img" aria-label="checkmark"></ion-icon>
+    <ion-icon class="most-addfav md hydrated" name="star" role="img" aria-label="checkmark"></ion-icon>
     </div>
     `;
     list_container.appendChild(cont_li);
@@ -246,10 +236,8 @@ const renderFavLinksEntries = function (renderList) {
   });
 };
 
-//FIXME: dodaje na poczatku tagow elementy cale z listy ktorejs????
 const renderTags = function () {
   gatherTags();
-  console.log(tags);
   type_tags.innerHTML = `<p class="tag-sect-title">Link type:</p>`;
   tags.forEach((tag) => {
     const tag_checkbox = document.createElement("div");
@@ -306,10 +294,10 @@ const createEventListeners = function () {
 };
 
 //render wszystkich grup obiektow na stronie
-const renderWebsite = function () {
-  renderFavLinksEntries(cheatsheets);
-  renderListEntries(cheatsheets, all_links);
-  renderListEntries(cheatsheets, most_links);
+const renderWebsite = function (renderList) {
+  renderFavLinksEntries(renderList);
+  renderListEntries(renderList, all_links);
+  renderListEntries(renderList, most_links);
   renderTags();
 };
 
@@ -335,7 +323,6 @@ const countClick = function (e) {
   //selekcja obiektu
   const counterIndex =
     e.target.parentNode.parentNode.querySelector(".counter-el").innerHTML;
-  console.log(counterIndex);
   cheatsheets[counterIndex].clicks += 1;
   //wszystkie wystapienia
   const elems = collectByCounter(counterIndex);
@@ -345,9 +332,6 @@ const countClick = function (e) {
       ".click-counter"
     ).textContent = `${cheatsheets[counterIndex].clicks} cl.`;
   });
-  console.log(
-    `counter: ${counterIndex}, clicks: ${cheatsheets[counterIndex].clicks}`
-  );
   saveToLocalStorage(cheatsheets, "cheatsheets");
 };
 
@@ -407,15 +391,13 @@ const addEditEvents = function () {
     //event koniec edycji
     title.addEventListener("mouseleave", (e) => {
       e.preventDefault();
-      // console.log(title.getAttribute("contenteditable"));
       //prewencja odpalania eventu za kazdym razem jak myszka wyjdzie, tylko po edycji\
       if (title.getAttribute("contenteditable") === "true") {
         title.setAttribute("contenteditable", "false");
         const newTitle = title.innerHTML;
-        // console.log(newTitle);
         const countIndex = selectCounterByTitle(title);
         cheatsheets[countIndex].title = newTitle;
-        callCreationFunctions();
+        callCreationFunctions(cheatsheets);
       }
     });
   });
@@ -432,7 +414,6 @@ const addEditEvents = function () {
     //event koniec edycji
     tag.addEventListener("mouseleave", (e) => {
       e.preventDefault();
-      // console.log(title.getAttribute("contenteditable"));
       //prewencja odpalania eventu za kazdym razem jak myszka wyjdzie, tylko po edycji\
       if (tag.getAttribute("contenteditable") === "true") {
         tag.setAttribute("contenteditable", "false");
@@ -446,7 +427,7 @@ const addEditEvents = function () {
             ] = newTag;
           }
         });
-        callCreationFunctions();
+        callCreationFunctions(cheatsheets);
       }
     });
   });
@@ -469,13 +450,14 @@ const filterByTags = function () {
     renderList = cheatsheets.filter(
       (cheat) =>
         appliedTags.includes(cheat.tags[0]) ||
-        appliedTags.includes(cheat.tags[1])
+        appliedTags.includes(cheat.tags[1]) ||
+        appliedTags.includes(cheat.tags[2])
     );
   }
+  console.log(renderList);
   return renderList;
 };
-//FIXME: filtracja dzialala i przestala? AHHHHHHHHH
-// po prostu nie filtruje juz - XD?
+
 const filterBySearch = function () {
   let searchterm = fav_search.value;
   console.log(searchterm);
@@ -484,10 +466,12 @@ const filterBySearch = function () {
   let includesTag = 0;
   cheatsheets.forEach((cheat) => {
     cheat.tags.forEach((tag) => {
-      if (tag.includes(searchterm)) includesTag = 1;
+      if (tag.includes(searchterm)) {
+        includesTag = 1;
+        console.log(`${cheat.title} : ${includesTag}`);
+      }
     });
   });
-
   //sprawdzanie czy zawiera tag w calosci
   // cheat.tags.includes(searchterm)
 
@@ -495,10 +479,8 @@ const filterBySearch = function () {
     (cheat) =>
       cheat.title.includes(searchterm) ||
       cheat.link.includes(searchterm) ||
-      cheat.tags.includes(searchterm)
+      includesTag
   );
-  console.log(cheatsheets[0].tags);
-  console.log(cheatsheets[0].tags.includes(searchterm));
   return renderList;
 };
 
@@ -539,7 +521,7 @@ link_submit_button.addEventListener("click", (e) => {
   cheat.tags.forEach((tag) => {
     if (!tags.includes(tag)) tags.push(tag);
   });
-  callCreationFunctions();
+  callCreationFunctions(cheatsheets);
 });
 
 const getJsonInput = function () {
@@ -553,7 +535,6 @@ const getJsonInput = function () {
   //a tekst wpakowac w nowy obiekt, a wlasciwie tablice obiektow
   //i potem foreach i wyciagac z niej i wpakowywac w funkcje create
   let json_text = JSON.parse(json_text_input.value);
-  // console.log(json_text);
   json_text.forEach((item) => {
     const cheat = createNewCheatsheet(
       item.title,
@@ -561,13 +542,12 @@ const getJsonInput = function () {
       [item.tag1, item.tag2, item.tag3],
       item.isFav === "true"
     );
-    console.log(cheat);
     cheatsheets.push(cheat);
     cheat.tags.forEach((tag) => {
       if (!tags.includes(tag)) tags.push(tag);
     });
   });
-  callCreationFunctions();
+  callCreationFunctions(cheatsheets);
 };
 
 submit_json.addEventListener("click", (e) => {
@@ -577,19 +557,23 @@ submit_json.addEventListener("click", (e) => {
 //filtracja
 fav_search.addEventListener("input", (e) => {
   e.preventDefault();
-  renderWebsite(filterBySearch());
+  callCreationFunctions(filterBySearch());
 });
 
 filterButton.addEventListener("click", (e) => {
   e.preventDefault();
-  renderWebsite(filterByTags());
+  // callCreationFunctions(filterByTags());
+  const renderList = filterByTags();
+  renderFavLinksEntries(renderList);
+  renderListEntries(renderList, all_links);
+  renderListEntries(renderList, most_links);
 });
 
 clearButton.addEventListener("click", (e) => {
   e.preventDefault();
   clearStorage(); //czysci pamiec
   getFromLocal(); //aktualizuje wewnetrzne dane
-  renderWebsite(); //renderuje strone
+  renderWebsite(cheatsheets); //renderuje strone
   collectLinks();
 });
 
@@ -601,20 +585,21 @@ debugButton.addEventListener("click", (e) => {
   debugFunction();
 });
 
-//FIXME: kwestia potrzebnosci, sposobu realizacji
 //funkcja zbierajaca funkcje zwiazane z tworzeniem nowych cheatsheetow, bo powtarzaja sie
-const callCreationFunctions = function () {
+const callCreationFunctions = function (renderList) {
   saveToLocalStorage(cheatsheets, "cheatsheets");
   saveToLocalStorage(tags, "tags");
-  renderWebsite();
+  renderWebsite(renderList);
   createEventListeners();
   collectLinks();
 };
 
 // ---------- call at load -------------
 const mainFunc = function () {
+  console.log(tags);
   getFromLocal();
-  renderWebsite();
+  console.log(tags);
+  renderWebsite(cheatsheets);
   createEventListeners();
 };
 
@@ -637,7 +622,7 @@ const addTestObjects = function () {
   );
   cheatsheets.push(cheat1);
   cheatsheets.push(cheat2);
-  callCreationFunctions();
+  callCreationFunctions(cheatsheets);
 };
 
 const debugFunction = function () {
@@ -650,7 +635,5 @@ const debugFunction = function () {
       "\n",
       `${countIndex}: ${JSON.stringify(cheatsheets[countIndex])}`
     );
-    // console.log(`${}`)
   });
-  // console.log(`cheatsheets: ${JSON.stringify(cheatsheets)}`);
 };
