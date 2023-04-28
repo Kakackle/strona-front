@@ -459,7 +459,7 @@ body {
 .most-section,
 .all-section {
   width: 100vw;
-  min-height: 38rem;
+  height: 38rem;
   /* height: fit-content; */
   /* height: clamp(20rem, max-content, 50rem); */
   /* height: fit-content; */
@@ -471,7 +471,7 @@ body {
   position: relative;
   padding: 4rem;
 }
-
+/* FIXME: nadal sie pierdoli ten height czasem sekcji i divow */
 .most-section-title,
 .all-section-title {
   position: absolute;
@@ -486,6 +486,9 @@ body {
   position: absolute;
   top: 7rem;
   /* height: 40rem; */
+  /* height: 80%; */
+  max-height: 36rem;
+  overflow: auto;
   width: clamp(60rem, 90vw, 120rem);
   background-color: rgba(50, 50, 50, 0.2);
   padding-bottom: 2rem;
@@ -511,7 +514,7 @@ body {
   /* display: list-item; */
   flex-direction: column;
   gap: 0.5rem;
-  font-size: 2rem;
+  font-size: 2.4rem;
 }
 
 .most-links .li-div,
@@ -526,13 +529,18 @@ body {
 }
 
 .li-div p a {
+  font-size: 1.4rem;
+}
+
+.most-link-tags span {
   font-size: 1.2rem;
 }
 
 .most-links li,
 .all-links li {
   display: list-item;
-  list-style: decimal;
+  /* list-style: decimal; */
+  list-style: none;
   /* list-style-position: inside; */
   margin-left: 2rem;
 }
@@ -562,7 +570,7 @@ body {
 .all-pages,
 .most-amount {
   position: absolute;
-  bottom: 0;
+  top: 4rem;
   right: 10rem;
   font-size: 3.2rem;
   display: flex;
@@ -577,6 +585,12 @@ body {
 
 .curr-page-most,
 .curr-page-all,
-.most-selected {
+.most-selected,
+.sorted {
   font-weight: 700;
+}
+
+.title-head-all:hover,
+.title-head-most:hover {
+  cursor: pointer;
 }

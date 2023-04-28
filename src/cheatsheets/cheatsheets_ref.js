@@ -10,9 +10,9 @@
 // 3. filtracja tablic przed renderem
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
+// TODO: po sortowaniu, fajnie by jeszcze dodac ikonki strzalek w gore albo w dol ale tak mi sie nie chce omg
 // TODO: sortowanie, po dacie i alfabetycznie, po kliknieciach to tam jebac, juz mam osobna liste od tego
 // TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
-// TODO: paginacja, mam funkcje render, moze moge podzielic tablice i wywolywac funckje z podawaniem jej czesci
 // TODO: dodawanie z pliku json bezposrednio a nie przez tekst?
 
 /**
@@ -100,8 +100,8 @@ const createNewCheatsheet = function (title, link, tags, isFav) {
     title: title,
     link: link,
     tags: tags,
-    date: `${date.getDate()}:${date.getMonth() + 1}:${date.getFullYear()}`,
-    dateLast: `${date.getDate()}:${date.getMonth() + 1}:${date.getFullYear()}`,
+    date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+    dateLast: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
     clicks: 0,
     isFav: isFav,
   };
@@ -310,6 +310,11 @@ const createEventListeners = function () {
     });
   });
   addEditEvents();
+  all_pages.forEach((page) => {
+    page.addEventListener("click", (e) => {
+      selectPage(e);
+    });
+  });
 };
 
 //render wszystkich grup obiektow na stronie
@@ -455,20 +460,20 @@ const addEditEvents = function () {
 
 //#endregion
 
-// -------- ile elementow listy most clicked -------
-//FIXME: czy to dziala? sprawdz po realizacji paginacji
 //obsluga elementow nawigacji list - most oraz paginacja
-most_amount.forEach((choice) => {
-  choice.addEventListener("click", (e) => {
-    most_amount_choice = e.target.dataset.amount;
-    most_amount.forEach((most) => {
-      most.classList.remove("most-selected");
+const selectMostAmount = function () {
+  most_amount.forEach((choice) => {
+    choice.addEventListener("click", (e) => {
+      most_amount_choice = e.target.dataset.amount;
+      most_amount.forEach((most) => {
+        most.classList.remove("most-selected");
+      });
+      choice.classList.add("most-selected");
+      renderMostClicked(cheatsheets);
     });
-    choice.classList.add("most-selected");
   });
-});
+};
 
-//FIXME: teraz robione
 // -------- paginacja --------
 // w odpowiedniej kolejnosci:
 // 1. obliczyc ile jest stron wgl [ ceiling(length/10) ]
@@ -485,10 +490,10 @@ most_amount.forEach((choice) => {
 
 //paginacja listy all, let poniewaz beda sie zmieniac
 let all_pages = document.querySelectorAll(".all-pages .page");
-let selected_page = 2; //wybrany pej
+let selected_page = 1; //wybrana strona
 
-const paginateAll = function () {
-  const length = Math.ceil(cheatsheets.length / 10);
+const paginateAll = function (renderList) {
+  const length = Math.ceil(renderList.length / 10);
   //renderowanie stron bez wybranej, dopiero initial render
   let htmlElement = ``;
   if (length < 4) {
@@ -514,24 +519,26 @@ const paginateAll = function () {
   htmlElement += `<span data-page="${length}" class="page">${length}</span>`;
   all_pages_div.innerHTML = htmlElement;
 
-  //teraz nalozenie klasy currPage by sie przydalo
+  //teraz nalozenie klasy curr page wybranej strony
   all_pages = document.querySelectorAll(".all-pages .page");
   all_pages.forEach((apage) => {
-    // console.log(typeof apage.dataset.page);
     if (parseInt(apage.dataset.page) === selected_page) {
       apage.classList.add("curr-page-all");
     }
   });
 
-  //a teraz render listy w zaleznosci od wybranej strony
+  //i render listy w zaleznosci od wybranej strony
   if (selected_page === 1) {
-    renderListEntries(cheatsheets.slice(0, 10), all_links);
+    renderListEntries(renderList.slice(0, 10), all_links);
   } else {
-    //TODO: i tu cos nie dziala chyba, zeby wiedziec stworz wiecej unikalnych obiektow
-    renderListEntries(
-      cheatsheets.slice(10 * (selected_page - 1), 10 * selected_page),
-      all_links
-    );
+    if (renderList.length < selected_page * 10) {
+      renderListEntries(renderList.slice(10 * (selected_page - 1)), all_links);
+    } else {
+      renderListEntries(
+        renderList.slice(10 * (selected_page - 1), 10 * selected_page),
+        all_links
+      );
+    }
   }
   //TODO: / FIXME: kwestia jest, ze aktualnie numery w liscie ustawiane sa po lewo zgodnie z numeracja <li>
   //czyli zawsze od 1 do 10, co jest okej w przypadku most clicked
@@ -543,6 +550,12 @@ const paginateAll = function () {
   // i to duzo roboty, wiec moze na start wylacz zliczanie i chuj
   // all_pages_div
   // "curr-page-all"
+};
+
+const selectPage = function (e) {
+  selected_page = parseInt(e.target.dataset.page);
+  paginateAll(cheatsheets);
+  createEventListeners();
 };
 
 // ----------- filtracja -------------
@@ -590,6 +603,45 @@ const filterBySearch = function () {
       includesTag
   );
   return renderList;
+};
+
+//------------ sortowanie --------------
+const sortByTitle = function (unsorted) {
+  const sorted = unsorted.toSorted((a, b) => {
+    if (a.title > b.title) return 1;
+    if (a.title < b.title) return -1;
+    return 0;
+  });
+  return sorted;
+};
+
+const addSortEvents = function () {
+  const title_head_all = document.querySelector(".title-head-all");
+  title_head_all.addEventListener("click", (e) => {
+    //jesli sortowanie zaaplikowane, wylacz
+    if (title_head_all.classList.contains("sorted")) {
+      // renderListEntries(cheatsheets, all_links);
+      paginateAll(cheatsheets);
+      createEventListeners();
+      title_head_all.classList.remove("sorted");
+    } else {
+      // renderListEntries(sortByTitle(cheatsheets), all_links);
+      paginateAll(sortByTitle(cheatsheets));
+      createEventListeners();
+      title_head_all.classList.add("sorted");
+    }
+  });
+  const title_head_most = document.querySelector(".title-head-most");
+  title_head_most.addEventListener("click", (e) => {
+    //jesli sortowanie zaaplikowane, wylacz
+    if (title_head_most.classList.contains("sorted")) {
+      renderMostClicked(cheatsheets);
+      title_head_most.classList.remove("sorted");
+    } else {
+      renderMostClicked(sortByTitle(cheatsheets));
+      title_head_most.classList.add("sorted");
+    }
+  });
 };
 
 // ------------ 4. EventListeners ----------
@@ -644,11 +696,12 @@ const getJsonInput = function () {
   //i potem foreach i wyciagac z niej i wpakowywac w funkcje create
   let json_text = JSON.parse(json_text_input.value);
   json_text.forEach((item) => {
+    const cleanedTitle = item.title.replace(/<\/?[^>]+(>|$)/g, "");
     const cheat = createNewCheatsheet(
-      item.title,
+      cleanedTitle,
       item.link,
       [item.tag1, item.tag2, item.tag3],
-      item.isFav === "true"
+      item.isFav
     );
     cheatsheets.push(cheat);
     cheat.tags.forEach((tag) => {
@@ -699,6 +752,7 @@ const callCreationFunctions = function (renderList) {
   saveToLocalStorage(cheatsheets, "cheatsheets");
   saveToLocalStorage(tags, "tags");
   renderWebsite(renderList);
+  paginateAll(cheatsheets);
   createEventListeners();
   collectLinks();
 };
@@ -707,8 +761,10 @@ const callCreationFunctions = function (renderList) {
 const mainFunc = function () {
   getFromLocal();
   renderWebsite(cheatsheets);
+  paginateAll(cheatsheets);
   createEventListeners();
-  paginateAll();
+  selectMostAmount();
+  addSortEvents();
 };
 
 mainFunc();
