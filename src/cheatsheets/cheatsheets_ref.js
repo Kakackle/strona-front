@@ -10,7 +10,7 @@
 // 3. filtracja tablic przed renderem
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
-// TODO: sortowanie, po dacie, kliknieciach to tam jebac
+// TODO: sortowanie, po dacie i alfabetycznie, po kliknieciach to tam jebac, juz mam osobna liste od tego
 // TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
 // TODO: paginacja, mam funkcje render, moze moge podzielic tablice i wywolywac funckje z podawaniem jej czesci
 // TODO: dodawanie z pliku json bezposrednio a nie przez tekst?
@@ -62,6 +62,13 @@ const filterButton = document.querySelector(".filter-button");
 
 //searchbar
 const fav_search = document.querySelector(".fav-search");
+
+//wybor ilosci wyswietlanych most-clicked
+let most_amount_choice = 5;
+const most_amount = document.querySelectorAll(".most-amount span");
+
+//paginacja
+const all_pages_div = document.querySelector(".all-pages");
 
 /**
  * Cheatsheet object
@@ -199,7 +206,6 @@ const renderListEntries = function (renderList, list_container) {
   });
 };
 
-//FIXME: sortowanie po najbardziej klikanych i render tylko pierwszych 20?
 const renderMostClicked = function (renderList) {
   let mostList = [];
   mostList = renderList.toSorted((a, b) => {
@@ -207,8 +213,9 @@ const renderMostClicked = function (renderList) {
     if (a.clicks < b.clicks) return 1;
     return 0;
   });
-  if (mostList.length < 3) renderListEntries(mostList, most_links);
-  else renderListEntries(mostList.slice(0, 3), most_links);
+  if (mostList.length < most_amount_choice)
+    renderListEntries(mostList, most_links);
+  else renderListEntries(mostList.slice(0, most_amount_choice), most_links);
 };
 
 const renderFavLinksEntries = function (renderList) {
@@ -448,6 +455,96 @@ const addEditEvents = function () {
 
 //#endregion
 
+// -------- ile elementow listy most clicked -------
+//FIXME: czy to dziala? sprawdz po realizacji paginacji
+//obsluga elementow nawigacji list - most oraz paginacja
+most_amount.forEach((choice) => {
+  choice.addEventListener("click", (e) => {
+    most_amount_choice = e.target.dataset.amount;
+    most_amount.forEach((most) => {
+      most.classList.remove("most-selected");
+    });
+    choice.classList.add("most-selected");
+  });
+});
+
+//FIXME: teraz robione
+// -------- paginacja --------
+// w odpowiedniej kolejnosci:
+// 1. obliczyc ile jest stron wgl [ ceiling(length/10) ]
+// 2. domyslnie wybrany jest pej = 1
+// 3. na podstawie ilosci dynamicznie wyrenderowac liste stron, z wybrana domyslnie pierwsza
+// 4. na podstawie pej = 1 wyrenderowac pierwsze 10 elementow listy poprzez podanie wycinka listy
+// ---- event listeners ----
+// 5. kazdy z peji ma event listener i dataset-pej, przy klinieciu:
+//  jesli data=1, renderuj 1 2 3 itd
+//  jesli jesli data = 2 itd, to renderuj schematem n-1 i n+1 peje i wywoluj renderowanie listy z odpowiednim wycinkiem
+//  przy czym peje renderuj w juz istniejacym divie na nie
+// i kwestia bez event listenera na kropkach - po prostu klasa do wyboru nie na kropkach
+// i musi tez zbierac za kazdym razem dlugosc cheatsheets by wiedziec jak dzialac
+
+//paginacja listy all, let poniewaz beda sie zmieniac
+let all_pages = document.querySelectorAll(".all-pages .page");
+let selected_page = 2; //wybrany pej
+
+const paginateAll = function () {
+  const length = Math.ceil(cheatsheets.length / 10);
+  //renderowanie stron bez wybranej, dopiero initial render
+  let htmlElement = ``;
+  if (length < 4) {
+    for (i = 1; i <= length; i++) {
+      htmlElement += `<span data-page="${i}" class="page">${i}</span>`;
+    }
+  } else {
+    if (selected_page === 1) {
+      for (i = 1; i <= 3; i++) {
+        htmlElement += `<span data-page="${i}" class="page">${i}</span>`;
+      }
+    } else {
+      htmlElement += `<span data-page="${selected_page - 1}" class="page">${
+        selected_page - 1
+      }</span>`;
+      htmlElement += `<span data-page="${selected_page}" class="page curr-page-all">${selected_page}</span>`;
+      htmlElement += `<span data-page="${selected_page + 1}" class="page">${
+        selected_page + 1
+      }</span>`;
+    }
+  }
+  htmlElement += `<span>...</span>`;
+  htmlElement += `<span data-page="${length}" class="page">${length}</span>`;
+  all_pages_div.innerHTML = htmlElement;
+
+  //teraz nalozenie klasy currPage by sie przydalo
+  all_pages = document.querySelectorAll(".all-pages .page");
+  all_pages.forEach((apage) => {
+    // console.log(typeof apage.dataset.page);
+    if (parseInt(apage.dataset.page) === selected_page) {
+      apage.classList.add("curr-page-all");
+    }
+  });
+
+  //a teraz render listy w zaleznosci od wybranej strony
+  if (selected_page === 1) {
+    renderListEntries(cheatsheets.slice(0, 10), all_links);
+  } else {
+    //TODO: i tu cos nie dziala chyba, zeby wiedziec stworz wiecej unikalnych obiektow
+    renderListEntries(
+      cheatsheets.slice(10 * (selected_page - 1), 10 * selected_page),
+      all_links
+    );
+  }
+  //TODO: / FIXME: kwestia jest, ze aktualnie numery w liscie ustawiane sa po lewo zgodnie z numeracja <li>
+  //czyli zawsze od 1 do 10, co jest okej w przypadku most clicked
+  // ale w przypadku all_links, nie sprawdza sie, bo niewazne ktora strone klikniesz, idzie 1-10
+  // a powinno isc 11-20, 21-30 itd dla dalszych
+  // co mozna by rozwiazac poprzez zamiast numeracji <li> dodawac numeracje wlasna na podstawie counter-el
+  // ale wtedy most_often numerki by byly losowe
+  // wiec trzeba by tam zrobic oddzielnie, ze zliczaniem li i bez countera
+  // i to duzo roboty, wiec moze na start wylacz zliczanie i chuj
+  // all_pages_div
+  // "curr-page-all"
+};
+
 // ----------- filtracja -------------
 // aplikacja filtrow z tagow
 
@@ -467,7 +564,6 @@ const filterByTags = function () {
         appliedTags.includes(cheat.tags[2])
     );
   }
-  console.log(renderList);
   return renderList;
 };
 
@@ -481,7 +577,6 @@ const filterBySearch = function () {
     cheat.tags.forEach((tag) => {
       if (tag.includes(searchterm)) {
         includesTag = 1;
-        console.log(`${cheat.title} : ${includesTag}`);
       }
     });
   });
@@ -610,11 +705,10 @@ const callCreationFunctions = function (renderList) {
 
 // ---------- call at load -------------
 const mainFunc = function () {
-  console.log(tags);
   getFromLocal();
-  console.log(tags);
   renderWebsite(cheatsheets);
   createEventListeners();
+  paginateAll();
 };
 
 mainFunc();

@@ -459,7 +459,11 @@ body {
 .most-section,
 .all-section {
   width: 100vw;
-  height: 50rem;
+  min-height: 38rem;
+  /* height: fit-content; */
+  /* height: clamp(20rem, max-content, 50rem); */
+  /* height: fit-content; */
+  /* overflow: auto; */
   /* background-color: antiquewhite; */
   display: flex;
   align-items: center;
@@ -555,17 +559,24 @@ body {
 }
 
 .most-pages,
-.all-pages {
+.all-pages,
+.most-amount {
   position: absolute;
   bottom: 0;
-  right: 30rem;
+  right: 10rem;
   font-size: 3.2rem;
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
+.all-pages:hover,
+.most-amount:hover {
+  cursor: pointer;
+}
+
 .curr-page-most,
-.curr-page-all {
+.curr-page-all,
+.most-selected {
   font-weight: 700;
 }
