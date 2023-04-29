@@ -601,6 +601,8 @@ body {
 }
 
 .title-head-all:hover,
-.title-head-most:hover {
+.title-head-most:hover,
+.dateLast-head-all:hover,
+.dateLast-head-most:hover {
   cursor: pointer;
 }

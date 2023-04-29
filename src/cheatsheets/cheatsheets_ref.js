@@ -11,10 +11,12 @@
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
 // TODO: po sortowaniu, fajnie by jeszcze dodac ikonki strzalek w gore albo w dol ale tak mi sie nie chce omg
-// TODO: mam juz filtracje po dacie, to teraz sortowanie powinno byc latwiej
-// TODO: sortowanie, po dacie i alfabetycznie, po kliknieciach to tam jebac, juz mam osobna liste od tego
 // TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
 // TODO: dodawanie z pliku json bezposrednio a nie przez tekst?
+// FIXME: generalnie przydalby sie refactor z osobna od cheatsheets globalna lista renderowana
+// zeby na nia mozna bylo nakladac zarowno filtracje jak i sortowania jak i inne
+// bo aktualnie sie canceluja
+// juz jest, w postaci filterRenderList, ale moze by to jakos lepiej, jak props/storage w pinia, idk, jedno zrodlo prawdy
 
 /**
  * Arrays of cheatsheet objects - See {@tutorial general-tutorial}
@@ -66,6 +68,9 @@ const time_tags = document.querySelector(".time-tags");
 let tag_checkboxes = document.querySelectorAll(".tag-checkbox-box");
 let datetag_checkboxes = document.querySelectorAll(".datetag-checkbox-box");
 const filterButton = document.querySelector(".filter-button");
+
+//lista po filtracji
+let filterRenderList = [];
 
 //searchbar
 const fav_search = document.querySelector(".fav-search");
@@ -322,7 +327,6 @@ const renderDateTags = function () {
     }
   });
   //render checkboxow
-  console.log(dateTags);
   time_tags.innerHTML = `<p class="tag-sect-title">Time added/modded:</p>`;
   dateTags.forEach((tag) => {
     const tag_checkbox = document.createElement("div");
@@ -342,7 +346,6 @@ const renderDateTags = function () {
   datetag_checkboxes = document.querySelectorAll(".datetag-checkbox-box");
   const dateTagsArray = Array.from(dateTags);
   saveToLocalStorage(dateTagsArray, "dateTags");
-  //TODO: kwestia wywolywania przy tworzeniu nowych sheetow zeby dodawac potencjalnie "today"?
 };
 
 //create event listeners on links in tables
@@ -429,6 +432,12 @@ const countClick = function (e) {
       ".click-counter"
     ).textContent = `${cheatsheets[counterIndex].clicks} cl.`;
   });
+  //aktualizacja daty ostatniej interakcji, przy okazji zliczania klikania bo juz obslguje event klikniecia wszedzie
+  const dateNow = new Date();
+  cheatsheets[counterIndex].dateObj = new Date(dateNow.toISOString());
+  cheatsheets[counterIndex].dateLast = `${dateNow.getDate()}/${
+    dateNow.getMonth() + 1
+  }/${dateNow.getFullYear()}`;
   saveToLocalStorage(cheatsheets, "cheatsheets");
 };
 
@@ -471,9 +480,6 @@ const selectCounterByTag = function (title_el) {
   return counterIndex;
 };
 
-//TODO: zmiana ostatniej daty edycji po skonczeniu edycji, bo nie jest to robione aktualnie
-//FIXME: niestety przewidziany problem pojawil sie - w listach najpierw obsluguje click, potem
-// dblclick, wiec trzeba bedzie dodac kolejny element po prostu zamiast a, ale mi sie nie chce tbh ahhh
 //umozliw edycje i na podstawie countera elementu zapisz to do bazy danych
 // funkcja do dodania do ustawiania event listenerow
 const addEditEvents = function () {
@@ -495,6 +501,11 @@ const addEditEvents = function () {
         const newTitle = title.innerHTML;
         const countIndex = selectCounterByTitle(title);
         cheatsheets[countIndex].title = newTitle;
+        const dateNow = new Date();
+        cheatsheets[countIndex].dateObj = new Date(dateNow.toISOString());
+        cheatsheets[countIndex].dateLast = `${dateNow.getDate()}/${
+          dateNow.getMonth() + 1
+        }/${dateNow.getFullYear()}`;
         callCreationFunctions(cheatsheets);
       }
     });
@@ -523,6 +534,11 @@ const addEditEvents = function () {
             cheatsheets[countIndex].tags[
               cheatsheets[countIndex].tags.indexOf(el_tag)
             ] = newTag;
+            const dateNow = new Date();
+            cheatsheets[countIndex].dateObj = new Date(dateNow.toISOString());
+            cheatsheets[countIndex].dateLast = `${dateNow.getDate()}/${
+              dateNow.getMonth() + 1
+            }/${dateNow.getFullYear()}`;
           }
         });
         callCreationFunctions(cheatsheets);
@@ -704,18 +720,29 @@ const sortByTitle = function (unsorted) {
   return sorted;
 };
 
+const sortByDate = function (unsorted) {
+  const sorted = unsorted.toSorted((a, b) => {
+    a = new Date(a.dateObj).getTime();
+    b = new Date(b.dateObj).getTime();
+    if (a > b) return 1;
+    if (a < b) return -1;
+    return 0;
+  });
+  return sorted;
+};
+
 const addSortEvents = function () {
   const title_head_all = document.querySelector(".title-head-all");
   title_head_all.addEventListener("click", (e) => {
     //jesli sortowanie zaaplikowane, wylacz
     if (title_head_all.classList.contains("sorted")) {
       // renderListEntries(cheatsheets, all_links);
-      paginateAll(cheatsheets);
+      paginateAll(filterRenderList);
       createEventListeners();
       title_head_all.classList.remove("sorted");
     } else {
       // renderListEntries(sortByTitle(cheatsheets), all_links);
-      paginateAll(sortByTitle(cheatsheets));
+      paginateAll(sortByTitle(filterRenderList));
       createEventListeners();
       title_head_all.classList.add("sorted");
     }
@@ -724,11 +751,37 @@ const addSortEvents = function () {
   title_head_most.addEventListener("click", (e) => {
     //jesli sortowanie zaaplikowane, wylacz
     if (title_head_most.classList.contains("sorted")) {
-      renderMostClicked(cheatsheets);
+      renderMostClicked(filterRenderList);
       title_head_most.classList.remove("sorted");
     } else {
-      renderMostClicked(sortByTitle(cheatsheets));
+      renderMostClicked(sortByTitle(filterRenderList));
       title_head_most.classList.add("sorted");
+    }
+  });
+  const dateLast_head_all = document.querySelector(".dateLast-head-all");
+  dateLast_head_all.addEventListener("click", (e) => {
+    //jesli sortowanie zaaplikowane, wylacz
+    if (dateLast_head_all.classList.contains("sorted")) {
+      // renderListEntries(cheatsheets, all_links);
+      paginateAll(filterRenderList);
+      createEventListeners();
+      dateLast_head_all.classList.remove("sorted");
+    } else {
+      // renderListEntries(sortByTitle(cheatsheets), all_links);
+      paginateAll(sortByDate(filterRenderList));
+      createEventListeners();
+      dateLast_head_all.classList.add("sorted");
+    }
+  });
+  const dateLast_head_most = document.querySelector(".dateLast-head-most");
+  dateLast_head_most.addEventListener("click", (e) => {
+    //jesli sortowanie zaaplikowane, wylacz
+    if (dateLast_head_most.classList.contains("sorted")) {
+      renderMostClicked(filterRenderList);
+      dateLast_head_most.classList.remove("sorted");
+    } else {
+      renderMostClicked(sortByDate(filterRenderList));
+      dateLast_head_most.classList.add("sorted");
     }
   });
 };
@@ -813,10 +866,11 @@ fav_search.addEventListener("input", (e) => {
 filterButton.addEventListener("click", (e) => {
   e.preventDefault();
   // callCreationFunctions(filterByTags());
-  let filterRenderList = filterByTags();
+  filterRenderList = filterByTags();
   filterRenderList = filterByDateTags(filterRenderList);
   renderFavLinksEntries(filterRenderList);
-  renderListEntries(filterRenderList, all_links);
+  // renderListEntries(filterRenderList, all_links);
+  paginateAll(filterRenderList);
   // renderListEntries(renderList, most_links);
   renderMostClicked(filterRenderList);
 });
@@ -850,6 +904,8 @@ const callCreationFunctions = function (renderList) {
 // ---------- call at load -------------
 const mainFunc = function () {
   getFromLocal();
+  filterRenderList = filterByTags();
+  filterRenderList = filterByDateTags(filterRenderList);
   renderWebsite(cheatsheets);
   paginateAll(cheatsheets);
   createEventListeners();

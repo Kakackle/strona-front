@@ -19,3 +19,9 @@ const renderMostClicked = function (renderList) {
     renderListEntries(mostList, most_links);
   else renderListEntries(mostList.slice(0, most_amount_choice), most_links);
 };
+
+date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+dateLast: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+  let date = new Date();
+  date = new Date(date.toISOString());
+dateObj
