@@ -30,6 +30,10 @@ body {
   top: 3.8rem;
 }
 
+.test-button {
+  top: 5.2rem;
+}
+
 .dev-button:hover {
   color: #000;
   cursor: pointer;
@@ -138,7 +142,7 @@ body {
 
 .fav-area {
   height: 40rem;
-  width: clamp(30rem, 60vw, 70rem);
+  width: clamp(30rem, 60vw, 170rem);
   /* width: 60vw; */
   border: 4px dashed rgb(50, 50, 50);
   padding: 1rem;
@@ -193,6 +197,12 @@ body {
   /* width: 1.8rem; */
   display: flex;
   gap: 0.5rem;
+}
+
+.tag-checkbox:hover,
+.tag-checkbox-box:hover,
+.datetag-checkbox-box:hover {
+  cursor: pointer;
 }
 
 .tag-checkbox label {
@@ -489,7 +499,7 @@ body {
   /* height: 80%; */
   max-height: 36rem;
   overflow: auto;
-  width: clamp(60rem, 90vw, 120rem);
+  width: clamp(60rem, 90vw, 180rem);
   background-color: rgba(50, 50, 50, 0.2);
   padding-bottom: 2rem;
 }

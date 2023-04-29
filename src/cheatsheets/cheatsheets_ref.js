@@ -11,6 +11,7 @@
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
 // TODO: po sortowaniu, fajnie by jeszcze dodac ikonki strzalek w gore albo w dol ale tak mi sie nie chce omg
+// TODO: mam juz filtracje po dacie, to teraz sortowanie powinno byc latwiej
 // TODO: sortowanie, po dacie i alfabetycznie, po kliknieciach to tam jebac, juz mam osobna liste od tego
 // TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
 // TODO: dodawanie z pliku json bezposrednio a nie przez tekst?
@@ -22,12 +23,16 @@
 let cheatsheets = []; //tablica linkow w systemie
 let tags = []; //tablica tagow
 let appliedTags = []; //tagi do filtracji
+let appliedDateTags = [];
+// let dateTags = [];
+let dateTags = new Set();
 
 //------------- elementy DOM -------------
 //localStorage
 const clearButton = document.querySelector(".clear-button");
 const exampleButton = document.querySelector(".example-button");
 const debugButton = document.querySelector(".debug-button");
+const testButton = document.querySelector(".test-button");
 
 //otworz sekcje dodawania linkow
 const add_new_link = document.querySelector(".add-section-title");
@@ -57,7 +62,9 @@ const all_links = document.querySelector(".all-links");
 let all_link_elements = [];
 //obszar tagow
 const type_tags = document.querySelector(".type-tags");
+const time_tags = document.querySelector(".time-tags");
 let tag_checkboxes = document.querySelectorAll(".tag-checkbox-box");
+let datetag_checkboxes = document.querySelectorAll(".datetag-checkbox-box");
 const filterButton = document.querySelector(".filter-button");
 
 //searchbar
@@ -92,7 +99,8 @@ const all_pages_div = document.querySelector(".all-pages");
  * @returns {Cheat} cheatsheet object with title, link, tags, date, dateLast, clicks and isFav fields
  */
 const createNewCheatsheet = function (title, link, tags, isFav) {
-  const date = new Date();
+  let date = new Date();
+  date = new Date(date.toISOString());
   /**
    * @type {Cheat}
    */
@@ -102,6 +110,8 @@ const createNewCheatsheet = function (title, link, tags, isFav) {
     tags: tags,
     date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
     dateLast: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+    dateObj: date,
+    dateTag: `Today`,
     clicks: 0,
     isFav: isFav,
   };
@@ -125,6 +135,9 @@ const getFromLocal = function () {
   const localTags = JSON.parse(localStorage.getItem("tags"));
   if (localTags) tags = localTags;
   else tags = [];
+  const localDateTags = JSON.parse(localStorage.getItem("dateTags"));
+  if (localDateTags) dateTags = new Set(localDateTags);
+  else dateTags = new Set();
 };
 
 //czyszczenie linkow i tagow
@@ -275,6 +288,63 @@ const renderTags = function () {
   tag_checkboxes = document.querySelectorAll(".tag-checkbox-box");
 };
 
+//TODO: za 2, 3 dni sprawdz czy dziala
+const renderDateTags = function () {
+  //zebranie i render date tags na podstawie obliczen i grupowania
+  let dateNow = new Date();
+  // dateLast: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+  //ustawianie w kazdym z obiektow z cheatsheets odpowiedniego date tagu
+  //i dodawanie do setu istniejacych
+  // dateTags.clear();
+  cheatsheets.forEach((cheat) => {
+    dateNow = new Date(dateNow.toISOString());
+    const dateDiff = Math.abs(dateNow - cheat.dateObj);
+    const dateDiffDays = Math.floor(dateDiff / (1000 * 3600 * 24));
+    if (dateDiffDays == 0) {
+      cheat.dateTag = `Today`;
+      dateTags.add(`Today`);
+    }
+    if (dateDiffDays == 1) {
+      cheat.dateTag = `Yesterday`;
+      dateTags.add(`Yesterday`);
+    }
+    if (dateDiffDays > 1 && dateDiffDays < 7) {
+      cheat.dateTag = `<1 week`;
+      dateTags.add(`<1 week`);
+    }
+    if (dateDiffDays > 7 && dateDiffDays < 31) {
+      cheat.dateTag = `<1 month`;
+      dateTags.add(`<1 month`);
+    }
+    if (dateDiffDays > 31) {
+      cheat.dateTag = `>1 month`;
+      dateTags.add(`>1 month`);
+    }
+  });
+  //render checkboxow
+  console.log(dateTags);
+  time_tags.innerHTML = `<p class="tag-sect-title">Time added/modded:</p>`;
+  dateTags.forEach((tag) => {
+    const tag_checkbox = document.createElement("div");
+    tag_checkbox.classList.add("tag-checkbox");
+    tag_checkbox.innerHTML = `<input
+    class="datetag-checkbox-box"
+    type="checkbox"
+    id="${tag}"
+    name="${tag}"
+    value="${tag}"
+  />
+  <label class="tag-checkbox" for="${tag}"> ${tag} </label>
+    `;
+    time_tags.appendChild(tag_checkbox);
+  });
+  //aktualizacja tag checkboxes
+  datetag_checkboxes = document.querySelectorAll(".datetag-checkbox-box");
+  const dateTagsArray = Array.from(dateTags);
+  saveToLocalStorage(dateTagsArray, "dateTags");
+  //TODO: kwestia wywolywania przy tworzeniu nowych sheetow zeby dodawac potencjalnie "today"?
+};
+
 //create event listeners on links in tables
 const createEventListeners = function () {
   const mostDeleteList = document.querySelectorAll(".most-delete");
@@ -320,10 +390,12 @@ const createEventListeners = function () {
 //render wszystkich grup obiektow na stronie
 const renderWebsite = function (renderList) {
   renderFavLinksEntries(renderList);
-  renderListEntries(renderList, all_links);
+  // renderListEntries(renderList, all_links);
+  paginateAll(renderList);
   // renderListEntries(renderList, most_links);
   renderMostClicked(renderList);
   renderTags();
+  renderDateTags();
 };
 
 //reset inputow dodawania
@@ -399,6 +471,7 @@ const selectCounterByTag = function (title_el) {
   return counterIndex;
 };
 
+//TODO: zmiana ostatniej daty edycji po skonczeniu edycji, bo nie jest to robione aktualnie
 //FIXME: niestety przewidziany problem pojawil sie - w listach najpierw obsluguje click, potem
 // dblclick, wiec trzeba bedzie dodac kolejny element po prostu zamiast a, ale mi sie nie chce tbh ahhh
 //umozliw edycje i na podstawie countera elementu zapisz to do bazy danych
@@ -580,6 +653,22 @@ const filterByTags = function () {
   return renderList;
 };
 
+const filterByDateTags = function (inputList) {
+  appliedDateTags = [];
+  datetag_checkboxes.forEach((tag) => {
+    if (tag.checked) appliedDateTags.push(tag.value);
+  });
+  let renderList = [];
+  if (appliedDateTags.length === 0) {
+    renderList = inputList;
+  } else {
+    renderList = inputList.filter((cheat) =>
+      appliedDateTags.includes(cheat.dateTag)
+    );
+  }
+  return renderList;
+};
+
 const filterBySearch = function () {
   let searchterm = fav_search.value;
   console.log(searchterm);
@@ -724,11 +813,12 @@ fav_search.addEventListener("input", (e) => {
 filterButton.addEventListener("click", (e) => {
   e.preventDefault();
   // callCreationFunctions(filterByTags());
-  const renderList = filterByTags();
-  renderFavLinksEntries(renderList);
-  renderListEntries(renderList, all_links);
+  let filterRenderList = filterByTags();
+  filterRenderList = filterByDateTags(filterRenderList);
+  renderFavLinksEntries(filterRenderList);
+  renderListEntries(filterRenderList, all_links);
   // renderListEntries(renderList, most_links);
-  renderMostClicked(renderList);
+  renderMostClicked(filterRenderList);
 });
 
 clearButton.addEventListener("click", (e) => {
@@ -765,6 +855,9 @@ const mainFunc = function () {
   createEventListeners();
   selectMostAmount();
   addSortEvents();
+  testButton.addEventListener("click", (e) => {
+    renderDateTags();
+  });
 };
 
 mainFunc();
