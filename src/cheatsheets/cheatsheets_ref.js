@@ -643,7 +643,7 @@ const paginateAll = function (renderList) {
 
 const selectPage = function (e) {
   selected_page = parseInt(e.target.dataset.page);
-  paginateAll(cheatsheets);
+  paginateAll(filterRenderList);
   createEventListeners();
 };
 
@@ -685,15 +685,15 @@ const filterByDateTags = function (inputList) {
   return renderList;
 };
 
-const filterBySearch = function () {
-  let searchterm = fav_search.value;
+const filterBySearch = function (inputList) {
+  let searchterm = fav_search.value.toLowerCase();
   console.log(searchterm);
   let renderList = [];
   //sprawdzanie po skladowych tagow
   let includesTag = 0;
-  cheatsheets.forEach((cheat) => {
+  inputList.forEach((cheat) => {
     cheat.tags.forEach((tag) => {
-      if (tag.includes(searchterm)) {
+      if (tag.toLowerCase().includes(searchterm)) {
         includesTag = 1;
       }
     });
@@ -701,10 +701,10 @@ const filterBySearch = function () {
   //sprawdzanie czy zawiera tag w calosci
   // cheat.tags.includes(searchterm)
 
-  renderList = cheatsheets.filter(
+  renderList = inputList.filter(
     (cheat) =>
-      cheat.title.includes(searchterm) ||
-      cheat.link.includes(searchterm) ||
+      cheat.title.toLowerCase().includes(searchterm) ||
+      cheat.link.toLowerCase().includes(searchterm) ||
       includesTag
   );
   return renderList;
@@ -860,7 +860,7 @@ submit_json.addEventListener("click", (e) => {
 //filtracja
 fav_search.addEventListener("input", (e) => {
   e.preventDefault();
-  callCreationFunctions(filterBySearch());
+  callCreationFunctions(filterBySearch(filterRenderList));
 });
 
 filterButton.addEventListener("click", (e) => {
@@ -868,6 +868,7 @@ filterButton.addEventListener("click", (e) => {
   // callCreationFunctions(filterByTags());
   filterRenderList = filterByTags();
   filterRenderList = filterByDateTags(filterRenderList);
+  filterRenderList = filterBySearch(filterRenderList);
   renderFavLinksEntries(filterRenderList);
   // renderListEntries(filterRenderList, all_links);
   paginateAll(filterRenderList);
@@ -896,7 +897,7 @@ const callCreationFunctions = function (renderList) {
   saveToLocalStorage(cheatsheets, "cheatsheets");
   saveToLocalStorage(tags, "tags");
   renderWebsite(renderList);
-  paginateAll(cheatsheets);
+  paginateAll(renderList);
   createEventListeners();
   collectLinks();
 };
@@ -906,6 +907,7 @@ const mainFunc = function () {
   getFromLocal();
   filterRenderList = filterByTags();
   filterRenderList = filterByDateTags(filterRenderList);
+  filterRenderList = filterBySearch(filterRenderList);
   renderWebsite(cheatsheets);
   paginateAll(cheatsheets);
   createEventListeners();

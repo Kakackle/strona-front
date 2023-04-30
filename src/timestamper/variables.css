@@ -1,0 +1,41 @@
+/* -------------------------------------------------------------------------- */
+/*                          Typography system/scale                           */
+/* -------------------------------------------------------------------------- */
+/*
+ font-size: 0.8rem  1rem  1.25rem 1.5rem  2rem  2.5rem  3rem
+   3.8rem  4.8rem  6rem  7.5rem
+ https://typescale.com/ 1.250
+
+ letter-spacing: ...
+
+ line-heaight: ...
+
+ font-weight: 300, 400, 500, 600, 700
+
+ font-family: 'Inter', sans-serif;
+
+ color-palette: https://www.colorhunt.co/palette/454545ff6000ffa559ffe6c7
+ 
+ gray-main: #454545
+
+ color-main: #FF6000
+
+ https://maketintsandshades.com/#FF6000
+
+ https://ionic.io/ionicons/usage
+*/
+
+:root {
+  --color-main: #ff6000;
+  --color-light: #ffa066;
+  --color-lighter: #ffefe6;
+  --color-dark: #993a00;
+  --color-darker: #190a00;
+  --gray-main: #454545;
+  --gray-dark: #232323;
+  --gray-darker: #0e0e0e;
+  --gray-light: #a2a2a2;
+  --gray-lighter: #ececec;
+
+  --padding-left: 2rem;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timestamper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="variables.css" />
+    <link rel="stylesheet" href="general.css" />
+    <link rel="stylesheet" href="add_section.css" />
+    <link rel="stylesheet" href="stamps_section.css" />
+  </head>
+  <body>
+    <main>
+      <section class="nav-section">NAV SECTION</section>
+      <section class="bread-section">BREAD SECTION</section>
+
+      <section class="head-section">
+        <span class="head1 head-main">MAIN HEAD</span>
+      </section>
+      <section class="add-section">
+        <span class="add-stamp hover"
+          ><ion-icon class="add-icon" name="add-circle-outline"> </ion-icon>ADD
+          A NEW STAMP</span
+        >
+        <span class="add-or">OR</span>
+        <span class="add-cat hover"
+          ><ion-icon
+            class="add-cat-icon add-icon"
+            name="color-wand-outline"
+          ></ion-icon
+          >ADD A NEW CATEGORY</span
+        >
+      </section>
+      <section class="add-drop-stamp">
+        <div class="input-style">
+          <label for="stamp-cat-input">CATEGORY</label>
+          <select name="stamp-cat-input" class="stamp-cat-input">
+            <option value="Programowanie">Programowanie</option>
+            <option value="Majsterkowanie">Majsterkowanie</option>
+            <option value="Gitara">Gitara</option>
+            <option value="Dystrakcje">
+              <ion-icon name="git-branch-outline"></ion-icon>Dystrakcje
+            </option>
+            <option value="Gierki">
+              <ion-icon name="game-controller-outline add-icon"></ion-icon
+              >Gierki
+            </option>
+          </select>
+        </div>
+        <div class="input-style">
+          <label for="stamp-time-input">AT TIME</label>
+          <input type="time" class="stamp-time-input" min="00:00" max="24:00" />
+        </div>
+      </section>
+      <section class="add-drop-cat">
+        <div class="input-style">
+          <label for="cat-name-input"></label>
+          <input
+            type="text"
+            class="cat-name-input"
+            placeholder="CATEGORY NAME"
+          />
+        </div>
+        <div class="cat-grid">
+          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
+          <ion-icon name="game-controller-outline" class="cat-icon"></ion-icon>
+          <ion-icon name="hammer-outline" class="cat-icon"></ion-icon>
+          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
+          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
+          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
+          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
+          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
+          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
+        </div>
+      </section>
+      <section class="stamps-section">
+        <container class="stamps-container">
+          <div class="stamp-div"></div>
+        </container>
+        <container class="side-container"></container>
+      </section>
+    </main>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+</html>

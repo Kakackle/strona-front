@@ -1,0 +1,66 @@
+.add-section {
+  width: 80%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  justify-items: center;
+  align-items: center;
+}
+
+.add-stamp,
+.add-cat {
+  font-size: 2.5rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.add-stamp {
+  color: var(--color-main);
+}
+
+.add-cat {
+  color: var(--gray-light);
+}
+
+.add-or {
+  font-size: 1.25rem;
+  color: var(--gray-light);
+}
+
+.add-drop-stamp {
+  display: flex;
+  gap: 1rem;
+  width: 80%;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.input-style {
+  font-size: 2.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.cat-grid {
+  height: 8rem;
+  width: 8rem;
+  display: grid;
+  grid-gap: 1px;
+  background-color: black;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  border: 1px solid black;
+  border-radius: 5px;
+  align-items: center;
+  justify-items: center;
+}
+
+.cat-icon {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  font-size: 2.5rem;
+  background-color: white;
+}

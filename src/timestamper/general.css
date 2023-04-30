@@ -1,0 +1,43 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 62.5%;
+  font-family: "Rubik", sans-serif;
+}
+
+body {
+  background-color: var(--gray-lighter);
+}
+
+.head1 {
+  font-size: 7.5rem;
+}
+
+.hover:hover {
+  cursor: pointer;
+  filter: brightness(75%);
+}
+
+/* Krotkie sekcje */
+.nav-section {
+  font-size: 7.5rem;
+  height: 7.5rem;
+  display: flex;
+  justify-content: center;
+  color: var(--gray-light);
+}
+
+.bread-section {
+  font-size: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: start;
+  color: var(--gray-light);
+  padding: 0rem var(--padding-left);
+}
+
+.head-section {
+  color: var(--gray-dark);
+  padding: 0rem var(--padding-left);
+}
