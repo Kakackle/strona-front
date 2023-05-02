@@ -1,5 +1,148 @@
+.stamps-section {
+  width: 100%;
+  display: flex;
+  margin: 0 auto;
+  padding: 0rem var(--padding-left);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+/* TODO: clamp values */
+.stamps-container {
+  display: flex;
+  justify-content: center;
+  /* width: clamp(24rem, 70vw, 80rem); */
+  width: max(70vw, 24rem);
+  flex-direction: column;
+  gap: 2rem;
+}
+
 .stamp-div {
-  height: 4rem;
-  width: 80rem;
-  background-color: var(--color-lighter);
+  height: 6rem;
+  width: 90%;
+  background-color: #ff600033;
+  border: 5px solid #ff6000;
+  filter: opacity(90%);
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  position: relative;
+  container-type: size;
+}
+
+.stamp-date {
+  font-size: 2.5rem;
+  color: #ff6000;
+  filter: brightness(75%) opacity(75%);
+  /* filter: opacity(75%); */
+}
+
+.stamp-cat {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--gray-darker);
+}
+.stamp-cat-name {
+  font-size: 2rem;
+}
+
+.stamp-icon {
+  font-size: 2rem;
+}
+
+.stamp-right {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+  gap: 0.2rem;
+  color: var(--gray-darker);
+}
+
+.stamp-div .close-button {
+  filter: opacity(50%);
+  font-size: 1.5rem;
+}
+
+.stamp-date-separator {
+  position: absolute;
+  top: -3rem;
+  left: -0rem;
+  font-size: 1.5rem;
+  width: 100%;
+  border-bottom: 2px dashed var(--gray-light);
+}
+
+@container (max-width: 45rem) {
+  .stamp-right {
+    display: none;
+  }
+}
+
+@container (max-width: 40rem) {
+  span {
+    font-size: 1.25rem;
+  }
+}
+
+.stamp-pagination {
+  width: 90%;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  padding: 0 2rem;
+}
+
+.page {
+  font-size: 2rem;
+}
+
+.curr-page {
+  font-weight: 600;
+}
+
+.side-container {
+  display: flex;
+  /* width: clamp(12rem, 30vw, 30rem); */
+  justify-content: center;
+  width: max(30vw, 12rem);
+  flex-direction: column;
+}
+
+.filter-container {
+  width: 100%;
+  background-color: var(--gray-lighter);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.filter-checkboxes {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 0.5rem;
+}
+
+.checkboxes-title {
+  font-size: 1.5rem;
+  color: var(--gray-light);
+}
+
+.checkbox-style {
+  justify-content: start;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.side-cat-container {
+  width: 100%;
+  background-color: var(--gray-lighter);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
 }

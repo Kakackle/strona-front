@@ -1,10 +1,14 @@
+/* TODO: wiecej whitespace sekcji dodawania*/
+/* TODO: grid, uklad */
 .add-section {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 1fr 2fr;
+  grid-template-columns: 3fr 1fr 3fr;
+  padding: 2rem 0;
   justify-items: center;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .add-stamp,
@@ -28,12 +32,18 @@
   color: var(--gray-light);
 }
 
-.add-drop-stamp {
-  display: flex;
-  gap: 1rem;
-  width: 80%;
+.add-drop-stamp,
+.add-drop-cat {
+  display: none;
+  gap: 2.5rem;
+  width: 100%;
   margin: 0 auto;
   justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+  background-color: var(--gray-lighter);
+  position: relative;
+  margin-bottom: 1rem;
 }
 
 .input-style {
@@ -41,20 +51,46 @@
   display: flex;
   gap: 1rem;
   align-items: center;
+  justify-content: center;
+}
+
+.input-style-small {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cat-input-left {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: left; */
+  align-items: start;
+  gap: 1rem;
+}
+
+.cat-name-input {
+  width: 15rem;
+}
+
+.cat-input-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .cat-grid {
-  height: 8rem;
-  width: 8rem;
+  height: calc((2.5rem * 6) + 1rem);
+  width: calc((2.5rem * 6) + 1rem);
   display: grid;
   grid-gap: 1px;
-  background-color: black;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  border: 1px solid black;
-  border-radius: 5px;
+  background-color: var(--gray-lighter);
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  border: 2px solid var(--gray-light);
   align-items: center;
   justify-items: center;
+  overflow: auto;
 }
 
 .cat-icon {

@@ -6,8 +6,10 @@
   font-family: "Rubik", sans-serif;
 }
 
+/* Klasy ogolne */
+
 body {
-  background-color: var(--gray-lighter);
+  background-color: white;
 }
 
 .head1 {
@@ -16,7 +18,26 @@ body {
 
 .hover:hover {
   cursor: pointer;
-  filter: brightness(75%);
+  filter: brightness(50%);
+}
+
+.hidden {
+  display: none;
+}
+
+.round-button {
+  font-size: 4rem;
+  border: none;
+  border-radius: 50%;
+  color: var(--gray-dark);
+}
+
+.close-button {
+  font-size: 2rem;
+  color: var(--gray-main);
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
 }
 
 /* Krotkie sekcje */
@@ -40,4 +61,5 @@ body {
 .head-section {
   color: var(--gray-dark);
   padding: 0rem var(--padding-left);
+  margin-bottom: 1rem;
 }

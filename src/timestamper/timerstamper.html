@@ -15,12 +15,19 @@
     <link rel="stylesheet" href="general.css" />
     <link rel="stylesheet" href="add_section.css" />
     <link rel="stylesheet" href="stamps_section.css" />
+    <link rel="stylesheet" href="graph_section.css" />
   </head>
   <body>
     <main>
       <section class="nav-section">NAV SECTION</section>
       <section class="bread-section">BREAD SECTION</section>
-
+      <!-- TODO: template stampow i wstawic kilka-->
+      <!-- TODO: uklad sekcji add-stamp -->
+      <!-- TODO: uklad sekcji add-cat -->
+      <!-- TODO: podzial stamps-section na main i side -->
+      <!-- TODO: realizacja side -->
+      <!-- TODO: wiecej ikon do wyboru i datasety -->
+      <!-- TODO: przyciski zamykania, dodawanie etc -->
       <section class="head-section">
         <span class="head1 head-main">MAIN HEAD</span>
       </section>
@@ -38,7 +45,7 @@
           >ADD A NEW CATEGORY</span
         >
       </section>
-      <section class="add-drop-stamp">
+      <section class="add-drop-stamp hidden">
         <div class="input-style">
           <label for="stamp-cat-input">CATEGORY</label>
           <select name="stamp-cat-input" class="stamp-cat-input">
@@ -58,33 +65,284 @@
           <label for="stamp-time-input">AT TIME</label>
           <input type="time" class="stamp-time-input" min="00:00" max="24:00" />
         </div>
+        <ion-icon
+          class="round-button submit-stamp-button hover"
+          name="arrow-forward-circle-outline"
+        ></ion-icon>
+        <ion-icon
+          name="close-outline"
+          class="close-button close-stamp-drop hover"
+        ></ion-icon>
       </section>
-      <section class="add-drop-cat">
-        <div class="input-style">
-          <label for="cat-name-input"></label>
-          <input
-            type="text"
-            class="cat-name-input"
-            placeholder="CATEGORY NAME"
-          />
+      <section class="add-drop-cat hidden">
+        <div class="cat-input-left">
+          <div class="input-style">
+            <label for="cat-name-input">CHOOSE A NAME:</label>
+            <input
+              type="text"
+              class="cat-name-input"
+              placeholder="PROGRAMMING"
+            />
+          </div>
+          <div class="input-style">
+            <label for="cat-color-input">A COLOR:</label>
+            <input type="color" class="cat-color-input" value="#f6b73c" />
+          </div>
         </div>
-        <div class="cat-grid">
-          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
-          <ion-icon name="game-controller-outline" class="cat-icon"></ion-icon>
-          <ion-icon name="hammer-outline" class="cat-icon"></ion-icon>
-          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
-          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
-          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
-          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
-          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
-          <ion-icon name="git-branch-outline" class="cat-icon"></ion-icon>
+        <div class="cat-input-right">
+          <p class="input-style-small">AND AN ICON:</p>
+          <div class="cat-grid">
+            <ion-icon
+              name="git-branch-outline"
+              class="cat-icon hover"
+            ></ion-icon>
+            <ion-icon
+              name="game-controller-outline"
+              class="cat-icon hover"
+            ></ion-icon>
+            <ion-icon name="hammer-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon
+              name="accessibility-outline"
+              class="cat-icon hover"
+            ></ion-icon>
+            <ion-icon name="airplane-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="bag-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="balloon-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="beer-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="bicycle-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="brush-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="build-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="bulb-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="business-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="cafe-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="car-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="call-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="cash-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon
+              name="chatbubbles-outline"
+              class="cat-icon hover"
+            ></ion-icon>
+            <ion-icon name="disc-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="dice-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="earth-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="flask-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="globe-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="home-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="pizza-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="prism-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="reader-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="rocket-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="search-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="school-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon name="shapes-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon
+              name="speedometer-outline"
+              class="cat-icon hover"
+            ></ion-icon>
+            <ion-icon
+              name="stats-chart-outline"
+              class="cat-icon hover"
+            ></ion-icon>
+            <ion-icon
+              name="tennisball-outline"
+              class="cat-icon hover"
+            ></ion-icon>
+            <ion-icon name="rose-outline" class="cat-icon hover"></ion-icon>
+            <ion-icon
+              name="paper-plane-outline"
+              class="cat-icon hover"
+            ></ion-icon>
+          </div>
         </div>
+        <ion-icon
+          class="round-button submit-cat-button hover"
+          name="arrow-forward-circle-outline"
+        ></ion-icon>
+        <ion-icon
+          name="close-outline"
+          class="close-button close-cat-drop hover"
+        ></ion-icon>
       </section>
       <section class="stamps-section">
         <container class="stamps-container">
-          <div class="stamp-div"></div>
+          <div class="stamp-div">
+            <span class="stamp-date">02.05.2023</span>
+            <div class="stamp-cat">
+              <span
+                ><ion-icon
+                  name="beer-outline"
+                  class="stamp-icon hover"
+                ></ion-icon
+              ></span>
+              <span class="stamp-cat-name">CATEGORY1</span>
+            </div>
+            <div class="stamp-right">
+              <span class="stamp-interval">TIME SINCE LAST STAMP:</span>
+              <span class="stamp-interval-time">12:08:35</span>
+              <span class="stamp-today">TIMES TODAY: 3</span>
+            </div>
+            <ion-icon
+              name="trash-outline"
+              class="close-button close-stamp hover"
+            ></ion-icon>
+            <span class="stamp-date-separator">02.05.2023</span>
+          </div>
+          <div class="stamp-div">
+            <div class="stamp-date">02.05.2023</div>
+            <div class="stamp-cat">
+              <ion-icon name="beer-outline" class="stamp-icon hover"></ion-icon>
+              <span class="stamp-cat-name">CATEGORY1</span>
+            </div>
+            <div class="stamp-right">
+              <span class="stamp-interval">TIME SINCE LAST STAMP:</span>
+              <span class="stamp-interval-time">12:08:35</span>
+              <span class="stamp-today">TIMES TODAY: 3</span>
+            </div>
+            <ion-icon
+              name="trash-outline"
+              class="close-button close-stamp hover"
+            ></ion-icon>
+          </div>
+          <div class="stamp-div">
+            <div class="stamp-date">02.05.2023</div>
+            <div class="stamp-cat">
+              <ion-icon name="beer-outline" class="stamp-icon hover"></ion-icon>
+              <span class="stamp-cat-name">CATEGORY1</span>
+            </div>
+            <div class="stamp-right">
+              <span class="stamp-interval">TIME SINCE LAST STAMP:</span>
+              <span class="stamp-interval-time">12:08:35</span>
+              <span class="stamp-today">TIMES TODAY: 3</span>
+            </div>
+            <ion-icon
+              name="trash-outline"
+              class="close-button close-stamp hover"
+            ></ion-icon>
+          </div>
+          <div class="stamp-pagination">
+            <p class="page curr-page">1</p>
+            <p class="page">2</p>
+            <p class="page">3</p>
+            <p class="page">...</p>
+            <p class="page">N</p>
+          </div>
         </container>
-        <container class="side-container"></container>
+        <container class="side-container">
+          <container class="filter-container">
+            <div class="filter-checkboxes">
+              <span class="checkboxes-title">CATEGORIES:</span>
+              <div class="checkbox-style">
+                <input type="checkbox" class="cat-filter" />
+                <label for="cat-filter">CATEGORY1</label>
+              </div>
+              <div class="checkbox-style">
+                <input type="checkbox" class="cat-filter" />
+                <label for="cat-filter">CATEGORY2</label>
+              </div>
+              <div class="checkbox-style">
+                <input type="checkbox" class="cat-filter" />
+                <label for="cat-filter">CATEGORY3</label>
+              </div>
+            </div>
+          </container>
+          <containter class="side-cat-container">
+            <div class="input-style">
+              <label for="cat-name-input">CHOOSE A NAME:</label>
+              <input
+                type="text"
+                class="cat-name-input"
+                placeholder="PROGRAMMING"
+              />
+            </div>
+            <div class="input-style">
+              <label for="cat-color-input">A COLOR:</label>
+              <input type="color" class="cat-color-input" value="#f6b73c" />
+            </div>
+            <p class="input-style-small">AND AN ICON:</p>
+            <div class="cat-grid">
+              <ion-icon
+                name="git-branch-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon
+                name="game-controller-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon name="hammer-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon
+                name="accessibility-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon
+                name="airplane-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon name="bag-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon
+                name="balloon-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon name="beer-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon
+                name="bicycle-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon name="brush-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="build-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="bulb-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon
+                name="business-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon name="cafe-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="car-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="call-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="cash-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon
+                name="chatbubbles-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon name="disc-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="dice-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="earth-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="flask-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="globe-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="home-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="pizza-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="prism-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="reader-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="rocket-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="search-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="school-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon name="shapes-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon
+                name="speedometer-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon
+                name="stats-chart-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon
+                name="tennisball-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+              <ion-icon name="rose-outline" class="cat-icon hover"></ion-icon>
+              <ion-icon
+                name="paper-plane-outline"
+                class="cat-icon hover"
+              ></ion-icon>
+            </div>
+            <ion-icon
+              class="round-button submit-cat-button hover"
+              name="arrow-forward-circle-outline"
+            ></ion-icon>
+            <!-- TODO: klasy rozne? dla dwoch miejsc dodawania kategorii? -->
+          </containter>
+        </container>
+      </section>
+      <section class="graph-section">
+        <p>CONTENT</p>
       </section>
     </main>
     <script
@@ -95,5 +353,6 @@
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
+    <script src="timestamper.js"></script>
   </body>
 </html>
