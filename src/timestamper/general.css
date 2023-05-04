@@ -62,4 +62,28 @@ body {
   color: var(--gray-dark);
   padding: 0rem var(--padding-left);
   margin-bottom: 1rem;
+  position: relative;
+}
+
+.test-button {
+  position: absolute;
+  right: 1rem;
+  font-size: 1.25rem;
+  color: var(--gray-light);
+}
+.get-local {
+  top: 0rem;
+}
+.clear-local {
+  top: 1.25rem;
+}
+.debug {
+  top: 2.5rem;
+}
+.test {
+  top: 3.75rem;
+}
+
+.test-items {
+  top: 5rem;
 }

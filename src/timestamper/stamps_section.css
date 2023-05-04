@@ -6,14 +6,14 @@
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
-/* TODO: clamp values */
+
 .stamps-container {
   display: flex;
-  justify-content: center;
+  align-items: center;
   /* width: clamp(24rem, 70vw, 80rem); */
   width: max(70vw, 24rem);
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .stamp-div {
@@ -31,11 +31,22 @@
   container-type: size;
 }
 
-.stamp-date {
-  font-size: 2.5rem;
+.stamp-date,
+.stamp-hour {
+  font-size: 2rem;
+  white-space: pre-line;
   color: #ff6000;
   filter: brightness(75%) opacity(75%);
   /* filter: opacity(75%); */
+}
+
+.date-separator {
+  margin-top: 1.5rem;
+}
+
+.stamp-left {
+  display: flex;
+  flex-direction: column;
 }
 
 .stamp-cat {
@@ -80,8 +91,10 @@
   }
 }
 
-@container (max-width: 40rem) {
-  span {
+@container (max-width: 30rem) {
+  .stamp-date,
+  .stamp-cat,
+  .stamp-cat-name {
     font-size: 1.25rem;
   }
 }
@@ -92,9 +105,11 @@
   gap: 0.75rem;
   justify-content: center;
   padding: 0 2rem;
+  align-items: center;
 }
 
-.page {
+.page,
+.page-dots {
   font-size: 2rem;
 }
 
@@ -108,6 +123,7 @@
   justify-content: center;
   width: max(30vw, 12rem);
   flex-direction: column;
+  position: relative;
 }
 
 .filter-container {
@@ -116,6 +132,15 @@
   display: flex;
   flex-direction: column;
   padding: 2rem;
+  gap: 1rem;
+}
+
+.search-div {
+  color: var(--gray-main);
+}
+
+.search-input {
+  width: 12rem;
 }
 
 .filter-checkboxes {
@@ -145,4 +170,6 @@
   display: flex;
   flex-direction: column;
   padding: 2rem;
+  align-items: start;
+  gap: 0.5rem;
 }

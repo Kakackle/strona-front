@@ -1,5 +1,3 @@
-/* TODO: wiecej whitespace sekcji dodawania*/
-/* TODO: grid, uklad */
 .add-section {
   width: 100%;
   margin: 0 auto;
@@ -49,9 +47,10 @@
 .input-style {
   font-size: 2.5rem;
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .input-style-small {
@@ -69,7 +68,8 @@
   gap: 1rem;
 }
 
-.cat-name-input {
+.cat-name-input,
+.cat-name-input-side {
   width: 15rem;
 }
 
@@ -79,9 +79,10 @@
   gap: 1rem;
 }
 
-.cat-grid {
+.cat-grid,
+.cat-grid-side {
   height: calc((2.5rem * 6) + 1rem);
-  width: calc((2.5rem * 6) + 1rem);
+  max-width: calc((2.5rem * 6) + 1rem);
   display: grid;
   grid-gap: 1px;
   background-color: var(--gray-lighter);

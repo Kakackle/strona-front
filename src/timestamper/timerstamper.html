@@ -21,15 +21,13 @@
     <main>
       <section class="nav-section">NAV SECTION</section>
       <section class="bread-section">BREAD SECTION</section>
-      <!-- TODO: template stampow i wstawic kilka-->
-      <!-- TODO: uklad sekcji add-stamp -->
-      <!-- TODO: uklad sekcji add-cat -->
-      <!-- TODO: podzial stamps-section na main i side -->
-      <!-- TODO: realizacja side -->
-      <!-- TODO: wiecej ikon do wyboru i datasety -->
-      <!-- TODO: przyciski zamykania, dodawanie etc -->
       <section class="head-section">
         <span class="head1 head-main">MAIN HEAD</span>
+        <span class="test-button get-local hover">Get from local</span>
+        <span class="test-button clear-local hover">Clear local</span>
+        <span class="test-button debug hover">Debug button</span>
+        <span class="test-button test hover">Test button</span>
+        <span class="test-button test-items hover">Get test items</span>
       </section>
       <section class="add-section">
         <span class="add-stamp hover"
@@ -86,7 +84,19 @@
           </div>
           <div class="input-style">
             <label for="cat-color-input">A COLOR:</label>
-            <input type="color" class="cat-color-input" value="#f6b73c" />
+            <input
+              type="color"
+              class="cat-color-input"
+              value="#f6b73c"
+              list="color-datalist"
+            />
+            <datalist id="color-datalist">
+              <option value="#FF6000">#FF6000</option>
+              <option value="#EE2677">#EE2677</option>
+              <option value="#80D39B">#80D39B</option>
+              <option value="#6CBEED">#6CBEED</option>
+              <option value="#EDDEA4">#EDDEA4</option>
+            </datalist>
           </div>
         </div>
         <div class="cat-input-right">
@@ -166,7 +176,35 @@
       <section class="stamps-section">
         <container class="stamps-container">
           <div class="stamp-div">
-            <span class="stamp-date">02.05.2023</span>
+            <div class="stamp-left">
+              <span class="stamp-date">03.05.2023</span>
+              <span class="stamp-hour">8:07:09</span>
+            </div>
+            <div class="stamp-cat">
+              <span
+                ><ion-icon
+                  name="beer-outline"
+                  class="stamp-icon hover"
+                ></ion-icon
+              ></span>
+              <span class="stamp-cat-name">CATEGORY1</span>
+            </div>
+            <div class="stamp-right">
+              <span class="stamp-interval">TIME SINCE LAST STAMP:</span>
+              <span class="stamp-interval-time">12:08:35</span>
+              <span class="stamp-today">TIMES TODAY: 3</span>
+            </div>
+            <ion-icon
+              name="trash-outline"
+              class="close-button close-stamp hover"
+            ></ion-icon>
+            <span class="stamp-date-separator">03.05.2023</span>
+          </div>
+          <div class="stamp-div">
+            <div class="stamp-left">
+              <span class="stamp-date">02.05.2023</span>
+              <span class="stamp-hour">14:40:50</span>
+            </div>
             <div class="stamp-cat">
               <span
                 ><ion-icon
@@ -188,9 +226,17 @@
             <span class="stamp-date-separator">02.05.2023</span>
           </div>
           <div class="stamp-div">
-            <div class="stamp-date">02.05.2023</div>
+            <div class="stamp-left">
+              <span class="stamp-date">02.05.2023</span>
+              <span class="stamp-hour">14:40:50</span>
+            </div>
             <div class="stamp-cat">
-              <ion-icon name="beer-outline" class="stamp-icon hover"></ion-icon>
+              <span
+                ><ion-icon
+                  name="beer-outline"
+                  class="stamp-icon hover"
+                ></ion-icon
+              ></span>
               <span class="stamp-cat-name">CATEGORY1</span>
             </div>
             <div class="stamp-right">
@@ -204,9 +250,17 @@
             ></ion-icon>
           </div>
           <div class="stamp-div">
-            <div class="stamp-date">02.05.2023</div>
+            <div class="stamp-left">
+              <span class="stamp-date">02.05.2023</span>
+              <span class="stamp-hour">14:40:50</span>
+            </div>
             <div class="stamp-cat">
-              <ion-icon name="beer-outline" class="stamp-icon hover"></ion-icon>
+              <span
+                ><ion-icon
+                  name="beer-outline"
+                  class="stamp-icon hover"
+                ></ion-icon
+              ></span>
               <span class="stamp-cat-name">CATEGORY1</span>
             </div>
             <div class="stamp-right">
@@ -220,15 +274,23 @@
             ></ion-icon>
           </div>
           <div class="stamp-pagination">
-            <p class="page curr-page">1</p>
-            <p class="page">2</p>
-            <p class="page">3</p>
+            <p class="page curr-page hover">1</p>
+            <p class="page hover">2</p>
+            <p class="page hover">3</p>
             <p class="page">...</p>
-            <p class="page">N</p>
+            <p class="page hover">N</p>
           </div>
         </container>
+        <!-- TODO: w side containerze dodac mozliwosc edytowania kategorii
+        np poprzez wyswietlanie jakiejs listy z przyciskiem "edytuj"
+        i potem na absolute dropdownie wyswietlac opcje typu "ustaw nowa nazwe",
+        nowa ikona, kolor itd -->
         <container class="side-container">
           <container class="filter-container">
+            <div class="search-div input-style">
+              <label for="search-input">FILTER:</label>
+              <input type="search" class="search-input" placeholder="value" />
+            </div>
             <div class="filter-checkboxes">
               <span class="checkboxes-title">CATEGORIES:</span>
               <div class="checkbox-style">
@@ -250,16 +312,21 @@
               <label for="cat-name-input">CHOOSE A NAME:</label>
               <input
                 type="text"
-                class="cat-name-input"
+                class="cat-name-input-side"
                 placeholder="PROGRAMMING"
               />
             </div>
             <div class="input-style">
-              <label for="cat-color-input">A COLOR:</label>
-              <input type="color" class="cat-color-input" value="#f6b73c" />
+              <label for="cat-color-input-side">A COLOR:</label>
+              <input
+                type="color"
+                class="cat-color-input"
+                value="#f6b73c"
+                list="color-datalist"
+              />
             </div>
             <p class="input-style-small">AND AN ICON:</p>
-            <div class="cat-grid">
+            <div class="cat-grid-side">
               <ion-icon
                 name="git-branch-outline"
                 class="cat-icon hover"
@@ -337,7 +404,6 @@
               class="round-button submit-cat-button hover"
               name="arrow-forward-circle-outline"
             ></ion-icon>
-            <!-- TODO: klasy rozne? dla dwoch miejsc dodawania kategorii? -->
           </containter>
         </container>
       </section>
@@ -353,6 +419,6 @@
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
-    <script src="timestamper.js"></script>
+    <script type="module" src="timestamper.js"></script>
   </body>
 </html>
