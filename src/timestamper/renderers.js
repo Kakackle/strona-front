@@ -16,8 +16,6 @@ const renderCheckboxes = function (table, container, name) {
   });
   container.innerHTML = renderTemplate;
 };
-//FIXME: podczas brania test objects, renderuje te same kategorie wiele razy
-// - czyzby set nie dzialal z obiektami? na to wyglada
 
 /**
  * Funkcja do renderu podanej tablicy timestamps (najpewniej po filtracji) z paginacja\
@@ -35,7 +33,6 @@ const paginateTimestamps = function (
   amount,
   selected_page
 ) {
-  //FIXME: nie renderuje cyferek paginacji
   //render Stron paginacji
   page_container = document.createElement("div");
   page_container.classList.add("stamp-pagination");

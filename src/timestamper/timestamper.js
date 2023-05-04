@@ -3,6 +3,7 @@
 //zamkniecia parenta targetu
 //gdzie koniecznie targetu zeby zamykalo tylko jeden a nie wiele? - maybe
 
+//TODO: !WAZNE! szczegolnie w tym pliku - nie wszystkie funkcje udokumentowane dobrze
 import {
   Category,
   Stamp,
@@ -38,6 +39,7 @@ let icons = []; //TODO: chodzilo zeby gdyby grid ikon byl renderowany dynamiczni
 //FIXME: brzydkie takie globalne przechowywanie ale poki co
 let selectedIcon = "";
 let selected_page = 1;
+let pagination_amount = 10;
 
 /* -------------------------------------------------------------------------- */
 /*                                   buttons                                  */
@@ -84,7 +86,6 @@ let pages = document.querySelectorAll(".page");
 let checkboxes = document.querySelectorAll(".cat-filter");
 const search_input = document.querySelector(".search-input");
 
-//TODO: side container
 const getIcon = function (e) {
   selectedIcon = e.target.getAttribute("name");
   cat_icons.forEach((icon) => {
@@ -93,11 +94,6 @@ const getIcon = function (e) {
   e.target.style.backgroundColor = "#a2a2a2";
 };
 
-cat_icons.forEach((icon) => {
-  icon.addEventListener("click", (e) => {
-    getIcon(e);
-  });
-});
 /**
  * funkcja tworzy nowa kategorie na podstawie inputow ze strony i dodaje do setu
  */
@@ -106,21 +102,28 @@ const addNewCategory = function () {
   const icon = selectedIcon;
   const color = cat_color_input.value;
   const newCat = createNewCategory(name, icon, color);
-  categories.add(newCat);
-  renderCheckboxes(categories, filter_checkboxes, "CATEGORIES");
-  renderCatOptions(categories, stamp_cat_input);
-  //Setu nie mozna JSON.stringify, tylko array
-  const categoriesArray = Array.from(categories);
-  saveToLocalStorage(categoriesArray, "categories");
-  checkboxes = document.querySelectorAll(".cat-filter");
-  createCheckboxEvents();
+  //TODO: sprawdzenie unikalnosci tworzonej kategorii, po nazwie bo chuj
+  //ale mozna by to jakos upieknic
+  let createCat = 1;
+  Array.from(categories).forEach((cat) => {
+    if (newCat.name === cat.name) {
+      alert(
+        `category with ${cat.name} already exists, new category not created`
+      );
+      createCat = 0;
+    }
+  });
+  if (createCat) {
+    categories.add(newCat);
+    renderCheckboxes(categories, filter_checkboxes, "CATEGORIES");
+    renderCatOptions(categories, stamp_cat_input);
+    //Setu nie mozna JSON.stringify, tylko array
+    const categoriesArray = Array.from(categories);
+    saveToLocalStorage(categoriesArray, "categories");
+    checkboxes = document.querySelectorAll(".cat-filter");
+    createCheckboxEvents();
+  }
 };
-
-submit_cat_button.addEventListener("click", (e) => {
-  e.preventDefault();
-  addNewCategory();
-  add_drop_cat.style.display = "none";
-});
 
 const addNewTimestamp = function () {
   const cat_input = stamp_cat_input.value;
@@ -135,21 +138,8 @@ const addNewTimestamp = function () {
   const dateStamp = new Date();
   const newStamp = createNewStamp(cat, dateStamp, timestamps);
   timestamps.unshift(newStamp);
-  paginateTimestamps(
-    timestamps,
-    stamps_container,
-    stamp_pagination,
-    10,
-    selected_page
-  );
-  createPageEvents();
+  renderWebsite();
 };
-
-submit_stamp_button.addEventListener("click", (e) => {
-  e.preventDefault();
-  addNewTimestamp();
-  add_drop_stamp.style.display = "none";
-});
 
 /**
  * Funkcja do zapisu danych do localStorage
@@ -169,10 +159,6 @@ const getFromLocalStorage = function () {
   else categories = new Set();
 };
 
-get_local_button.addEventListener("click", (e) => {
-  getFromLocalStorage();
-});
-
 const clearLocalStorage = function () {
   localStorage.clear();
   //also clear website
@@ -180,38 +166,16 @@ const clearLocalStorage = function () {
   renderStamps = [];
   categories = new Set();
   renderCheckboxes(categories, filter_checkboxes, "CATEGORIES:");
-  paginateTimestamps(
-    renderStamps,
-    stamps_container,
-    stamp_pagination,
-    15,
-    selected_page
-  );
+  renderWebsite();
   renderCatOptions(categories, stamp_cat_input);
 };
 
-clear_local_button.addEventListener("click", (e) => {
-  clearLocalStorage();
-});
-
 const testFunction = function () {};
-
-test_button.addEventListener("click", (e) => {
-  testFunction();
-});
 
 const debugFunction = function () {
   console.log(`timestamps: ${timestamps}`);
   console.log(`categories: ${categories}`);
 };
-
-test_button.addEventListener("click", (e) => {
-  testFunction();
-});
-
-debug_button.addEventListener("click", (e) => {
-  debugFunction();
-});
 
 const createTestItems = function () {
   const newCat1 = createNewCategory(
@@ -255,43 +219,35 @@ const createTestItems = function () {
   );
   timestamps.unshift(newStamp1);
 
-  paginateTimestamps(
-    timestamps,
-    stamps_container,
-    stamp_pagination,
-    10,
-    selected_page
-  );
+  renderWebsite();
   checkboxes = document.querySelectorAll(".cat-filter");
-  createCheckboxEvents();
-  createPageEvents();
+  createEventListeners();
 };
-
-test_items_button.addEventListener("click", (e) => {
-  createTestItems();
-});
 
 /* -------------------------------------------------------------------------- */
 /*                           main funkcja - on load                           */
 /* -------------------------------------------------------------------------- */
 const mainFunction = function () {
   getFromLocalStorage();
+  renderStamps = timestamps;
   renderCheckboxes(categories, filter_checkboxes, "CATEGORIES:");
   renderCatOptions(categories, stamp_cat_input);
-  paginateTimestamps(
-    timestamps,
-    stamps_container,
-    stamp_pagination,
-    10,
-    selected_page
-  );
-  createCheckboxEvents();
-  createPageEvents();
-  renderStamps = timestamps;
+  renderWebsite();
   createEventListeners();
 };
 
 mainFunction();
+
+function renderWebsite() {
+  paginateTimestamps(
+    renderStamps,
+    stamps_container,
+    stamp_pagination,
+    pagination_amount,
+    selected_page
+  );
+  createPageEvents();
+}
 
 function createCheckboxEvents() {
   checkboxes.forEach((check) => {
@@ -299,29 +255,10 @@ function createCheckboxEvents() {
       e.preventDefault();
       // renderStamps = filterByCategory(timestamps, checkboxes);
       renderStamps = applyFilters(timestamps, checkboxes, search_input);
-      paginateTimestamps(
-        renderStamps,
-        stamps_container,
-        stamp_pagination,
-        10,
-        selected_page
-      );
-      createPageEvents();
+      renderWebsite();
     });
   });
 }
-
-search_input.addEventListener("input", (e) => {
-  renderStamps = applyFilters(timestamps, checkboxes, search_input);
-  paginateTimestamps(
-    renderStamps,
-    stamps_container,
-    stamp_pagination,
-    10,
-    selected_page
-  );
-  createPageEvents();
-});
 
 function createPageEvents() {
   pages = document.querySelectorAll(".page");
@@ -333,39 +270,64 @@ function createPageEvents() {
   });
 }
 
-function renderWebsite() {
-  paginateTimestamps(
-    renderStamps,
-    stamps_container,
-    stamp_pagination,
-    10,
-    selected_page
-  );
-  pages = document.querySelectorAll(".page");
-  pages.forEach((page) => {
-    page.addEventListener("click", (e) => {
-      selected_page = parseInt(e.target.dataset.page);
-      renderWebsite();
-    });
+add_stamp_button.addEventListener("click", (e) => {
+  add_drop_stamp.style.display = "flex";
+});
+close_stamp_drop_button.addEventListener("click", (e) => {
+  add_drop_stamp.style.display = "none";
+});
+add_cat_button.addEventListener("click", (e) => {
+  add_drop_cat.style.display = "flex";
+});
+close_cat_drop_button.addEventListener("click", (e) => {
+  add_drop_cat.style.display = "none";
+});
+//////////////////////
+cat_icons.forEach((icon) => {
+  icon.addEventListener("click", (e) => {
+    getIcon(e);
   });
-}
+});
+//////////////////////
+submit_cat_button.addEventListener("click", (e) => {
+  e.preventDefault();
+  addNewCategory();
+  add_drop_cat.style.display = "none";
+});
+submit_stamp_button.addEventListener("click", (e) => {
+  e.preventDefault();
+  addNewTimestamp();
+  add_drop_stamp.style.display = "none";
+});
+/////////////////////
+get_local_button.addEventListener("click", (e) => {
+  getFromLocalStorage();
+});
+clear_local_button.addEventListener("click", (e) => {
+  clearLocalStorage();
+});
+test_button.addEventListener("click", (e) => {
+  testFunction();
+});
+test_button.addEventListener("click", (e) => {
+  testFunction();
+});
 
-//TODO: refactor renderu i eventlisteners etc
-//przy kazdym renderze timestamps z paginacja, dodawalo eventlistenery
-//przy kazdym renderze boxow tak samo odpowiednie rendedy
-//i kiedy potrzeba wszystkiego to tez pod jedna funkcja
+debug_button.addEventListener("click", (e) => {
+  debugFunction();
+});
+test_items_button.addEventListener("click", (e) => {
+  createTestItems();
+  createEventListeners();
+});
+////////////////////
+search_input.addEventListener("input", (e) => {
+  renderStamps = applyFilters(timestamps, checkboxes, search_input);
+  renderWebsite();
+});
 
 function createEventListeners() {
-  add_stamp_button.addEventListener("click", (e) => {
-    add_drop_stamp.style.display = "flex";
-  });
-  close_stamp_drop_button.addEventListener("click", (e) => {
-    add_drop_stamp.style.display = "none";
-  });
-  add_cat_button.addEventListener("click", (e) => {
-    add_drop_cat.style.display = "flex";
-  });
-  close_cat_drop_button.addEventListener("click", (e) => {
-    add_drop_cat.style.display = "none";
-  });
+  ////////////////////
+  createCheckboxEvents();
+  createPageEvents();
 }
