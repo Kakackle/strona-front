@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: Title of the tut</title>
+    <title>JSDoc: Source: timestamper/filters.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,38 +17,80 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: Title of the tut</h1>
+    <h1 class="page-title">Source: timestamper/filters.js</h1>
 
-    <section>
-
-<header>
     
 
-    <h2>Title of the tut</h2>
-</header>
 
-<article>
-    <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tutorial page test</title>
-  </head>
-  <body>
-    <p>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus
-      minus itaque esse exercitationem labore laborum, hic quia! Perferendis
-      exercitationem nulla ratione a quisquam aliquid, deleniti quaerat. Ea
-      consequuntur dicta illum.
-    </p>
-  </body>
-</html>
 
-</article>
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* -------------------------------------------------------------------------- */
+/*                        Plik z funkcjami filtrujacymi                       */
+/* -------------------------------------------------------------------------- */
+/**
+ * @file filters.js - funkcje filtrujace listy, domyslnie pod timestamps.js
+ * @author MM
+ */
 
-</section>
+/**
+ * Filter by list of categories (eg. from checkboxes)
+ * @param {Array} unfiltered - input list
+ * @param {Array} checkboxes - all DOM checkbox elements
+ */
+const filterByCategory = function (unfiltered, checkboxes) {
+  let appliedFilters = [];
+  checkboxes.forEach((box) => {
+    if (box.checked) appliedFilters.push(box.value);
+  });
+  let filtered = [];
+  if (appliedFilters.length === 0) {
+    filtered = unfiltered;
+  } else {
+    filtered = unfiltered.filter((stamp) => {
+      return appliedFilters.includes(stamp.category.name);
+    });
+  }
+  return filtered;
+};
+
+const filterBySearch = function (unfiltered, queryEl) {
+  let query = queryEl.value;
+  let filtered = [];
+  if (!query) {
+    filtered = unfiltered;
+  } else {
+    filtered = unfiltered.filter((stamp) =>
+      stamp.category.name.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+  return filtered;
+};
+
+/**
+ * Funkcja dostajaca liste do filtracji oraz container zawierajacy checkboxy i element input,
+ * aplikuje dwie operacje filtracji - po checkboxach i z searchbaru
+ * wywolywana przy zmianie w elementach
+ * @param {*} unfiltered - input list, always full list
+ * @param {*} checkboxes - list of checkbox DOM elements
+ * @param {*} queryEl - filter query DOM element (input)
+ * @returns {Array} array of filtered objects
+ */
+const applyFilters = function (unfiltered, checkboxes, queryEl) {
+  let filtered = [];
+  filtered = filterByCategory(unfiltered, checkboxes);
+  filtered = filterBySearch(filtered, queryEl);
+  return filtered;
+};
+
+export { filterByCategory, filterBySearch, applyFilters };
+</code></pre>
+        </article>
+    </section>
+
+
+
 
 </div>
 

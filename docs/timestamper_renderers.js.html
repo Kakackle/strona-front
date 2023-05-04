@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: timestamper/renderers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: timestamper/renderers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * funkcja renderujaca liste checkboxow, przyjmuje liste obiektow do stworzenai i container gdzie stworzyc
+ * @param {*} categories - lista kategorii do renderowania
+ * @param {*} container - element DOM zawierajacy
+ * @param {*} name - label grupy checkboxow
+ */
+const renderCheckboxes = function (table, container, name) {
+  container.innerHTML = ``;
+  let renderTemplate = `&lt;span class="checkboxes-title">${name}:&lt;/span>`;
+  table.forEach((cat) => {
+    renderTemplate += `&lt;div class="checkbox-style">
+        &lt;input type="checkbox" class="cat-filter" value="${cat.name}"/>
+        &lt;label for="cat-filter">${cat.name}&lt;/label>
+      &lt;/div>
+        `;
+  });
+  container.innerHTML = renderTemplate;
+};
+
+/**
+ * Funkcja do renderu podanej tablicy timestamps (najpewniej po filtracji) z paginacja\
+ * renderuje cyfry stron oraz dzieli podana tablice na strony po "amount" przedmiotow
+ * @param {*} table - tablica elementow do renderowania
+ * @param {*} container - docelowy kontener DOM timestampow
+ * @param {*} page_container - kontener na cyfry stron
+ * @param {*} amount - ile stampow zmiescic w jednej stronie paginacji
+ * @param {*} selected_page - kliknieta strona paginacji
+ */
+const paginateTimestamps = function (
+  table,
+  container,
+  page_container,
+  amount,
+  selected_page
+) {
+  //render Stron paginacji
+  page_container = document.createElement("div");
+  page_container.classList.add("stamp-pagination");
+  page_container.innerHTML = ``;
+  const length = Math.ceil(table.length / amount);
+  let htmlElement = ``;
+  if (length &lt; 4) {
+    for (let i = 1; i &lt;= length; i++) {
+      htmlElement += `&lt;span data-page="${i}" class="page hover">${i}&lt;/span>`;
+    }
+  } else {
+    if (selected_page === 1) {
+      for (let i = 1; i &lt;= 3; i++) {
+        htmlElement += `&lt;span data-page="${i}" class="page hover">${i}&lt;/span>`;
+      }
+    } else {
+      htmlElement += `&lt;span data-page="${
+        selected_page - 1
+      }" class="page hover">${selected_page - 1}&lt;/span>`;
+      htmlElement += `&lt;span data-page="${selected_page}" class="page curr-page-all hover">${selected_page}&lt;/span>`;
+      htmlElement += `&lt;span data-page="${
+        selected_page + 1
+      }" class="page hover">${selected_page + 1}&lt;/span>`;
+    }
+  }
+  htmlElement += `&lt;span class="page-dots">...&lt;/span>`;
+  htmlElement += `&lt;span data-page="${length}" class="page hover">${length}&lt;/span>`;
+  //docelowy element zawierajacy
+  page_container.innerHTML = htmlElement;
+
+  //aplikacja klasy curr-page do wybranej strony
+  let pages = page_container.querySelectorAll(".page");
+  pages.forEach((apage) => {
+    if (parseInt(apage.dataset.page) === selected_page) {
+      apage.classList.add("curr-page");
+    }
+  });
+
+  //i render listy w zaleznosci od wybranej strony
+  if (selected_page === 1) {
+    renderTimestamps(table.slice(0, amount), container, page_container);
+  } else {
+    if (table.length &lt; selected_page * amount) {
+      renderTimestamps(
+        table.slice(amount * (selected_page - 1)),
+        container,
+        page_container
+      );
+    } else {
+      renderTimestamps(
+        table.slice(amount * (selected_page - 1), amount * selected_page),
+        container,
+        page_container
+      );
+    }
+  }
+};
+
+/**
+ * render wlasciwy elementow timestamps
+ * @param {*} table
+ * @param {*} container
+ */
+const renderTimestamps = function (table, container, page_container) {
+  container.innerHTML = ``;
+  table.forEach((item) => {
+    const stamp_div = document.createElement("div");
+    stamp_div.classList.add("stamp-div");
+    //podstawowy element stamp - bez dodatkowego separatora
+    stamp_div.innerHTML = `
+    &lt;p data-counter="${table.indexOf(item)}"
+            class="hidden counter-el">${table.indexOf(item)}&lt;/p>
+            &lt;div class="stamp-left">
+              &lt;span class="stamp-date">${item.dateStr}&lt;/span>
+              &lt;span class="stamp-hour">${item.hrsStr}&lt;/span>
+            &lt;/div>
+            &lt;div class="stamp-cat">
+              &lt;span
+                >&lt;ion-icon
+                  name="${item.category.icon}"
+                  class="stamp-icon hover"
+                >&lt;/ion-icon
+              >&lt;/span>
+              &lt;span class="stamp-cat-name">${item.category.name}&lt;/span>
+            &lt;/div>
+            &lt;div class="stamp-right">
+              &lt;span class="stamp-interval">TIME SINCE LAST STAMP:&lt;/span>
+              &lt;span class="stamp-interval-time">${item.interval}&lt;/span>
+              &lt;span class="stamp-today">TIMES TODAY: ${item.times}&lt;/span>
+            &lt;/div>
+            &lt;ion-icon
+              name="trash-outline"
+              class="close-button close-stamp hover"
+            >&lt;/ion-icon>`;
+    //jesli pierwszy element, renderuj z data
+    if (table.indexOf(item) === 0) {
+      stamp_div.innerHTML += `&lt;span class="stamp-date-separator">${item.dateStr}&lt;/span>`;
+      stamp_div.classList.add("date-separator");
+    } else if (item.dateStr !== table[table.indexOf(item) - 1].dateStr) {
+      stamp_div.innerHTML += `&lt;span class="stamp-date-separator">${item.dateStr}&lt;/span>`;
+      stamp_div.classList.add("date-separator");
+    }
+    container.appendChild(stamp_div);
+    //aplikacja koloprow klasy na style elementow
+    stamp_div.style.border = `5px solid ${item.category.color}`;
+    stamp_div.style.backgroundColor = `${item.category.color}33`;
+    stamp_div.querySelector(
+      ".stamp-date"
+    ).style.color = `${item.category.color}`;
+    stamp_div.querySelector(
+      ".stamp-hour"
+    ).style.color = `${item.category.color}`;
+  });
+  container.appendChild(page_container);
+};
+
+/**
+ * funckja renderowania opcji option do listy select (container) z podanej table (kategorii)
+ * @param {*} table
+ * @param {*} container - DOM container
+ */
+const renderCatOptions = function (table, container) {
+  container.innerHTML = ``;
+  table.forEach((cat) => {
+    const optionEl = document.createElement("option");
+    optionEl.value = cat.name;
+    optionEl.text = cat.name;
+    container.appendChild(optionEl);
+  });
+};
+
+export {
+  renderCheckboxes,
+  renderTimestamps,
+  paginateTimestamps,
+  renderCatOptions,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Category.html">Category</a></li><li><a href="VanillaTilt.html">VanillaTilt</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-general-tutorial.html">Title of the tut</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Event">Event</a></li><li><a href="global.html#Magnifier">Magnifier</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#applyFilters">applyFilters</a></li><li><a href="global.html#calcTimes">calcTimes</a></li><li><a href="global.html#cheatsheets">cheatsheets</a></li><li><a href="global.html#createNewCategory">createNewCategory</a></li><li><a href="global.html#createNewCheatsheet">createNewCheatsheet</a></li><li><a href="global.html#createNewStamp">createNewStamp</a></li><li><a href="global.html#dayDiff">dayDiff</a></li><li><a href="global.html#filterByCategory">filterByCategory</a></li><li><a href="global.html#getHrsString">getHrsString</a></li><li><a href="global.html#paginateTimestamps">paginateTimestamps</a></li><li><a href="global.html#renderCatOptions">renderCatOptions</a></li><li><a href="global.html#renderCheckboxes">renderCheckboxes</a></li><li><a href="global.html#renderTimestamps">renderTimestamps</a></li><li><a href="global.html#saveToLocalStorage">saveToLocalStorage</a></li><li><a href="global.html#timeDiffString">timeDiffString</a></li><li><a href="global.html#timeSinceCat">timeSinceCat</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu May 04 2023 20:52:39 GMT+0200 (czas środkowoeuropejski letni)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

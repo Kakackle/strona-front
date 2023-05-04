@@ -38,16 +38,13 @@
 // 3. filtracja tablic przed renderem
 // 4. obsluga zdarzen dodawania, usuwania, edycji linkow/obiektow
 
-// TODO: edycja pol, tagow itd
-// TODO: sledzenie ilosci klikniec jest, ale poniewaz najpierw otwiera link, to nie aktualizuje sie na stronie bez refreshu?
-// TODO: sortowanie, po dacie, kliknieciach
+// TODO: po sortowaniu, fajnie by jeszcze dodac ikonki strzalek w gore albo w dol ale tak mi sie nie chce omg
 // TODO: upiekszenie, bo teraz wyglada bardzo roboczo, nie chcialbym korzystac z tego, zbyt malo przejrzyste, zbite
-// TODO: paginacja, mam funkcje render, moze moge podzielic tablice i wywolywac funckje z podawaniem jej czesci
 // TODO: dodawanie z pliku json bezposrednio a nie przez tekst?
-// TODO: zastanowic sie, ze renderowanie calej strony rzadko jest tak naprawde potrzebne
-// duzo czesciej, wymagane jest dodanie tylko jednego obiektu albo zmiana jednego pola
-// co jest latwe samo w sobie, ale czy nie da sie tego zrealizowac jakos w funkcji
-// bo inaczej moze sie troche zbyt rozdrobnic we wlasne funkcje do zmiany kazdej malej rzeczy
+// FIXME: generalnie przydalby sie refactor z osobna od cheatsheets globalna lista renderowana
+// zeby na nia mozna bylo nakladac zarowno filtracje jak i sortowania jak i inne
+// bo aktualnie sie canceluja
+// juz jest, w postaci filterRenderList, ale moze by to jakos lepiej, jak props/storage w pinia, idk, jedno zrodlo prawdy
 
 /**
  * Arrays of cheatsheet objects - See {@tutorial general-tutorial}
@@ -56,11 +53,16 @@
 let cheatsheets = []; //tablica linkow w systemie
 let tags = []; //tablica tagow
 let appliedTags = []; //tagi do filtracji
+let appliedDateTags = [];
+// let dateTags = [];
+let dateTags = new Set();
 
 //------------- elementy DOM -------------
 //localStorage
 const clearButton = document.querySelector(".clear-button");
 const exampleButton = document.querySelector(".example-button");
+const debugButton = document.querySelector(".debug-button");
+const testButton = document.querySelector(".test-button");
 
 //otworz sekcje dodawania linkow
 const add_new_link = document.querySelector(".add-section-title");
@@ -90,11 +92,23 @@ const all_links = document.querySelector(".all-links");
 let all_link_elements = [];
 //obszar tagow
 const type_tags = document.querySelector(".type-tags");
+const time_tags = document.querySelector(".time-tags");
 let tag_checkboxes = document.querySelectorAll(".tag-checkbox-box");
+let datetag_checkboxes = document.querySelectorAll(".datetag-checkbox-box");
 const filterButton = document.querySelector(".filter-button");
+
+//lista po filtracji
+let filterRenderList = [];
 
 //searchbar
 const fav_search = document.querySelector(".fav-search");
+
+//wybor ilosci wyswietlanych most-clicked
+let most_amount_choice = 5;
+const most_amount = document.querySelectorAll(".most-amount span");
+
+//paginacja
+const all_pages_div = document.querySelector(".all-pages");
 
 /**
  * Cheatsheet object
@@ -118,7 +132,8 @@ const fav_search = document.querySelector(".fav-search");
  * @returns {Cheat} cheatsheet object with title, link, tags, date, dateLast, clicks and isFav fields
  */
 const createNewCheatsheet = function (title, link, tags, isFav) {
-  const date = new Date();
+  let date = new Date();
+  date = new Date(date.toISOString());
   /**
    * @type {Cheat}
    */
@@ -126,8 +141,10 @@ const createNewCheatsheet = function (title, link, tags, isFav) {
     title: title,
     link: link,
     tags: tags,
-    date: `${date.getDate()}:${date.getMonth() + 1}:${date.getFullYear()}`,
-    dateLast: `${date.getDate()}:${date.getMonth() + 1}:${date.getFullYear()}`,
+    date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+    dateLast: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+    dateObj: date,
+    dateTag: `Today`,
     clicks: 0,
     isFav: isFav,
   };
@@ -148,9 +165,12 @@ const getFromLocal = function () {
   const localCheatsheets = JSON.parse(localStorage.getItem("cheatsheets"));
   if (localCheatsheets) cheatsheets = localCheatsheets;
   else cheatsheets = [];
-  const localTags = JSON.parse(localStorage.getItem("cheatsheets"));
+  const localTags = JSON.parse(localStorage.getItem("tags"));
   if (localTags) tags = localTags;
   else tags = [];
+  const localDateTags = JSON.parse(localStorage.getItem("dateTags"));
+  if (localDateTags) dateTags = new Set(localDateTags);
+  else dateTags = new Set();
 };
 
 //czyszczenie linkow i tagow
@@ -164,10 +184,8 @@ const clearObjects = function () {
 const deleteEntry = function (e) {
   const counterIndex =
     e.target.parentNode.querySelector(".counter-el").innerHTML;
-  console.log(counterIndex);
   cheatsheets.splice(counterIndex, 1);
-  renderWebsite();
-  saveToLocalStorage(cheatsheets, "cheatsheets");
+  callCreationFunctions(cheatsheets);
 };
 
 //dodanie od fav poprzez zmienienie isFav, czyli aktualizacje obiektu z cheatsheets
@@ -175,14 +193,12 @@ const deleteEntry = function (e) {
 const removeFav = function (e) {
   const counterIndex =
     e.target.parentNode.querySelector(".counter-el").innerHTML;
-  console.log(counterIndex);
   cheatsheets[counterIndex].isFav = false;
   renderFavLinksEntries(cheatsheets);
 };
 const addFav = function (e) {
   const counterIndex =
     e.target.parentNode.parentNode.querySelector(".counter-el").innerHTML;
-  console.log(counterIndex);
   cheatsheets[counterIndex].isFav = true;
   renderFavLinksEntries(cheatsheets);
   createEventListeners();
@@ -190,7 +206,6 @@ const addFav = function (e) {
 };
 
 //// zebranie istniejacych tagow, moze powinno byc wywolywane przy dodawaniu
-//TODO: dodawanie tagow przy dodawaniu obiektu a nie po fakcie
 const gatherTags = function () {
   cheatsheets.forEach((cheat) => {
     cheat.tags.forEach((tag) => {
@@ -203,17 +218,16 @@ const gatherTags = function () {
 // --------- 2. render elementow tabel ---------
 
 //tabela linkow wszystkich template
-//TODO: all i most sa praktycznie identyczne w tym momencie, kod ten sam
-//  ale moze mozna wymyslic jakies roznice, a jesli nie to w jedna funkcje
-const renderAllLinksEntries = function (renderList) {
-  all_links.innerHTML = ``;
+
+const renderListEntries = function (renderList, list_container) {
+  list_container.innerHTML = ``;
   renderList.forEach((cheat) => {
-    const all_li = document.createElement("li");
-    all_li.innerHTML = `
+    const cont_li = document.createElement("li");
+    cont_li.innerHTML = `
     &lt;div class="li-div">
     &lt;p data-count="${renderList.indexOf(cheat)}"
     class="hidden counter-el">${renderList.indexOf(cheat)}&lt;/p>
-    &lt;p>
+    &lt;p class="list-title">
     &lt;a
       class="link-copy most-div-head-long"
       href="${cheat.link}"
@@ -231,43 +245,23 @@ const renderAllLinksEntries = function (renderList) {
     &lt;p>${cheat.date}&lt;/p>
     &lt;p>${cheat.dateLast}&lt;/p>
     &lt;ion-icon class="most-delete md hydrated" name="trash-bin" role="img" aria-label="trash bin">&lt;/ion-icon>
-    &lt;ion-icon class="most-addfav md hydrated" name="checkmark" role="img" aria-label="checkmark">&lt;/ion-icon>
+    &lt;ion-icon class="most-addfav md hydrated" name="star" role="img" aria-label="checkmark">&lt;/ion-icon>
     &lt;/div>
     `;
-    all_links.appendChild(all_li);
+    list_container.appendChild(cont_li);
   });
 };
 
-const renderMostClickedEntries = function (renderList) {
-  most_links.innerHTML = ``;
-  renderList.forEach((cheat) => {
-    const most_li = document.createElement("li");
-    most_li.innerHTML = `
-    &lt;div class="li-div">
-    &lt;p data-count="${renderList.indexOf(cheat)}"
-    class="hidden counter-el">${renderList.indexOf(cheat)}&lt;/p>
-    &lt;p>
-      &lt;a
-        class="link-copy most-div-head-long"
-        href="${cheat.link}"
-        target="_blank"
-        rel="noopener noreferrer"
-        >${cheat.title}&lt;/a
-      >
-      &lt;/p>
-      &lt;div class="most-link-tags most-link-short">
-        &lt;span>${cheat.tags[0]}&lt;/span>
-        &lt;span>${cheat.tags[1]}&lt;/span>
-        &lt;span>${cheat.tags[2]}&lt;/span>
-      &lt;/div>
-      &lt;p class="click-counter">${cheat.clicks} cl.&lt;/p>
-      &lt;p>${cheat.date}&lt;/p>
-      &lt;p>${cheat.dateLast}&lt;/p>
-      &lt;ion-icon class="most-delete md hydrated" name="trash-bin" role="img" aria-label="trash bin">&lt;/ion-icon>
-      &lt;ion-icon class="most-addfav md hydrated" name="checkmark" role="img" aria-label="checkmark">&lt;/ion-icon>
-    &lt;/div>`;
-    most_links.appendChild(most_li);
+const renderMostClicked = function (renderList) {
+  let mostList = [];
+  mostList = renderList.toSorted((a, b) => {
+    if (a.clicks > b.clicks) return -1; //a bedzie przed b
+    if (a.clicks &lt; b.clicks) return 1;
+    return 0;
   });
+  if (mostList.length &lt; most_amount_choice)
+    renderListEntries(mostList, most_links);
+  else renderListEntries(mostList.slice(0, most_amount_choice), most_links);
 };
 
 const renderFavLinksEntries = function (renderList) {
@@ -307,6 +301,7 @@ const renderFavLinksEntries = function (renderList) {
 };
 
 const renderTags = function () {
+  gatherTags();
   type_tags.innerHTML = `&lt;p class="tag-sect-title">Link type:&lt;/p>`;
   tags.forEach((tag) => {
     const tag_checkbox = document.createElement("div");
@@ -320,9 +315,65 @@ const renderTags = function () {
   />
   &lt;label class="tag-checkbox" for="${tag}"> ${tag} &lt;/label>
     `;
+    type_tags.appendChild(tag_checkbox);
   });
   //aktualizacja tag checkboxes
   tag_checkboxes = document.querySelectorAll(".tag-checkbox-box");
+};
+
+//TODO: za 2, 3 dni sprawdz czy dziala
+const renderDateTags = function () {
+  //zebranie i render date tags na podstawie obliczen i grupowania
+  let dateNow = new Date();
+  // dateLast: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+  //ustawianie w kazdym z obiektow z cheatsheets odpowiedniego date tagu
+  //i dodawanie do setu istniejacych
+  // dateTags.clear();
+  cheatsheets.forEach((cheat) => {
+    dateNow = new Date(dateNow.toISOString());
+    const dateDiff = Math.abs(dateNow - cheat.dateObj);
+    const dateDiffDays = Math.floor(dateDiff / (1000 * 3600 * 24));
+    if (dateDiffDays == 0) {
+      cheat.dateTag = `Today`;
+      dateTags.add(`Today`);
+    }
+    if (dateDiffDays == 1) {
+      cheat.dateTag = `Yesterday`;
+      dateTags.add(`Yesterday`);
+    }
+    if (dateDiffDays > 1 &amp;&amp; dateDiffDays &lt; 7) {
+      cheat.dateTag = `&lt;1 week`;
+      dateTags.add(`&lt;1 week`);
+    }
+    if (dateDiffDays > 7 &amp;&amp; dateDiffDays &lt; 31) {
+      cheat.dateTag = `&lt;1 month`;
+      dateTags.add(`&lt;1 month`);
+    }
+    if (dateDiffDays > 31) {
+      cheat.dateTag = `>1 month`;
+      dateTags.add(`>1 month`);
+    }
+  });
+  //render checkboxow
+  time_tags.innerHTML = `&lt;p class="tag-sect-title">Time added/modded:&lt;/p>`;
+  dateTags.forEach((tag) => {
+    const tag_checkbox = document.createElement("div");
+    tag_checkbox.classList.add("tag-checkbox");
+    tag_checkbox.innerHTML = `&lt;input
+    class="datetag-checkbox-box"
+    type="checkbox"
+    id="${tag}"
+    name="${tag}"
+    value="${tag}"
+  />
+  &lt;label class="tag-checkbox" for="${tag}"> ${tag} &lt;/label>
+    `;
+    time_tags.appendChild(tag_checkbox);
+  });
+  //aktualizacja tag checkboxes
+  datetag_checkboxes = document.querySelectorAll(".datetag-checkbox-box");
+  const dateTagsArray = Array.from(dateTags);
+  saveToLocalStorage(dateTagsArray, "dateTags");
 };
 
 //create event listeners on links in tables
@@ -356,16 +407,26 @@ const createEventListeners = function () {
     link_elem.addEventListener("click", (e) => {
       e.stopPropagation();
       countClick(e);
+      renderMostClicked(cheatsheets);
+    });
+  });
+  addEditEvents();
+  all_pages.forEach((page) => {
+    page.addEventListener("click", (e) => {
+      selectPage(e);
     });
   });
 };
 
 //render wszystkich grup obiektow na stronie
-const renderWebsite = function () {
-  renderMostClickedEntries(cheatsheets);
-  renderAllLinksEntries(cheatsheets);
-  renderFavLinksEntries(cheatsheets);
+const renderWebsite = function (renderList) {
+  renderFavLinksEntries(renderList);
+  // renderListEntries(renderList, all_links);
+  paginateAll(renderList);
+  // renderListEntries(renderList, most_links);
+  renderMostClicked(renderList);
   renderTags();
+  renderDateTags();
 };
 
 //reset inputow dodawania
@@ -390,7 +451,6 @@ const countClick = function (e) {
   //selekcja obiektu
   const counterIndex =
     e.target.parentNode.parentNode.querySelector(".counter-el").innerHTML;
-  console.log(counterIndex);
   cheatsheets[counterIndex].clicks += 1;
   //wszystkie wystapienia
   const elems = collectByCounter(counterIndex);
@@ -400,9 +460,12 @@ const countClick = function (e) {
       ".click-counter"
     ).textContent = `${cheatsheets[counterIndex].clicks} cl.`;
   });
-  console.log(
-    `counter: ${counterIndex}, clicks: ${cheatsheets[counterIndex].clicks}`
-  );
+  //aktualizacja daty ostatniej interakcji, przy okazji zliczania klikania bo juz obslguje event klikniecia wszedzie
+  const dateNow = new Date();
+  cheatsheets[counterIndex].dateObj = new Date(dateNow.toISOString());
+  cheatsheets[counterIndex].dateLast = `${dateNow.getDate()}/${
+    dateNow.getMonth() + 1
+  }/${dateNow.getFullYear()}`;
   saveToLocalStorage(cheatsheets, "cheatsheets");
 };
 
@@ -412,8 +475,209 @@ const collectByCounter = function (count) {
   return elems;
 };
 
+//#region
+/* -------------------------------------------------------------------------- */
+/*                     obsluga edycji elementow na stronie                    */
+/* -------------------------------------------------------------------------- */
+
+//wybor wszystkich elementow tytulu
+const getTitleElements = function () {
+  const title_els = document.querySelectorAll(".fav-title, .list-title a");
+  return title_els;
+};
+//wybor wszystkich tagow
+const getTagElements = function () {
+  const tag_els = document.querySelectorAll(
+    ".most-link-tags span, .fav-applied-tags span"
+  );
+  return tag_els;
+};
+
+//selekcja elementu z counterem na podstawie tytulu
+const selectCounterByTitle = function (title_el) {
+  const counterEl = title_el.parentNode.querySelector(".counter-el");
+  //const counterIndex = counterEl.dataset.count;
+  const counterIndex = counterEl.innerHTML;
+  return counterIndex;
+};
+//selekcja elementu z counterem na podstawie tagu
+const selectCounterByTag = function (title_el) {
+  const counterEl = title_el.parentNode.parentNode.querySelector(".counter-el");
+  //const counterIndex = counterEl.dataset.count;
+  const counterIndex = counterEl.innerHTML;
+  return counterIndex;
+};
+
+//umozliw edycje i na podstawie countera elementu zapisz to do bazy danych
+// funkcja do dodania do ustawiania event listenerow
+const addEditEvents = function () {
+  const title_elems = getTitleElements();
+  const tag_elems = getTagElements();
+  //dodanie obu eventow - na dblclick umozliw edycje, na wyjscie wylacz i zapisz zmiany
+  title_elems.forEach((title) => {
+    //event start edycji
+    title.addEventListener("dblclick", (e) => {
+      e.preventDefault();
+      e.target.setAttribute("contenteditable", "true");
+    });
+    //event koniec edycji
+    title.addEventListener("mouseleave", (e) => {
+      e.preventDefault();
+      //prewencja odpalania eventu za kazdym razem jak myszka wyjdzie, tylko po edycji\
+      if (title.getAttribute("contenteditable") === "true") {
+        title.setAttribute("contenteditable", "false");
+        const newTitle = title.innerHTML;
+        const countIndex = selectCounterByTitle(title);
+        cheatsheets[countIndex].title = newTitle;
+        const dateNow = new Date();
+        cheatsheets[countIndex].dateObj = new Date(dateNow.toISOString());
+        cheatsheets[countIndex].dateLast = `${dateNow.getDate()}/${
+          dateNow.getMonth() + 1
+        }/${dateNow.getFullYear()}`;
+        callCreationFunctions(cheatsheets);
+      }
+    });
+  });
+  //
+  tag_elems.forEach((tag) => {
+    let newTag = "";
+    let oldTag = "";
+    //event start edycji
+    tag.addEventListener("dblclick", (e) => {
+      e.preventDefault();
+      oldTag = e.target.textContent.trim();
+      e.target.setAttribute("contenteditable", "true");
+    });
+    //event koniec edycji
+    tag.addEventListener("mouseleave", (e) => {
+      e.preventDefault();
+      //prewencja odpalania eventu za kazdym razem jak myszka wyjdzie, tylko po edycji\
+      if (tag.getAttribute("contenteditable") === "true") {
+        tag.setAttribute("contenteditable", "false");
+        newTag = tag.textContent.trim();
+        const countIndex = selectCounterByTag(tag);
+        cheatsheets[countIndex].tags.forEach((el_tag) => {
+          if (el_tag === oldTag) {
+            // el_tag = newTag;
+            cheatsheets[countIndex].tags[
+              cheatsheets[countIndex].tags.indexOf(el_tag)
+            ] = newTag;
+            const dateNow = new Date();
+            cheatsheets[countIndex].dateObj = new Date(dateNow.toISOString());
+            cheatsheets[countIndex].dateLast = `${dateNow.getDate()}/${
+              dateNow.getMonth() + 1
+            }/${dateNow.getFullYear()}`;
+          }
+        });
+        callCreationFunctions(cheatsheets);
+      }
+    });
+  });
+};
+
+//#endregion
+
+//obsluga elementow nawigacji list - most oraz paginacja
+const selectMostAmount = function () {
+  most_amount.forEach((choice) => {
+    choice.addEventListener("click", (e) => {
+      most_amount_choice = e.target.dataset.amount;
+      most_amount.forEach((most) => {
+        most.classList.remove("most-selected");
+      });
+      choice.classList.add("most-selected");
+      renderMostClicked(cheatsheets);
+    });
+  });
+};
+
+// -------- paginacja --------
+// w odpowiedniej kolejnosci:
+// 1. obliczyc ile jest stron wgl [ ceiling(length/10) ]
+// 2. domyslnie wybrany jest pej = 1
+// 3. na podstawie ilosci dynamicznie wyrenderowac liste stron, z wybrana domyslnie pierwsza
+// 4. na podstawie pej = 1 wyrenderowac pierwsze 10 elementow listy poprzez podanie wycinka listy
+// ---- event listeners ----
+// 5. kazdy z peji ma event listener i dataset-pej, przy klinieciu:
+//  jesli data=1, renderuj 1 2 3 itd
+//  jesli jesli data = 2 itd, to renderuj schematem n-1 i n+1 peje i wywoluj renderowanie listy z odpowiednim wycinkiem
+//  przy czym peje renderuj w juz istniejacym divie na nie
+// i kwestia bez event listenera na kropkach - po prostu klasa do wyboru nie na kropkach
+// i musi tez zbierac za kazdym razem dlugosc cheatsheets by wiedziec jak dzialac
+
+//paginacja listy all, let poniewaz beda sie zmieniac
+let all_pages = document.querySelectorAll(".all-pages .page");
+let selected_page = 1; //wybrana strona
+
+const paginateAll = function (renderList) {
+  const length = Math.ceil(renderList.length / 10);
+  //renderowanie stron bez wybranej, dopiero initial render
+  let htmlElement = ``;
+  if (length &lt; 4) {
+    for (i = 1; i &lt;= length; i++) {
+      htmlElement += `&lt;span data-page="${i}" class="page">${i}&lt;/span>`;
+    }
+  } else {
+    if (selected_page === 1) {
+      for (i = 1; i &lt;= 3; i++) {
+        htmlElement += `&lt;span data-page="${i}" class="page">${i}&lt;/span>`;
+      }
+    } else {
+      htmlElement += `&lt;span data-page="${selected_page - 1}" class="page">${
+        selected_page - 1
+      }&lt;/span>`;
+      htmlElement += `&lt;span data-page="${selected_page}" class="page curr-page-all">${selected_page}&lt;/span>`;
+      htmlElement += `&lt;span data-page="${selected_page + 1}" class="page">${
+        selected_page + 1
+      }&lt;/span>`;
+    }
+  }
+  htmlElement += `&lt;span>...&lt;/span>`;
+  htmlElement += `&lt;span data-page="${length}" class="page">${length}&lt;/span>`;
+  all_pages_div.innerHTML = htmlElement;
+
+  //teraz nalozenie klasy curr page wybranej strony
+  all_pages = document.querySelectorAll(".all-pages .page");
+  all_pages.forEach((apage) => {
+    if (parseInt(apage.dataset.page) === selected_page) {
+      apage.classList.add("curr-page-all");
+    }
+  });
+
+  //i render listy w zaleznosci od wybranej strony
+  if (selected_page === 1) {
+    renderListEntries(renderList.slice(0, 10), all_links);
+  } else {
+    if (renderList.length &lt; selected_page * 10) {
+      renderListEntries(renderList.slice(10 * (selected_page - 1)), all_links);
+    } else {
+      renderListEntries(
+        renderList.slice(10 * (selected_page - 1), 10 * selected_page),
+        all_links
+      );
+    }
+  }
+  //TODO: / FIXME: kwestia jest, ze aktualnie numery w liscie ustawiane sa po lewo zgodnie z numeracja &lt;li>
+  //czyli zawsze od 1 do 10, co jest okej w przypadku most clicked
+  // ale w przypadku all_links, nie sprawdza sie, bo niewazne ktora strone klikniesz, idzie 1-10
+  // a powinno isc 11-20, 21-30 itd dla dalszych
+  // co mozna by rozwiazac poprzez zamiast numeracji &lt;li> dodawac numeracje wlasna na podstawie counter-el
+  // ale wtedy most_often numerki by byly losowe
+  // wiec trzeba by tam zrobic oddzielnie, ze zliczaniem li i bez countera
+  // i to duzo roboty, wiec moze na start wylacz zliczanie i chuj
+  // all_pages_div
+  // "curr-page-all"
+};
+
+const selectPage = function (e) {
+  selected_page = parseInt(e.target.dataset.page);
+  paginateAll(filterRenderList);
+  createEventListeners();
+};
+
 // ----------- filtracja -------------
 // aplikacja filtrow z tagow
+
 const filterByTags = function () {
   appliedTags = [];
   tag_checkboxes.forEach((tag) => {
@@ -426,36 +690,128 @@ const filterByTags = function () {
     renderList = cheatsheets.filter(
       (cheat) =>
         appliedTags.includes(cheat.tags[0]) ||
-        appliedTags.includes(cheat.tags[1])
+        appliedTags.includes(cheat.tags[1]) ||
+        appliedTags.includes(cheat.tags[2])
     );
   }
-  return renderList();
+  return renderList;
 };
 
-const filterBySearch = function () {
-  let searchterm = fav_search.value;
+const filterByDateTags = function (inputList) {
+  appliedDateTags = [];
+  datetag_checkboxes.forEach((tag) => {
+    if (tag.checked) appliedDateTags.push(tag.value);
+  });
+  let renderList = [];
+  if (appliedDateTags.length === 0) {
+    renderList = inputList;
+  } else {
+    renderList = inputList.filter((cheat) =>
+      appliedDateTags.includes(cheat.dateTag)
+    );
+  }
+  return renderList;
+};
+
+const filterBySearch = function (inputList) {
+  let searchterm = fav_search.value.toLowerCase();
   console.log(searchterm);
   let renderList = [];
   //sprawdzanie po skladowych tagow
   let includesTag = 0;
-  cheatsheets.forEach((cheat) => {
+  inputList.forEach((cheat) => {
     cheat.tags.forEach((tag) => {
-      if (tag.includes(searchterm)) includesTag = 1;
+      if (tag.toLowerCase().includes(searchterm)) {
+        includesTag = 1;
+      }
     });
   });
-
   //sprawdzanie czy zawiera tag w calosci
   // cheat.tags.includes(searchterm)
 
-  renderList = cheatsheets.filter(
+  renderList = inputList.filter(
     (cheat) =>
-      cheat.title.includes(searchterm) ||
-      cheat.link.includes(searchterm) ||
-      cheat.tags.includes(searchterm)
+      cheat.title.toLowerCase().includes(searchterm) ||
+      cheat.link.toLowerCase().includes(searchterm) ||
+      includesTag
   );
-  console.log(cheatsheets[0].tags);
-  console.log(cheatsheets[0].tags.includes(searchterm));
   return renderList;
+};
+
+//------------ sortowanie --------------
+const sortByTitle = function (unsorted) {
+  const sorted = unsorted.toSorted((a, b) => {
+    if (a.title > b.title) return 1;
+    if (a.title &lt; b.title) return -1;
+    return 0;
+  });
+  return sorted;
+};
+
+const sortByDate = function (unsorted) {
+  const sorted = unsorted.toSorted((a, b) => {
+    a = new Date(a.dateObj).getTime();
+    b = new Date(b.dateObj).getTime();
+    if (a > b) return 1;
+    if (a &lt; b) return -1;
+    return 0;
+  });
+  return sorted;
+};
+
+const addSortEvents = function () {
+  const title_head_all = document.querySelector(".title-head-all");
+  title_head_all.addEventListener("click", (e) => {
+    //jesli sortowanie zaaplikowane, wylacz
+    if (title_head_all.classList.contains("sorted")) {
+      // renderListEntries(cheatsheets, all_links);
+      paginateAll(filterRenderList);
+      createEventListeners();
+      title_head_all.classList.remove("sorted");
+    } else {
+      // renderListEntries(sortByTitle(cheatsheets), all_links);
+      paginateAll(sortByTitle(filterRenderList));
+      createEventListeners();
+      title_head_all.classList.add("sorted");
+    }
+  });
+  const title_head_most = document.querySelector(".title-head-most");
+  title_head_most.addEventListener("click", (e) => {
+    //jesli sortowanie zaaplikowane, wylacz
+    if (title_head_most.classList.contains("sorted")) {
+      renderMostClicked(filterRenderList);
+      title_head_most.classList.remove("sorted");
+    } else {
+      renderMostClicked(sortByTitle(filterRenderList));
+      title_head_most.classList.add("sorted");
+    }
+  });
+  const dateLast_head_all = document.querySelector(".dateLast-head-all");
+  dateLast_head_all.addEventListener("click", (e) => {
+    //jesli sortowanie zaaplikowane, wylacz
+    if (dateLast_head_all.classList.contains("sorted")) {
+      // renderListEntries(cheatsheets, all_links);
+      paginateAll(filterRenderList);
+      createEventListeners();
+      dateLast_head_all.classList.remove("sorted");
+    } else {
+      // renderListEntries(sortByTitle(cheatsheets), all_links);
+      paginateAll(sortByDate(filterRenderList));
+      createEventListeners();
+      dateLast_head_all.classList.add("sorted");
+    }
+  });
+  const dateLast_head_most = document.querySelector(".dateLast-head-most");
+  dateLast_head_most.addEventListener("click", (e) => {
+    //jesli sortowanie zaaplikowane, wylacz
+    if (dateLast_head_most.classList.contains("sorted")) {
+      renderMostClicked(filterRenderList);
+      dateLast_head_most.classList.remove("sorted");
+    } else {
+      renderMostClicked(sortByDate(filterRenderList));
+      dateLast_head_most.classList.add("sorted");
+    }
+  });
 };
 
 // ------------ 4. EventListeners ----------
@@ -491,13 +847,12 @@ link_submit_button.addEventListener("click", (e) => {
   );
   resetAddInputs();
   cheatsheets.push(cheat);
-  saveToLocalStorage(cheatsheets, "cheatsheets");
-  renderWebsite();
-  createEventListeners();
-  collectLinks();
+  //dodawanie tagow przy tworzeniu
+  cheat.tags.forEach((tag) => {
+    if (!tags.includes(tag)) tags.push(tag);
+  });
+  callCreationFunctions(cheatsheets);
 });
-
-//TODO: funkcja parsujaca JSON z textarea json_text_input
 
 const getJsonInput = function () {
   //parse wartosci z pola
@@ -510,21 +865,20 @@ const getJsonInput = function () {
   //a tekst wpakowac w nowy obiekt, a wlasciwie tablice obiektow
   //i potem foreach i wyciagac z niej i wpakowywac w funkcje create
   let json_text = JSON.parse(json_text_input.value);
-  // console.log(json_text);
   json_text.forEach((item) => {
+    const cleanedTitle = item.title.replace(/&lt;\/?[^>]+(>|$)/g, "");
     const cheat = createNewCheatsheet(
-      item.title,
+      cleanedTitle,
       item.link,
       [item.tag1, item.tag2, item.tag3],
-      item.isFav === "true"
+      item.isFav
     );
-    console.log(cheat);
     cheatsheets.push(cheat);
+    cheat.tags.forEach((tag) => {
+      if (!tags.includes(tag)) tags.push(tag);
+    });
   });
-  saveToLocalStorage(cheatsheets, "cheatsheets");
-  renderWebsite();
-  createEventListeners();
-  collectLinks();
+  callCreationFunctions(cheatsheets);
 };
 
 submit_json.addEventListener("click", (e) => {
@@ -534,19 +888,27 @@ submit_json.addEventListener("click", (e) => {
 //filtracja
 fav_search.addEventListener("input", (e) => {
   e.preventDefault();
-  renderWebsite(filterBySearch());
+  callCreationFunctions(filterBySearch(filterRenderList));
 });
 
 filterButton.addEventListener("click", (e) => {
   e.preventDefault();
-  renderWebsite(filterByTags());
+  // callCreationFunctions(filterByTags());
+  filterRenderList = filterByTags();
+  filterRenderList = filterByDateTags(filterRenderList);
+  filterRenderList = filterBySearch(filterRenderList);
+  renderFavLinksEntries(filterRenderList);
+  // renderListEntries(filterRenderList, all_links);
+  paginateAll(filterRenderList);
+  // renderListEntries(renderList, most_links);
+  renderMostClicked(filterRenderList);
 });
 
 clearButton.addEventListener("click", (e) => {
   e.preventDefault();
   clearStorage(); //czysci pamiec
   getFromLocal(); //aktualizuje wewnetrzne dane
-  renderWebsite(); //renderuje strone
+  renderWebsite(cheatsheets); //renderuje strone
   collectLinks();
 });
 
@@ -554,11 +916,34 @@ exampleButton.addEventListener("click", (e) => {
   addTestObjects();
 });
 
+debugButton.addEventListener("click", (e) => {
+  debugFunction();
+});
+
+//funkcja zbierajaca funkcje zwiazane z tworzeniem nowych cheatsheetow, bo powtarzaja sie
+const callCreationFunctions = function (renderList) {
+  saveToLocalStorage(cheatsheets, "cheatsheets");
+  saveToLocalStorage(tags, "tags");
+  renderWebsite(renderList);
+  paginateAll(renderList);
+  createEventListeners();
+  collectLinks();
+};
+
 // ---------- call at load -------------
 const mainFunc = function () {
   getFromLocal();
-  renderWebsite();
+  filterRenderList = filterByTags();
+  filterRenderList = filterByDateTags(filterRenderList);
+  filterRenderList = filterBySearch(filterRenderList);
+  renderWebsite(cheatsheets);
+  paginateAll(cheatsheets);
   createEventListeners();
+  selectMostAmount();
+  addSortEvents();
+  testButton.addEventListener("click", (e) => {
+    renderDateTags();
+  });
 };
 
 mainFunc();
@@ -580,10 +965,20 @@ const addTestObjects = function () {
   );
   cheatsheets.push(cheat1);
   cheatsheets.push(cheat2);
-  saveToLocalStorage(cheatsheets, "cheatsheets");
-  renderWebsite();
-  collectLinks();
-  createEventListeners();
+  callCreationFunctions(cheatsheets);
+};
+
+const debugFunction = function () {
+  console.log(`------- new debug -------`);
+  const countElems = document.querySelectorAll(".counter-el");
+  countElems.forEach((count) => {
+    const countIndex = count.innerHTML;
+    console.log(
+      `cheatsheets:`,
+      "\n",
+      `${countIndex}: ${JSON.stringify(cheatsheets[countIndex])}`
+    );
+  });
 };
 </code></pre>
         </article>
@@ -595,13 +990,13 @@ const addTestObjects = function () {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="VanillaTilt.html">VanillaTilt</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-general-tutorial.html">Title of the tut</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Event">Event</a></li><li><a href="global.html#Magnifier">Magnifier</a></li><li><a href="global.html#cheatsheets">cheatsheets</a></li><li><a href="global.html#createNewCheatsheet">createNewCheatsheet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Category.html">Category</a></li><li><a href="VanillaTilt.html">VanillaTilt</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-general-tutorial.html">Title of the tut</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Event">Event</a></li><li><a href="global.html#Magnifier">Magnifier</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#applyFilters">applyFilters</a></li><li><a href="global.html#calcTimes">calcTimes</a></li><li><a href="global.html#cheatsheets">cheatsheets</a></li><li><a href="global.html#createNewCategory">createNewCategory</a></li><li><a href="global.html#createNewCheatsheet">createNewCheatsheet</a></li><li><a href="global.html#createNewStamp">createNewStamp</a></li><li><a href="global.html#dayDiff">dayDiff</a></li><li><a href="global.html#filterByCategory">filterByCategory</a></li><li><a href="global.html#getHrsString">getHrsString</a></li><li><a href="global.html#paginateTimestamps">paginateTimestamps</a></li><li><a href="global.html#renderCatOptions">renderCatOptions</a></li><li><a href="global.html#renderCheckboxes">renderCheckboxes</a></li><li><a href="global.html#renderTimestamps">renderTimestamps</a></li><li><a href="global.html#saveToLocalStorage">saveToLocalStorage</a></li><li><a href="global.html#timeDiffString">timeDiffString</a></li><li><a href="global.html#timeSinceCat">timeSinceCat</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Apr 26 2023 17:13:58 GMT+0200 (czas środkowoeuropejski letni)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu May 04 2023 20:52:39 GMT+0200 (czas środkowoeuropejski letni)
 </footer>
 
 <script> prettyPrint(); </script>

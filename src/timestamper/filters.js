@@ -47,7 +47,7 @@ const filterBySearch = function (unfiltered, queryEl) {
  * @param {*} unfiltered - input list, always full list
  * @param {*} checkboxes - list of checkbox DOM elements
  * @param {*} queryEl - filter query DOM element (input)
- * @returns
+ * @returns {Array} array of filtered objects
  */
 const applyFilters = function (unfiltered, checkboxes, queryEl) {
   let filtered = [];

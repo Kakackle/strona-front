@@ -82,7 +82,7 @@ const calcTimes = function (cat, days, table) {
  * Czas od ostateniego wystapienia kategorii cat w stringu HH:MM:SS
  * @param {*} cat
  * @param {*} table
- * @returns
+ * @returns {String} time diff string
  */
 const timeSinceCat = function (cat, table, stampDate) {
   let latestStamp = undefined;
