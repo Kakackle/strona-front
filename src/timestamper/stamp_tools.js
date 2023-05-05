@@ -29,9 +29,9 @@ const dayDiff = function (date1, date2) {
 };
 
 /**
- * funckja wyciagajaca date w ladnej postaci z daty w brzydkiej (ISO)
- * @param {} date
- * @returns {String}
+ * funckja wyciagajaca godziny w ladnej postaci z daty w brzydkiej (ISO)
+ * @param {Date} date - date object
+ * @returns {String} - date in 'HH:MM:SS'
  */
 //FIXME: troche psuje zasade SOLID, ale to modulo 24...
 //also kompletnie zbyteczne, jest przeciez .getHours() itd... ja pierdole
@@ -46,6 +46,11 @@ const getHrsString = function (date) {
   return hrs + ":" + mins + ":" + secs;
 };
 
+/**
+ * Funkcja wyciagajaca z obiektu Date postac String "DD:MM:YY"
+ * @param {Date} date
+ * @returns {String}
+ */
 const getDateString = function (date) {
   const dateS = new Date(date.getTime());
   let days = date.getDate();
@@ -61,8 +66,9 @@ const getDateString = function (date) {
  * Funkcja obliczajaca ilosc wystapien kategorii cat w ostatnich days dniach
  * z podanej tablicy table, najpewniej timestamps
  *  @param {*} cat
- * @param {*} days
+ * @param {Number} days
  * @param {Array} table
+ * @returns {Number} times - ilosc razy
  */
 const calcTimes = function (cat, days, table) {
   let times = 0;

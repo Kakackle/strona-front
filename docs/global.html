@@ -104,7 +104,7 @@
 
 
 <div class="description">
-    <p>Arrays of cheatsheet objects - See <a href="tutorial-general-tutorial.html">Title of the tut</a></p>
+    <p>Array of cheatsheet objects - See <a href="tutorial-general-tutorial.html">Title of the tut</a></p>
 </div>
 
 
@@ -153,6 +153,150 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="cheatsheets_cheatsheets_ref.js.html">cheatsheets/cheatsheets_ref.js</a>, <a href="cheatsheets_cheatsheets_ref.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="renderStamps"><span class="type-signature"></span>renderStamps<span class="type-signature"> :Array.&lt;<a href="global.html#Stamp">Stamp</a>></span></h4>
+
+
+
+
+<div class="description">
+    <p>Filtered/affected array of timestamp objects</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Array.&lt;<a href="global.html#Stamp">Stamp</a>></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="timestamps"><span class="type-signature"></span>timestamps<span class="type-signature"> :Array.&lt;<a href="global.html#Stamp">Stamp</a>></span></h4>
+
+
+
+
+<div class="description">
+    <p>Full array of timestamp objects</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Array.&lt;<a href="global.html#Stamp">Stamp</a>></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line36">line 36</a>
     </li></ul></dd>
     
 
@@ -394,7 +538,10 @@ JS Classes - http://www.jsclasses.org/package/212-JavaScript-Handle-events-in-a-
 
 
 <div class="description">
-    <p>funkcja tworzy nowa kategorie na podstawie inputow ze strony i dodaje do setu</p>
+    <p>nie mylic @see createNewCategory
+funkcja submit tworzaca z inputow nowa kategorie (obiekt Category) na podstawie inputow ze strony i dodaje do setu
+wykorzystujac do tego funkcje @see createNewCategory oraz sprawdzajac czy nazwa nie jest zajeta
+oraz @see renderCheckboxes</p>
 </div>
 
 
@@ -438,7 +585,98 @@ JS Classes - http://www.jsclasses.org/package/212-JavaScript-Handle-events-in-a-
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line100">line 100</a>
+        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line114">line 114</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="addNewTimestamp"><span class="type-signature"></span>addNewTimestamp<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>nie mylic @see createNewStamp
+Funkcja submit tworzaca wykorzystujac inputy nowy obiekt Stamp @see createNewStamp
+oraz dodajaca do listy @see timestamps
+wywoluje render timestampow @see renderWebiste()</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line148">line 148</a>
     </li></ul></dd>
     
 
@@ -623,7 +861,7 @@ wywolywana przy zmianie w elementach</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="timestamper_filters.js.html">timestamper/filters.js</a>, <a href="timestamper_filters.js.html#line52">line 52</a>
+        <a href="timestamper_filters.js.html">timestamper/filters.js</a>, <a href="timestamper_filters.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -681,7 +919,7 @@ wywolywana przy zmianie w elementach</p>
     
 
     
-    <h4 class="name" id="calcTimes"><span class="type-signature"></span>calcTimes<span class="signature">(cat, days, table)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="calcTimes"><span class="type-signature"></span>calcTimes<span class="signature">(cat, days, table)</span><span class="type-signature"> &rarr; {Number}</span></h4>
     
 
     
@@ -755,7 +993,7 @@ z podanej tablicy table, najpewniej timestamps</p>
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">Number</span>
 
 
             
@@ -829,7 +1067,117 @@ z podanej tablicy table, najpewniej timestamps</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="timestamper_stamp_tools.js.html">timestamper/stamp_tools.js</a>, <a href="timestamper_stamp_tools.js.html#line67">line 67</a>
+        <a href="timestamper_stamp_tools.js.html">timestamper/stamp_tools.js</a>, <a href="timestamper_stamp_tools.js.html#line73">line 73</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>times - ilosc razy</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="createCheckboxEvents"><span class="type-signature"></span>createCheckboxEvents<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Funkcja dodajaca eventlistenery do obiektow checkboxow filtrów</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line284">line 284</a>
     </li></ul></dd>
     
 
@@ -865,7 +1213,7 @@ z podanej tablicy table, najpewniej timestamps</p>
     
 
     
-    <h4 class="name" id="createNewCategory"><span class="type-signature"></span>createNewCategory<span class="signature">(name, icon, color)</span><span class="type-signature"> &rarr; {<a href="Category.html">Category</a>}</span></h4>
+    <h4 class="name" id="createNewCategory"><span class="type-signature"></span>createNewCategory<span class="signature">(name, icon, color)</span><span class="type-signature"> &rarr; {<a href="global.html#Category">Category</a>}</span></h4>
     
 
     
@@ -1012,7 +1360,7 @@ z podanej tablicy table, najpewniej timestamps</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="timestamper_timestamper_classes.js.html">timestamper/timestamper_classes.js</a>, <a href="timestamper_timestamper_classes.js.html#line55">line 55</a>
+        <a href="timestamper_timestamper_classes.js.html">timestamper/timestamper_classes.js</a>, <a href="timestamper_timestamper_classes.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -1052,7 +1400,7 @@ z podanej tablicy table, najpewniej timestamps</p>
     </dt>
     <dd>
         
-<span class="param-type"><a href="Category.html">Category</a></span>
+<span class="param-type"><a href="global.html#Category">Category</a></span>
 
 
     </dd>
@@ -1294,7 +1642,7 @@ z podanej tablicy table, najpewniej timestamps</p>
     
 
     
-    <h4 class="name" id="createNewStamp"><span class="type-signature"></span>createNewStamp<span class="signature">(category, date, table)</span><span class="type-signature"> &rarr; {Stamp}</span></h4>
+    <h4 class="name" id="createNewStamp"><span class="type-signature"></span>createNewStamp<span class="signature">(category, date, table)</span><span class="type-signature"> &rarr; {<a href="global.html#Stamp">Stamp</a>}</span></h4>
     
 
     
@@ -1344,7 +1692,7 @@ z podanej tablicy table, najpewniej timestamps</p>
             <td class="type">
             
                 
-<span class="param-type"><a href="Category.html">Category</a></span>
+<span class="param-type"><a href="global.html#Category">Category</a></span>
 
 
             
@@ -1441,7 +1789,7 @@ z podanej tablicy table, najpewniej timestamps</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="timestamper_timestamper_classes.js.html">timestamper/timestamper_classes.js</a>, <a href="timestamper_timestamper_classes.js.html#line68">line 68</a>
+        <a href="timestamper_timestamper_classes.js.html">timestamper/timestamper_classes.js</a>, <a href="timestamper_timestamper_classes.js.html#line82">line 82</a>
     </li></ul></dd>
     
 
@@ -1481,13 +1829,108 @@ z podanej tablicy table, najpewniej timestamps</p>
     </dt>
     <dd>
         
-<span class="param-type">Stamp</span>
+<span class="param-type"><a href="global.html#Stamp">Stamp</a></span>
 
 
     </dd>
 </dl>
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="createTestItems"><span class="type-signature"></span>createTestItems<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>funkcja tworzaca kilka przykladowych timestampow oraz kategorii wykorzystujac</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line208">line 208</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>createNewStamp , @see createNewCategoryoraz renderujaca strone i tworzaca event listenery dla tych nowych obiektow</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1677,7 +2120,7 @@ z podanej tablicy table, najpewniej timestamps</p>
     
 
     
-    <h4 class="name" id="filterByCategory"><span class="type-signature"></span>filterByCategory<span class="signature">(unfiltered, checkboxes)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="filterByCategory"><span class="type-signature"></span>filterByCategory<span class="signature">(unfiltered, checkboxes)</span><span class="type-signature"> &rarr; {Array.&lt;<a href="global.html#Stamp">Stamp</a>>}</span></h4>
     
 
     
@@ -1727,7 +2170,7 @@ z podanej tablicy table, najpewniej timestamps</p>
             <td class="type">
             
                 
-<span class="param-type">Array</span>
+<span class="param-type">Array.&lt;<a href="global.html#Stamp">Stamp</a>></span>
 
 
             
@@ -1737,7 +2180,7 @@ z podanej tablicy table, najpewniej timestamps</p>
 
             
 
-            <td class="description last"><p>input list</p></td>
+            <td class="description last"><p>input list of Stamp objects</p></td>
         </tr>
 
     
@@ -1750,7 +2193,7 @@ z podanej tablicy table, najpewniej timestamps</p>
             <td class="type">
             
                 
-<span class="param-type">Array</span>
+<span class="param-type">Array.&lt;Node></span>
 
 
             
@@ -1760,7 +2203,7 @@ z podanej tablicy table, najpewniej timestamps</p>
 
             
 
-            <td class="description last"><p>all DOM checkbox elements</p></td>
+            <td class="description last"><p>all DOM checkbox elements (NodeList)</p></td>
         </tr>
 
     
@@ -1801,7 +2244,454 @@ z podanej tablicy table, najpewniej timestamps</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="timestamper_filters.js.html">timestamper/filters.js</a>, <a href="timestamper_filters.js.html#line14">line 14</a>
+        <a href="timestamper_filters.js.html">timestamper/filters.js</a>, <a href="timestamper_filters.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>array of filtered objects</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;<a href="global.html#Stamp">Stamp</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="filterBySearch"><span class="type-signature"></span>filterBySearch<span class="signature">(unfiltered, checkboxes)</span><span class="type-signature"> &rarr; {Array.&lt;<a href="global.html#Stamp">Stamp</a>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Filter by searchquery, check for query in category name</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>unfiltered</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="global.html#Stamp">Stamp</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>input list of Stamp objects</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>checkboxes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Node></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>all DOM checkbox elements (NodeList)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_filters.js.html">timestamper/filters.js</a>, <a href="timestamper_filters.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>array of filtered objects</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;<a href="global.html#Stamp">Stamp</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getDateString"><span class="type-signature"></span>getDateString<span class="signature">(date)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Funkcja wyciagajaca z obiektu Date postac String &quot;DD:MM:YY&quot;</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_stamp_tools.js.html">timestamper/stamp_tools.js</a>, <a href="timestamper_stamp_tools.js.html#line54">line 54</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getFromLocalStorage"><span class="type-signature"></span>getFromLocalStorage<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Funckja z locaStorage bioraca informacje o timestamps oraz kategoriach categories</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line176">line 176</a>
     </li></ul></dd>
     
 
@@ -1845,7 +2735,7 @@ z podanej tablicy table, najpewniej timestamps</p>
 
 
 <div class="description">
-    <p>funckja wyciagajaca date w ladnej postaci z daty w brzydkiej (ISO)</p>
+    <p>funckja wyciagajaca godziny w ladnej postaci z daty w brzydkiej (ISO)</p>
 </div>
 
 
@@ -1886,13 +2776,18 @@ z podanej tablicy table, najpewniej timestamps</p>
 
             <td class="type">
             
+                
+<span class="param-type">Date</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>date object</p></td>
         </tr>
 
     
@@ -1961,6 +2856,12 @@ z podanej tablicy table, najpewniej timestamps</p>
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    <ul>
+<li>date in 'HH:MM:SS'</li>
+</ul>
+</div>
+
 
 
 <dl>
@@ -1976,6 +2877,143 @@ z podanej tablicy table, najpewniej timestamps</p>
 </dl>
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getIcon"><span class="type-signature"></span>getIcon<span class="signature">(e)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Ustawia wybrana ikone selectedIcon na kliknieta oraz ustawia kolor wybranej</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line100">line 100</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2341,7 +3379,7 @@ renderuje cyfry stron oraz dzieli podana tablice na strony po &quot;amount&quot;
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="timestamper_renderers.js.html">timestamper/renderers.js</a>, <a href="timestamper_renderers.js.html#line157">line 157</a>
+        <a href="timestamper_renderers.js.html">timestamper/renderers.js</a>, <a href="timestamper_renderers.js.html#line158">line 158</a>
     </li></ul></dd>
     
 
@@ -2560,7 +3598,7 @@ renderuje cyfry stron oraz dzieli podana tablice na strony po &quot;amount&quot;
     
 
     
-    <h4 class="name" id="renderTimestamps"><span class="type-signature"></span>renderTimestamps<span class="signature">(table, container)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="renderTimestamps"><span class="type-signature"></span>renderTimestamps<span class="signature">(table, container, page_container)</span><span class="type-signature"></span></h4>
     
 
     
@@ -2647,6 +3685,29 @@ renderuje cyfry stron oraz dzieli podana tablice na strony po &quot;amount&quot;
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>page_container</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>@see paginateTimestamps</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -2684,7 +3745,95 @@ renderuje cyfry stron oraz dzieli podana tablice na strony po &quot;amount&quot;
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="timestamper_renderers.js.html">timestamper/renderers.js</a>, <a href="timestamper_renderers.js.html#line99">line 99</a>
+        <a href="timestamper_renderers.js.html">timestamper/renderers.js</a>, <a href="timestamper_renderers.js.html#line100">line 100</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="renderWebsite"><span class="type-signature"></span>renderWebsite<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Funkcja renderujaca strone i dodajaca zdarzenia paginacji</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line271">line 271</a>
     </li></ul></dd>
     
 
@@ -2844,7 +3993,7 @@ renderuje cyfry stron oraz dzieli podana tablice na strony po &quot;amount&quot;
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line149">line 149</a>
+        <a href="timestamper_timestamper.js.html">timestamper/timestamper.js</a>, <a href="timestamper_timestamper.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -3186,7 +4335,7 @@ renderuje cyfry stron oraz dzieli podana tablice na strony po &quot;amount&quot;
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="timestamper_stamp_tools.js.html">timestamper/stamp_tools.js</a>, <a href="timestamper_stamp_tools.js.html#line87">line 87</a>
+        <a href="timestamper_stamp_tools.js.html">timestamper/stamp_tools.js</a>, <a href="timestamper_stamp_tools.js.html#line93">line 93</a>
     </li></ul></dd>
     
 
@@ -3245,6 +4394,78 @@ renderuje cyfry stron oraz dzieli podana tablice na strony po &quot;amount&quot;
         <h3 class="subsection-title">Type Definitions</h3>
 
         
+                
+<h4 class="name" id="Category">Category</h4>
+
+
+
+
+<div class="description">
+    <p>Category class object</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_timestamper_classes.js.html">timestamper/timestamper_classes.js</a>, <a href="timestamper_timestamper_classes.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
                 
 <h4 class="name" id="Cheat">Cheat</h4>
 
@@ -3484,6 +4705,78 @@ renderuje cyfry stron oraz dzieli podana tablice na strony po &quot;amount&quot;
 
 
             
+                
+<h4 class="name" id="Stamp">Stamp</h4>
+
+
+
+
+<div class="description">
+    <p>Category class object</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="timestamper_timestamper_classes.js.html">timestamper/timestamper_classes.js</a>, <a href="timestamper_timestamper_classes.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
     
 
     
@@ -3497,13 +4790,13 @@ renderuje cyfry stron oraz dzieli podana tablice na strony po &quot;amount&quot;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Category.html">Category</a></li><li><a href="VanillaTilt.html">VanillaTilt</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-general-tutorial.html">Title of the tut</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Event">Event</a></li><li><a href="global.html#Magnifier">Magnifier</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#applyFilters">applyFilters</a></li><li><a href="global.html#calcTimes">calcTimes</a></li><li><a href="global.html#cheatsheets">cheatsheets</a></li><li><a href="global.html#createNewCategory">createNewCategory</a></li><li><a href="global.html#createNewCheatsheet">createNewCheatsheet</a></li><li><a href="global.html#createNewStamp">createNewStamp</a></li><li><a href="global.html#dayDiff">dayDiff</a></li><li><a href="global.html#filterByCategory">filterByCategory</a></li><li><a href="global.html#getHrsString">getHrsString</a></li><li><a href="global.html#paginateTimestamps">paginateTimestamps</a></li><li><a href="global.html#renderCatOptions">renderCatOptions</a></li><li><a href="global.html#renderCheckboxes">renderCheckboxes</a></li><li><a href="global.html#renderTimestamps">renderTimestamps</a></li><li><a href="global.html#saveToLocalStorage">saveToLocalStorage</a></li><li><a href="global.html#timeDiffString">timeDiffString</a></li><li><a href="global.html#timeSinceCat">timeSinceCat</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="VanillaTilt.html">VanillaTilt</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-general-tutorial.html">Title of the tut</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Event">Event</a></li><li><a href="global.html#Magnifier">Magnifier</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#addNewTimestamp">addNewTimestamp</a></li><li><a href="global.html#applyFilters">applyFilters</a></li><li><a href="global.html#calcTimes">calcTimes</a></li><li><a href="global.html#cheatsheets">cheatsheets</a></li><li><a href="global.html#createCheckboxEvents">createCheckboxEvents</a></li><li><a href="global.html#createNewCategory">createNewCategory</a></li><li><a href="global.html#createNewCheatsheet">createNewCheatsheet</a></li><li><a href="global.html#createNewStamp">createNewStamp</a></li><li><a href="global.html#createTestItems">createTestItems</a></li><li><a href="global.html#dayDiff">dayDiff</a></li><li><a href="global.html#filterByCategory">filterByCategory</a></li><li><a href="global.html#filterBySearch">filterBySearch</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getFromLocalStorage">getFromLocalStorage</a></li><li><a href="global.html#getHrsString">getHrsString</a></li><li><a href="global.html#getIcon">getIcon</a></li><li><a href="global.html#paginateTimestamps">paginateTimestamps</a></li><li><a href="global.html#renderCatOptions">renderCatOptions</a></li><li><a href="global.html#renderCheckboxes">renderCheckboxes</a></li><li><a href="global.html#renderStamps">renderStamps</a></li><li><a href="global.html#renderTimestamps">renderTimestamps</a></li><li><a href="global.html#renderWebsite">renderWebsite</a></li><li><a href="global.html#saveToLocalStorage">saveToLocalStorage</a></li><li><a href="global.html#timeDiffString">timeDiffString</a></li><li><a href="global.html#timeSinceCat">timeSinceCat</a></li><li><a href="global.html#timestamps">timestamps</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu May 04 2023 20:52:39 GMT+0200 (czas środkowoeuropejski letni)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri May 05 2023 12:57:47 GMT+0200 (czas środkowoeuropejski letni)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -95,6 +95,7 @@ const paginateTimestamps = function (
  * render wlasciwy elementow timestamps
  * @param {*} table
  * @param {*} container
+ * @param {*} page_container - @see paginateTimestamps
  */
 const renderTimestamps = function (table, container, page_container) {
   container.innerHTML = ``;

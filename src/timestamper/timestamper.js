@@ -29,7 +29,15 @@ import {
 
 import { filterByCategory, filterBySearch, applyFilters } from "./filters.js";
 
+/**
+ * Full array of timestamp objects
+ * @type {Array<Stamp>}
+ */
 let timestamps = [];
+/**
+ * Filtered/affected array of timestamp objects
+ * @type {Array<Stamp>}
+ */
 let renderStamps = [];
 let categories = new Set();
 let icons = []; //TODO: chodzilo zeby gdyby grid ikon byl renderowany dynamicznie - co ma sens
@@ -85,7 +93,10 @@ let pages = document.querySelectorAll(".page");
 /* -------------------------------------------------------------------------- */
 let checkboxes = document.querySelectorAll(".cat-filter");
 const search_input = document.querySelector(".search-input");
-
+/**
+ * Ustawia wybrana ikone selectedIcon na kliknieta oraz ustawia kolor wybranej
+ * @param {*} e
+ */
 const getIcon = function (e) {
   selectedIcon = e.target.getAttribute("name");
   cat_icons.forEach((icon) => {
@@ -95,7 +106,10 @@ const getIcon = function (e) {
 };
 
 /**
- * funkcja tworzy nowa kategorie na podstawie inputow ze strony i dodaje do setu
+ * nie mylic @see createNewCategory
+ * funkcja submit tworzaca z inputow nowa kategorie (obiekt Category) na podstawie inputow ze strony i dodaje do setu
+ * wykorzystujac do tego funkcje @see createNewCategory oraz sprawdzajac czy nazwa nie jest zajeta
+ * oraz @see renderCheckboxes
  */
 const addNewCategory = function () {
   const name = cat_name_input.value;
@@ -125,6 +139,12 @@ const addNewCategory = function () {
   }
 };
 
+/**
+ * nie mylic @see createNewStamp
+ * Funkcja submit tworzaca wykorzystujac inputy nowy obiekt Stamp @see createNewStamp
+ * oraz dodajaca do listy @see timestamps
+ * wywoluje render timestampow @see renderWebiste()
+ */
 const addNewTimestamp = function () {
   const cat_input = stamp_cat_input.value;
   const cat = Array.from(categories).find((obj) => {
@@ -150,6 +170,9 @@ const saveToLocalStorage = function (arr, arr_name) {
   localStorage.setItem(`${arr_name}`, JSON.stringify(arr));
 };
 
+/**
+ * Funckja z locaStorage bioraca informacje o timestamps oraz kategoriach categories
+ */
 const getFromLocalStorage = function () {
   const localStamps = JSON.parse(localStorage.getItem("timestamps"));
   if (localStamps) timestamps = localStamps;
@@ -177,6 +200,11 @@ const debugFunction = function () {
   console.log(`categories: ${categories}`);
 };
 
+/**
+ * funkcja tworzaca kilka przykladowych timestampow oraz kategorii wykorzystujac
+ * @see createNewStamp , @see createNewCategory
+ * oraz renderujaca strone i tworzaca event listenery dla tych nowych obiektow
+ */
 const createTestItems = function () {
   const newCat1 = createNewCategory(
     "Programming",
@@ -237,7 +265,9 @@ const mainFunction = function () {
 };
 
 mainFunction();
-
+/**
+ * Funkcja renderujaca strone i dodajaca zdarzenia paginacji
+ */
 function renderWebsite() {
   paginateTimestamps(
     renderStamps,
@@ -248,7 +278,9 @@ function renderWebsite() {
   );
   createPageEvents();
 }
-
+/**
+ * Funkcja dodajaca eventlistenery do obiektow checkboxow filtrów
+ */
 function createCheckboxEvents() {
   checkboxes.forEach((check) => {
     check.addEventListener("change", (e) => {

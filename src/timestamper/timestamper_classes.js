@@ -16,7 +16,11 @@ import {
 } from "./stamp_tools.js";
 
 /**
- * Klasa tworzonych kategorii
+ * Category class object
+ * @typedef {Object} Category
+ * @param {String} name - category name string
+ * @param {String} icon - icon name
+ * @param {String}  color - color string in hex format
  */
 class Category {
   constructor(name, icon, color) {
@@ -26,6 +30,16 @@ class Category {
   }
 }
 
+/**
+ * Category class object
+ * @typedef {Object} Stamp
+ * @param {Category} category - supplied Category object
+ * @param {Date} date - set or automatic Date object
+ * @param {String}  dateStr - date in string format (DD:MM:YY)
+ * @param {String}  dateHrs - hour part of date in string format (HH:MM:SS)
+ * @param {String} interval - time in string format since last instance of object with category
+ * @param {Number} times - number of category instance objects in timestamps today (getDate)
+ */
 class Stamp {
   constructor(category, date, dateStr, hrsStr, interval, times) {
     this.category = category;

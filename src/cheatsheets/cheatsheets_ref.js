@@ -19,7 +19,7 @@
 // juz jest, w postaci filterRenderList, ale moze by to jakos lepiej, jak props/storage w pinia, idk, jedno zrodlo prawdy
 
 /**
- * Arrays of cheatsheet objects - See {@tutorial general-tutorial}
+ * Array of cheatsheet objects - See {@tutorial general-tutorial}
  * @type {Array}
  */
 let cheatsheets = []; //tablica linkow w systemie

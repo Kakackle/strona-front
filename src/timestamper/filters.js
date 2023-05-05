@@ -6,10 +6,13 @@
  * @author MM
  */
 
+import { Stamp } from "./timestamper_classes";
+
 /**
  * Filter by list of categories (eg. from checkboxes)
- * @param {Array} unfiltered - input list
- * @param {Array} checkboxes - all DOM checkbox elements
+ * @param {Array<Stamp>} unfiltered - input list of Stamp objects
+ * @param {Array<Node>} checkboxes - all DOM checkbox elements (NodeList)
+ * @returns {Array<Stamp>} array of filtered objects
  */
 const filterByCategory = function (unfiltered, checkboxes) {
   let appliedFilters = [];
@@ -26,7 +29,12 @@ const filterByCategory = function (unfiltered, checkboxes) {
   }
   return filtered;
 };
-
+/**
+ * Filter by searchquery, check for query in category name
+ * @param {Array<Stamp>} unfiltered - input list of Stamp objects
+ * @param {Array<Node>} checkboxes - all DOM checkbox elements (NodeList)
+ * @returns {Array<Stamp>} array of filtered objects
+ */
 const filterBySearch = function (unfiltered, queryEl) {
   let query = queryEl.value;
   let filtered = [];

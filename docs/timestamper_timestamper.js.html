@@ -57,7 +57,15 @@ import {
 
 import { filterByCategory, filterBySearch, applyFilters } from "./filters.js";
 
+/**
+ * Full array of timestamp objects
+ * @type {Array&lt;Stamp>}
+ */
 let timestamps = [];
+/**
+ * Filtered/affected array of timestamp objects
+ * @type {Array&lt;Stamp>}
+ */
 let renderStamps = [];
 let categories = new Set();
 let icons = []; //TODO: chodzilo zeby gdyby grid ikon byl renderowany dynamicznie - co ma sens
@@ -113,7 +121,10 @@ let pages = document.querySelectorAll(".page");
 /* -------------------------------------------------------------------------- */
 let checkboxes = document.querySelectorAll(".cat-filter");
 const search_input = document.querySelector(".search-input");
-
+/**
+ * Ustawia wybrana ikone selectedIcon na kliknieta oraz ustawia kolor wybranej
+ * @param {*} e
+ */
 const getIcon = function (e) {
   selectedIcon = e.target.getAttribute("name");
   cat_icons.forEach((icon) => {
@@ -123,7 +134,10 @@ const getIcon = function (e) {
 };
 
 /**
- * funkcja tworzy nowa kategorie na podstawie inputow ze strony i dodaje do setu
+ * nie mylic @see createNewCategory
+ * funkcja submit tworzaca z inputow nowa kategorie (obiekt Category) na podstawie inputow ze strony i dodaje do setu
+ * wykorzystujac do tego funkcje @see createNewCategory oraz sprawdzajac czy nazwa nie jest zajeta
+ * oraz @see renderCheckboxes
  */
 const addNewCategory = function () {
   const name = cat_name_input.value;
@@ -153,6 +167,12 @@ const addNewCategory = function () {
   }
 };
 
+/**
+ * nie mylic @see createNewStamp
+ * Funkcja submit tworzaca wykorzystujac inputy nowy obiekt Stamp @see createNewStamp
+ * oraz dodajaca do listy @see timestamps
+ * wywoluje render timestampow @see renderWebiste()
+ */
 const addNewTimestamp = function () {
   const cat_input = stamp_cat_input.value;
   const cat = Array.from(categories).find((obj) => {
@@ -178,6 +198,9 @@ const saveToLocalStorage = function (arr, arr_name) {
   localStorage.setItem(`${arr_name}`, JSON.stringify(arr));
 };
 
+/**
+ * Funckja z locaStorage bioraca informacje o timestamps oraz kategoriach categories
+ */
 const getFromLocalStorage = function () {
   const localStamps = JSON.parse(localStorage.getItem("timestamps"));
   if (localStamps) timestamps = localStamps;
@@ -205,6 +228,11 @@ const debugFunction = function () {
   console.log(`categories: ${categories}`);
 };
 
+/**
+ * funkcja tworzaca kilka przykladowych timestampow oraz kategorii wykorzystujac
+ * @see createNewStamp , @see createNewCategory
+ * oraz renderujaca strone i tworzaca event listenery dla tych nowych obiektow
+ */
 const createTestItems = function () {
   const newCat1 = createNewCategory(
     "Programming",
@@ -265,7 +293,9 @@ const mainFunction = function () {
 };
 
 mainFunction();
-
+/**
+ * Funkcja renderujaca strone i dodajaca zdarzenia paginacji
+ */
 function renderWebsite() {
   paginateTimestamps(
     renderStamps,
@@ -276,7 +306,9 @@ function renderWebsite() {
   );
   createPageEvents();
 }
-
+/**
+ * Funkcja dodajaca eventlistenery do obiektow checkboxow filtrów
+ */
 function createCheckboxEvents() {
   checkboxes.forEach((check) => {
     check.addEventListener("change", (e) => {
@@ -369,13 +401,13 @@ function createEventListeners() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Category.html">Category</a></li><li><a href="VanillaTilt.html">VanillaTilt</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-general-tutorial.html">Title of the tut</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Event">Event</a></li><li><a href="global.html#Magnifier">Magnifier</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#applyFilters">applyFilters</a></li><li><a href="global.html#calcTimes">calcTimes</a></li><li><a href="global.html#cheatsheets">cheatsheets</a></li><li><a href="global.html#createNewCategory">createNewCategory</a></li><li><a href="global.html#createNewCheatsheet">createNewCheatsheet</a></li><li><a href="global.html#createNewStamp">createNewStamp</a></li><li><a href="global.html#dayDiff">dayDiff</a></li><li><a href="global.html#filterByCategory">filterByCategory</a></li><li><a href="global.html#getHrsString">getHrsString</a></li><li><a href="global.html#paginateTimestamps">paginateTimestamps</a></li><li><a href="global.html#renderCatOptions">renderCatOptions</a></li><li><a href="global.html#renderCheckboxes">renderCheckboxes</a></li><li><a href="global.html#renderTimestamps">renderTimestamps</a></li><li><a href="global.html#saveToLocalStorage">saveToLocalStorage</a></li><li><a href="global.html#timeDiffString">timeDiffString</a></li><li><a href="global.html#timeSinceCat">timeSinceCat</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="VanillaTilt.html">VanillaTilt</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-general-tutorial.html">Title of the tut</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Event">Event</a></li><li><a href="global.html#Magnifier">Magnifier</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#addNewTimestamp">addNewTimestamp</a></li><li><a href="global.html#applyFilters">applyFilters</a></li><li><a href="global.html#calcTimes">calcTimes</a></li><li><a href="global.html#cheatsheets">cheatsheets</a></li><li><a href="global.html#createCheckboxEvents">createCheckboxEvents</a></li><li><a href="global.html#createNewCategory">createNewCategory</a></li><li><a href="global.html#createNewCheatsheet">createNewCheatsheet</a></li><li><a href="global.html#createNewStamp">createNewStamp</a></li><li><a href="global.html#createTestItems">createTestItems</a></li><li><a href="global.html#dayDiff">dayDiff</a></li><li><a href="global.html#filterByCategory">filterByCategory</a></li><li><a href="global.html#filterBySearch">filterBySearch</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getFromLocalStorage">getFromLocalStorage</a></li><li><a href="global.html#getHrsString">getHrsString</a></li><li><a href="global.html#getIcon">getIcon</a></li><li><a href="global.html#paginateTimestamps">paginateTimestamps</a></li><li><a href="global.html#renderCatOptions">renderCatOptions</a></li><li><a href="global.html#renderCheckboxes">renderCheckboxes</a></li><li><a href="global.html#renderStamps">renderStamps</a></li><li><a href="global.html#renderTimestamps">renderTimestamps</a></li><li><a href="global.html#renderWebsite">renderWebsite</a></li><li><a href="global.html#saveToLocalStorage">saveToLocalStorage</a></li><li><a href="global.html#timeDiffString">timeDiffString</a></li><li><a href="global.html#timeSinceCat">timeSinceCat</a></li><li><a href="global.html#timestamps">timestamps</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu May 04 2023 20:52:39 GMT+0200 (czas środkowoeuropejski letni)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri May 05 2023 12:57:47 GMT+0200 (czas środkowoeuropejski letni)
 </footer>
 
 <script> prettyPrint(); </script>
