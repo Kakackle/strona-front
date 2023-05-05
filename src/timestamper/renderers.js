@@ -157,12 +157,19 @@ const renderTimestamps = function (table, container, page_container) {
  */
 const renderCatOptions = function (table, container) {
   container.innerHTML = ``;
+  let selected = 0;
   table.forEach((cat) => {
     const optionEl = document.createElement("option");
     optionEl.value = cat.name;
     optionEl.text = cat.name;
+    if (selected === 0) {
+      optionEl.setAttribute("selected", "");
+      selected = 1;
+    }
     container.appendChild(optionEl);
   });
+  //nope
+  // container.firstChild.setAttribute("selected", "selected");
 };
 
 export {

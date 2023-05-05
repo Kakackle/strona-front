@@ -36,10 +36,13 @@ const dayDiff = function (date1, date2) {
 //FIXME: troche psuje zasade SOLID, ale to modulo 24...
 //also kompletnie zbyteczne, jest przeciez .getHours() itd... ja pierdole
 const getHrsString = function (date) {
-  const dateS = new Date(date.getTime());
-  let secs = Math.floor((dateS / 1000) % 60);
-  let mins = Math.floor((dateS / (1000 * 60)) % 60);
-  let hrs = Math.floor((dateS / (1000 * 60 * 60)) % 24);
+  // const dateS = new Date(date.getTime());
+  // let secs = Math.floor((dateS / 1000) % 60);
+  // let mins = Math.floor((dateS / (1000 * 60)) % 60);
+  // let hrs = Math.floor((dateS / (1000 * 60 * 60)) % 24);
+  let secs = date.getSeconds();
+  let mins = date.getMinutes();
+  let hrs = date.getHours();
   secs = secs < 10 ? "0" + secs : secs;
   mins = mins < 10 ? "0" + mins : mins;
   hrs = hrs < 10 ? "0" + hrs : hrs;

@@ -120,7 +120,7 @@
 .side-container {
   display: flex;
   /* width: clamp(12rem, 30vw, 30rem); */
-  justify-content: center;
+  justify-content: start;
   width: max(30vw, 12rem);
   flex-direction: column;
   position: relative;

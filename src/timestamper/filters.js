@@ -6,7 +6,7 @@
  * @author MM
  */
 
-import { Stamp } from "./timestamper_classes";
+import { Stamp } from "./timestamper_classes.js";
 
 /**
  * Filter by list of categories (eg. from checkboxes)

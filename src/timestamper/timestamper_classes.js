@@ -67,7 +67,6 @@ class Stamp {
  * @returns {Category} Category object
  */
 const createNewCategory = function (name, icon, color) {
-  // TODO: moze jakas walidacja danych przy tworzeniu nowej kategorii
   const newCat = new Category(name, icon, color);
   return newCat;
 };

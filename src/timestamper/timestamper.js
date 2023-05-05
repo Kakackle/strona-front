@@ -1,9 +1,5 @@
-//FIXME: kwestia do rozwazenia, majac klase close button, zawsze zamykajaca
-//parenta, moze mozna przypisac do kazdego wystapienia klasy ten sam event listener
-//zamkniecia parenta targetu
-//gdzie koniecznie targetu zeby zamykalo tylko jeden a nie wiele? - maybe
+//TODO: kwestia close-button i np czy moze po prostu zamykac parent parent node zamiast specyficznie
 
-//TODO: !WAZNE! szczegolnie w tym pliku - nie wszystkie funkcje udokumentowane dobrze
 import {
   Category,
   Stamp,
@@ -40,14 +36,13 @@ let timestamps = [];
  */
 let renderStamps = [];
 let categories = new Set();
-let icons = []; //TODO: chodzilo zeby gdyby grid ikon byl renderowany dynamicznie - co ma sens
-// ale pozniej
 // let appliedFilters = [];
 // let searchQuery = "";
 //FIXME: brzydkie takie globalne przechowywanie ale poki co
 let selectedIcon = "";
 let selected_page = 1;
 let pagination_amount = 10;
+let test_items_created = 0;
 
 /* -------------------------------------------------------------------------- */
 /*                                   buttons                                  */
@@ -115,9 +110,11 @@ const addNewCategory = function () {
   const name = cat_name_input.value;
   const icon = selectedIcon;
   const color = cat_color_input.value;
+  if (!name || !icon || !color) {
+    alert("You must fill all input options");
+    return;
+  }
   const newCat = createNewCategory(name, icon, color);
-  //TODO: sprawdzenie unikalnosci tworzonej kategorii, po nazwie bo chuj
-  //ale mozna by to jakos upieknic
   let createCat = 1;
   Array.from(categories).forEach((cat) => {
     if (newCat.name === cat.name) {
@@ -146,16 +143,45 @@ const addNewCategory = function () {
  * wywoluje render timestampow @see renderWebiste()
  */
 const addNewTimestamp = function () {
-  const cat_input = stamp_cat_input.value;
+  let cat_input = stamp_cat_input.value;
+  let time_input = stamp_time_input.value;
+  const timeNow = new Date();
+  if (!cat_input) {
+    const catArray = Array.from(categories);
+    cat_input = catArray[0].name;
+  }
   const cat = Array.from(categories).find((obj) => {
     return obj.name === cat_input;
   });
-  const time_input = stamp_time_input.value;
-  //TODO: !WAZNE! sam time input nie wystarczy? bo do obiektu chcemy podac cale date
-  //wiec albo nowy html input type="date" albo jakos wyciagnac cale date tylko z time?
-  //bo powiedzmy ze uzytnik moze ustawic tylko godzine dzisiaj, dzien automatycznie dzisiaj,
-  //jesli godzina podana
-  const dateStamp = new Date();
+  if (!time_input) {
+    time_input = `${timeNow.getHours()}:${timeNow.getMinutes()}:${timeNow.getSeconds()}`;
+  }
+  const timeArr = time_input.split(":");
+  let timeH = timeArr[0];
+  if (timeH[0] === "0") timeH = parseInt(timeH[1]);
+  else {
+    timeH = parseInt(timeH);
+  }
+  let timeM = timeArr[1];
+  if (timeM[0] === "0") timeM = parseInt(timeM[1]);
+  else {
+    timeM = parseInt(timeM);
+  }
+  let timeS = timeArr[2];
+  if (timeS[0] === "0") timeS = parseInt(timeS[1]);
+  else {
+    timeS = parseInt(timeS);
+  }
+  console.log(`timeH: ${timeH}, timeM: ${timeM}, timeS: ${timeS}`);
+  const dateStamp = new Date(
+    parseInt(timeNow.getFullYear()),
+    parseInt(timeNow.getMonth()),
+    parseInt(timeNow.getDate()),
+    timeH,
+    timeM,
+    timeS
+  );
+  console.log(dateStamp);
   const newStamp = createNewStamp(cat, dateStamp, timestamps);
   timestamps.unshift(newStamp);
   renderWebsite();
@@ -206,42 +232,50 @@ const debugFunction = function () {
  * oraz renderujaca strone i tworzaca event listenery dla tych nowych obiektow
  */
 const createTestItems = function () {
-  const newCat1 = createNewCategory(
-    "Programming",
-    "git-branch-outline",
-    "#80D39B"
-  );
-  const newCat2 = createNewCategory(
-    "Games",
-    "game-controller-outline",
-    "#FF6000"
-  );
-  const newCat3 = createNewCategory("DIY", "accessibility-outline", "#EDDEA4");
-  categories.add(newCat1);
-  categories.add(newCat2);
-  categories.add(newCat3);
-  renderCheckboxes(categories, filter_checkboxes, "CATEGORIES:");
-  renderCatOptions(categories, stamp_cat_input);
+  if (test_items_created === 0) {
+    const newCat1 = createNewCategory(
+      "Programming",
+      "git-branch-outline",
+      "#80D39B"
+    );
+    const newCat2 = createNewCategory(
+      "Games",
+      "game-controller-outline",
+      "#FF6000"
+    );
+    const newCat3 = createNewCategory(
+      "DIY",
+      "accessibility-outline",
+      "#EDDEA4"
+    );
+    categories.add(newCat1);
+    categories.add(newCat2);
+    categories.add(newCat3);
+    renderCheckboxes(categories, filter_checkboxes, "CATEGORIES");
+    renderCatOptions(categories, stamp_cat_input);
+    test_items_created = 1;
+  }
+  const catArray = Array.from(categories);
   const newStamp4 = createNewStamp(
-    newCat3,
+    catArray[2],
     new Date(2023, 5 - 1, 2, 9, 41, 2),
     timestamps
   );
   timestamps.unshift(newStamp4);
   const newStamp3 = createNewStamp(
-    newCat1,
+    catArray[0],
     new Date(2023, 5 - 1, 3, 21, 7, 35),
     timestamps
   );
   timestamps.unshift(newStamp3);
   const newStamp2 = createNewStamp(
-    newCat2,
+    catArray[1],
     new Date(2023, 5 - 1, 3, 14, 15, 0),
     timestamps
   );
   timestamps.unshift(newStamp2);
   const newStamp1 = createNewStamp(
-    newCat1,
+    catArray[0],
     new Date(2023, 5 - 1, 4, 17, 29, 1),
     timestamps
   );
@@ -304,6 +338,12 @@ function createPageEvents() {
 
 add_stamp_button.addEventListener("click", (e) => {
   add_drop_stamp.style.display = "flex";
+  const timeNow = new Date();
+  stamp_cat_input.value = `${timeNow.getHours()}:${timeNow.getMinutes()}:${timeNow.getSeconds()}`;
+  stamp_cat_input.setAttribute(
+    "max",
+    `${timeNow.getHours()}:${timeNow.getMinutes()}`
+  );
 });
 close_stamp_drop_button.addEventListener("click", (e) => {
   add_drop_stamp.style.display = "none";
