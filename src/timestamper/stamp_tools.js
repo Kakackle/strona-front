@@ -68,9 +68,9 @@ const getDateString = function (date) {
 /**
  * Funkcja obliczajaca ilosc wystapien kategorii cat w ostatnich days dniach
  * z podanej tablicy table, najpewniej timestamps
- *  @param {*} cat
- * @param {Number} days
- * @param {Array} table
+ *  @param {Category} cat - category object
+ * @param {Number} days - how many days in the past
+ * @param {Array} table - timestamps table
  * @returns {Number} times - ilosc razy
  */
 const calcTimes = function (cat, days, table) {
@@ -85,6 +85,103 @@ const calcTimes = function (cat, days, table) {
     }
   });
   return times;
+};
+/**
+ * Funkcja obliczajaca ilosc wystapien kategorii cat pomiedzy datami day1 a day2
+ * @param {Category} cat - category obj
+ * @param {Date} start - start date
+ * @param {Date} end - end date
+ * @param {Array} table - tablica poczatkowa
+ * @returns {Number} times - ilosc wystapien w podanym przedziale czasowym
+ */
+//TODO: walidacja gdzies czy endDate jest po startDate - najpewiej w main pliku przy odbiorzez DOM
+const calcTimesDates = function (cat, start, end, table) {
+  let times = 0;
+  let startDate = start.getTime();
+  let endDate = end.getTime();
+  table.forEach((item) => {
+    if (item.getCategory() === cat) {
+      if (item.date.getTime() >= startDate && item.date.getTime() <= endDate) {
+        times += 1;
+      }
+    }
+  });
+  return times;
+};
+
+/**
+ * Funkcja obliczajaca ilosc wystapien cat w kazdym dniu z przedzialu od dzisiaj
+ * do dzisiaj - days
+ * @param {Category} cat
+ * @param {*} days
+ * @param {*} table
+ * @returns {Array<number>} - tablica dziennych wystapien, o dlugosci days
+ */
+const calcTimesDaily = function (cat, days, table) {
+  let times = [];
+  let today = new Date();
+  table.forEach((item) => {
+    //musi sprawdzic czy miesci sie w DNIU i nalezy do kategorii,
+    //dla kazdego dnia z przedzialu od today do today-days
+    for (let i = 0; i < 7; i++) {
+      if (item.getCategory() === cat) {
+        if (dayDiff(item.date, today) === days - i) {
+          times[i] += 1;
+        }
+      }
+    }
+  });
+  return times;
+};
+//FIXME: daily zwraca puste i NaN i tylko 6? ehhhh
+/**
+ * Funkcja calcTimes dla wielu kategorii - wykorzystujaca istniejaca dla jednej
+ * @param {*} cats - lista kategorii
+ * @param {*} days
+ * @param {*} table
+ * @returns {Array<number>} - lista wystapien w ciagu days dla kazdej z podanych kolejnosci, w podanej kolejnosci
+ */
+const calcTimesMulti = function (cats, days, table) {
+  let timesM = [];
+  let i = 0;
+  cats.forEach((cat) => {
+    timesM[i] = calcTimes(cat, days, table);
+    i++;
+  });
+  return timesM;
+};
+
+/**
+ * Funkcja calcTimes dla wielu kategorii oraz daily - wykorzystujaca istniejaca dla jednej
+ * @param {*} cats - lista kategorii
+ * @param {*} days
+ * @param {*} table
+ * @returns {Array<number>} - lista wystapien daily dla kazdej z podanych cat kolejnosci, w podanej kolejnosci
+ */
+const calcTimesMultiDaily = function (cats, days, table) {
+  let timesM = [];
+  let i = 0;
+  cats.forEach((cat) => {
+    timesM[i] = calcTimesDaily(cat, days, table);
+    i++;
+  });
+  return timesM;
+};
+/**
+ * Funkcja calcTimes dla wielu kategorii oraz daily - wykorzystujaca istniejaca dla jednej
+ * @param {*} cats - lista kategorii
+ * @param {*} days
+ * @param {*} table
+ * @returns {Array<number>} - lista wystapien daily dla kazdej z podanych cat kolejnosci, w podanej kolejnosci
+ */
+const calcTimesMultiDates = function (cats, start, end, table) {
+  let timesM = [];
+  let i = 0;
+  cats.forEach((cat) => {
+    timesM[i] = calcTimesDates(cat, start, end, table);
+    i++;
+  });
+  return timesM;
 };
 
 /**
@@ -114,5 +211,10 @@ export {
   getDateString,
   getHrsString,
   calcTimes,
+  calcTimesDaily,
+  calcTimesMulti,
+  calcTimesMultiDaily,
+  calcTimesDates,
+  calcTimesMultiDates,
   dayDiff,
 };

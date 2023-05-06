@@ -313,7 +313,7 @@
               </div>
             </div>
           </container>
-          <containter class="side-cat-container">
+          <!-- <containter class="side-cat-container">
             <div class="input-style">
               <label for="cat-name-input">CHOOSE A NAME:</label>
               <input
@@ -410,11 +410,205 @@
               class="round-button submit-cat-button hover"
               name="arrow-forward-circle-outline"
             ></ion-icon>
-          </containter>
+          </containter> -->
         </container>
       </section>
+      <section class="report-section">
+        <p class="report-section-title">
+          TEST REPORTS FOR DATA GATHERING FUNCTIONS
+        </p>
+        <textarea class="report-text">what</textarea>
+        <button class="submit-button generate-report hover">
+          GENERATE REPORT
+        </button>
+      </section>
       <section class="graph-section">
-        <p>CONTENT</p>
+        <div class="graph-section-title">GRAPH SECTION</div>
+        <div class="graph-section-add">
+          <div class="add-graph-div">
+            <span class="hover add-bar-one">ADD BAR GRAPH TIMES</span>
+          </div>
+          <div class="add-graph-div">
+            <span class="hover add-bar-multi">ADD MULTI BAR GRAPH</span>
+          </div>
+          <div class="add-graph-div">
+            <span class="hover add-pie">ADD PIE GRAPH TIMES</span>
+          </div>
+        </div>
+        <div class="bar-graph-container graph-container">
+          <div class="bar-graph-input input-style">
+            <div class="bar-cat-input-div input-style">
+              <label for="bar-cat-input">CHOOSE A CATEGORY:</label>
+              <select name="bar-cat-input" class="bar-cat-input">
+                <option value="Programowanie" selected>Programowanie</option>
+                <option value="Majsterkowanie">Majsterkowanie</option>
+                <option value="Gitara">Gitara</option>
+              </select>
+            </div>
+            <div class="bar-time-input-div input-style">
+              <label for="bar-days-input ">CHOOSE LAST DAYS AMOUNT:</label>
+              <input
+                class="bar-days-input days-input"
+                type="number"
+                value="1"
+              />
+              <span>OR</span>
+              <label for="bar-start-input">START DAY:</label>
+              <input type="date" class="bar-start-input" />
+              <label for="bar-end-input">END DAY:</label>
+              <input type="date" class="bar-end-input" />
+            </div>
+            <div class="bar-type-input input-style">
+              <span>GRAPH TYPE:</span>
+
+              <input
+                type="checkbox"
+                class="graph-type-box type-bar"
+                value="bar"
+              />
+              <label for="type-bar">BAR</label>
+
+              <input
+                type="checkbox"
+                class="graph-type-box type-line"
+                value="line"
+              />
+              <label for="type-line">LINE</label>
+            </div>
+            <button class="submit-bar-graph submit-button hover">
+              CREATE GRAPH
+              <ion-icon
+                class="submit-icon"
+                name="arrow-forward-outline"
+              ></ion-icon>
+            </button>
+            <ion-icon
+              name="close-outline"
+              class="close-button close-bar-graph hover"
+            ></ion-icon>
+          </div>
+          <div class="bar-graph-area graph-area">
+            <div class="bar-graph-title graph-title">
+              CATEGORY1 LAST X DAYS BAR GRAPH
+            </div>
+            <div class="bar-graph-proper graph-proper">
+              <div class="bar-graph-background graph-background">what</div>
+            </div>
+          </div>
+        </div>
+        <div class="bar-multi-container graph-container">
+          <div class="bar-graph-input input-style">
+            <div class="bar-multi-cat-input-div input-style">
+              <span>CHOOSE UP TO 5 CATEGORIES:</span>
+              <div class="bar-multi-cat-input">
+                <div class="checkbox-style">
+                  <input type="checkbox" class="multi-bar-cat" />
+                  <label for="multi-bar-cat">CATEGORY1</label>
+                </div>
+                <div class="checkbox-style">
+                  <input type="checkbox" class="multi-bar-cat" />
+                  <label for="multi-bar-cat">CATEGORY2</label>
+                </div>
+              </div>
+            </div>
+            <div class="bar-time-input-div input-style">
+              <label for="multi-days-input">CHOOSE LAST DAYS AMOUNT:</label>
+              <input
+                class="multi-days-input days-input"
+                type="number"
+                value="1"
+              />
+              <span>OR</span>
+              <label for="multi-start-input">START DAY:</label>
+              <input type="date" class="multi-start-input" />
+              <label for="multi-end-input">END DAY:</label>
+              <input type="date" class="multi-end-input" />
+            </div>
+            <div class="multi-type-input input-style">
+              <span>GRAPH TYPE:</span>
+
+              <input
+                type="checkbox"
+                class="graph-type-box type-bar-multi"
+                value="bar"
+              />
+              <label for="type-bar-multi">BAR</label>
+
+              <input
+                type="checkbox"
+                class="graph-type-box type-line-multi"
+                value="line"
+              />
+              <label for="type-line-multi">LINE</label>
+            </div>
+            <button class="submit-multi-graph submit-button hover">
+              CREATE GRAPH
+              <ion-icon
+                class="submit-icon"
+                name="arrow-forward-outline"
+              ></ion-icon>
+            </button>
+            <ion-icon
+              name="close-outline"
+              class="close-button close-multi-graph hover"
+            ></ion-icon>
+          </div>
+          <div class="multi-graph-area graph-area">
+            <div class="multi-graph-title graph-title">
+              MULTI LAST X DAYS BAR GRAPH
+            </div>
+            <div class="multi-graph-proper graph-proper">
+              <div class="multi-graph-background graph-background">what</div>
+            </div>
+          </div>
+        </div>
+        <div class="pie-container graph-container">
+          <div class="pie-graph-input input-style">
+            <div class="pie-cat-input-div input-style">
+              <span>CHOOSE UP TO 5 CATEGORIES:</span>
+              <div class="pie-cat-input">
+                <div class="checkbox-style">
+                  <input type="checkbox" class="pie-cat" />
+                  <label for="pie-cat" value="CATEGORY1">CATEGORY1</label>
+                </div>
+                <div class="checkbox-style">
+                  <input type="checkbox" class="pie-cat" />
+                  <label for="pie-cat">CATEGORY2</label>
+                </div>
+              </div>
+            </div>
+            <div class="pie-time-input-div input-style">
+              <label for="pie-days-input">CHOOSE LAST DAYS AMOUNT:</label>
+              <input
+                class="pie-days-input days-input"
+                type="number"
+                value="1"
+              />
+              <span>OR</span>
+              <label for="pie-start-input">START DAY:</label>
+              <input type="date" class="pie-start-input" />
+              <label for="pie-end-input">END DAY:</label>
+              <input type="date" class="pie-end-input" />
+            </div>
+            <button class="submit-pie-graph submit-button hover">
+              CREATE GRAPH
+              <ion-icon
+                class="submit-icon"
+                name="arrow-forward-outline"
+              ></ion-icon>
+            </button>
+            <ion-icon
+              name="close-outline"
+              class="close-button close-pie-graph hover"
+            ></ion-icon>
+          </div>
+          <div class="pie-graph-area graph-area">
+            <div class="pie-graph-title graph-title">MULTI PIE CHART</div>
+            <div class="pie-graph-proper graph-proper">
+              <div class="pie-graph-background graph-background">what</div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
     <script
@@ -428,3 +622,12 @@
     <script type="module" src="timestamper.js"></script>
   </body>
 </html>
+<!-- NAUCZKI NA PRZYSZLOSC:
+zdefiniuj sobie planujac sekcje template nazw elementow np dla grafow
+graph-cont-[nazwa]
+graph-title-[nazwa]
+zebys potem mogl patrzec latwo w pliku i od razu wiedziec o co chodzi
+moze nawet jeszcze bardziej ogolne nazwy typu
+najpierw [typ elementu]-[grupa elementow]-[nazwa elementu]
+i potem branie elementow do event-listenerow moze byc tez sporo ulationwe, bo bedziesz bral grupy nazwowe
+i potem wsrod grup wyciagal dalej jakos? maybe -->

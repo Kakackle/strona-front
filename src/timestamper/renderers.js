@@ -1,3 +1,6 @@
+//TODO: zakladam ze tutaj beda funkcje rysowania grafow
+// a takze renderowania checkboxow / opcji select filtrow na przycisku "odswiez boxy"
+
 /**
  * funkcja renderujaca liste checkboxow, przyjmuje liste obiektow do stworzenai i container gdzie stworzyc
  * @param {*} categories - lista kategorii do renderowania

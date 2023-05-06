@@ -1,5 +1,16 @@
 //TODO: kwestia close-button i np czy moze po prostu zamykac parent parent node zamiast specyficznie
+//TODO: !WAZNE! przerzucic one-time selekcje (i moze eventlistenery open-close) do oddzielnego pliku
+// i jesli by stworzyc udostepniany obiekt to trzeba by potem odnosic sie [obiekt].element
+// ale mozna export default wszystkie elementy stworzone i po prostu importowac modul?
+// otoz chuj, bo mozna pisac export let = ... itd
+// ale potem jak zaimportujesz * from module, to musisz pisac module.element
+//zeby tego unikac, trzeba robic import {element1, element2, } itd, czyli named imports
+// mozna tez tego omijac robiac export default ...
+// ale na jeden plik moze byc tylko jeden export default
 
+//TODO: testy wszystkich wariacji calctimes na generate_report, bo widze ze bydzie debugowania sporo....
+//TODO: zbadac mozliwosc zrobienia eventlistenerow w oddzielnym pliku i np spakowanai ich w jedna funkcje i eksportowanie jej
+//a potem tylko importowanie i wywolywanie raz, dla tych one-time
 import {
   Category,
   Stamp,
@@ -13,6 +24,11 @@ import {
   getDateString,
   getHrsString,
   calcTimes,
+  calcTimesDaily,
+  calcTimesMulti,
+  calcTimesMultiDaily,
+  calcTimesDates,
+  calcTimesMultiDates,
   dayDiff,
 } from "./stamp_tools.js";
 
@@ -56,6 +72,22 @@ const add_cat_button = document.querySelector(".add-cat");
 const add_drop_cat = document.querySelector(".add-drop-cat");
 const submit_cat_button = document.querySelector(".submit-cat-button");
 const close_cat_drop_button = document.querySelector(".close-cat-drop");
+//////////////// GRAPHS /////////////////
+const add_bar_one_button = document.querySelector(".add-bar-one");
+const add_bar_multi_button = document.querySelector(".add-bar-multi");
+const add_pie_button = document.querySelector(".add-pie");
+const submit_bar_graph_button = document.querySelector(".submit-bar-graph");
+const submit_multi_graph_button = document.querySelector(".submit-multi-graph");
+const submit_pie_graph_button = document.querySelector(".submit-pie-graph");
+const close_bar_graph_button = document.querySelector(".close-bar-graph");
+const close_multi_graph_button = document.querySelector(".close-multi-graph");
+const close_pie_graph_button = document.querySelector(".close-pie-graph");
+const bar_graph_container = document.querySelector(".bar-graph-container");
+const bar_multi_container = document.querySelector(".bar-multi-container");
+const pie_container = document.querySelector(".pie-container");
+const report_text = document.querySelector(".report-text");
+const generate_report = document.querySelector(".generate-report");
+
 //////////////////////////////////////////////////////////////
 const get_local_button = document.querySelector(".get-local");
 const clear_local_button = document.querySelector(".clear-local");
@@ -88,6 +120,15 @@ let pages = document.querySelectorAll(".page");
 /* -------------------------------------------------------------------------- */
 let checkboxes = document.querySelectorAll(".cat-filter");
 const search_input = document.querySelector(".search-input");
+
+/* -------------------------------------------------------------------------- */
+/*                                   graphs                                   */
+/* -------------------------------------------------------------------------- */
+const bar_cat_input = document.querySelector(".bar-cat-input");
+const bar_days_input = document.querySelector(".bar-days-input");
+const bar_start_input = document.querySelector(".bar-start-input");
+const bar_end_input = document.querySelector(".bar-star-input");
+
 /**
  * Ustawia wybrana ikone selectedIcon na kliknieta oraz ustawia kolor wybranej
  * @param {*} e
@@ -128,6 +169,7 @@ const addNewCategory = function () {
     categories.add(newCat);
     renderCheckboxes(categories, filter_checkboxes, "CATEGORIES");
     renderCatOptions(categories, stamp_cat_input);
+    renderCatOptions(categories, bar_cat_input);
     //Setu nie mozna JSON.stringify, tylko array
     const categoriesArray = Array.from(categories);
     saveToLocalStorage(categoriesArray, "categories");
@@ -217,6 +259,7 @@ const clearLocalStorage = function () {
   renderCheckboxes(categories, filter_checkboxes, "CATEGORIES:");
   renderWebsite();
   renderCatOptions(categories, stamp_cat_input);
+  renderCatOptions(categories, bar_cat_input);
 };
 
 const testFunction = function () {};
@@ -253,6 +296,7 @@ const createTestItems = function () {
     categories.add(newCat3);
     renderCheckboxes(categories, filter_checkboxes, "CATEGORIES");
     renderCatOptions(categories, stamp_cat_input);
+    renderCatOptions(categories, bar_cat_input);
     test_items_created = 1;
   }
   const catArray = Array.from(categories);
@@ -294,6 +338,7 @@ const mainFunction = function () {
   renderStamps = timestamps;
   renderCheckboxes(categories, filter_checkboxes, "CATEGORIES:");
   renderCatOptions(categories, stamp_cat_input);
+  renderCatOptions(categories, bar_cat_input);
   renderWebsite();
   createEventListeners();
 };
@@ -354,6 +399,35 @@ add_cat_button.addEventListener("click", (e) => {
 close_cat_drop_button.addEventListener("click", (e) => {
   add_drop_cat.style.display = "none";
 });
+////// GRAPHS ////////
+add_bar_one_button.addEventListener("click", (e) => {
+  bar_graph_container.style.display = "block";
+});
+close_bar_graph_button.addEventListener("click", (e) => {
+  bar_graph_container.style.display = "none";
+});
+submit_bar_graph_button.addEventListener("click", (e) => {
+  bar_graph_container.style.display = "none";
+});
+add_bar_multi_button.addEventListener("click", (e) => {
+  bar_multi_container.style.display = "block";
+});
+close_multi_graph_button.addEventListener("click", (e) => {
+  bar_multi_container.style.display = "none";
+});
+submit_multi_graph_button.addEventListener("click", (e) => {
+  bar_multi_container.style.display = "none";
+});
+add_pie_button.addEventListener("click", (e) => {
+  pie_container.style.display = "block";
+});
+close_pie_graph_button.addEventListener("click", (e) => {
+  pie_container.style.display = "none";
+});
+submit_pie_graph_button.addEventListener("click", (e) => {
+  pie_container.style.display = "none";
+});
+
 //////////////////////
 cat_icons.forEach((icon) => {
   icon.addEventListener("click", (e) => {
@@ -391,6 +465,21 @@ debug_button.addEventListener("click", (e) => {
 test_items_button.addEventListener("click", (e) => {
   createTestItems();
   createEventListeners();
+});
+
+generate_report.addEventListener("click", (e) => {
+  console.log(`generating report...`);
+  const cat_name = bar_cat_input.value;
+  const cat = Array.from(categories).find((obj) => {
+    return obj.name === cat_name;
+  });
+  //TODO: ogolna funkcja albo na klasie cat typu getCatFromName robiaco to co wyzej
+  //a wyciaganie obiektu kategorii przyda sie zeby uzyskac z niej kolor, ikone itd do grafow
+  //wiec czesto wykorzystywane
+  const days = bar_days_input.value;
+  let number = calcTimesDaily(cat, days, timestamps);
+  report_text.innerText = number;
+  //TODO: ustalic czy calcTimes zlicza tez z dzisiaj, bo chyba cos nie tak
 });
 ////////////////////
 search_input.addEventListener("input", (e) => {
