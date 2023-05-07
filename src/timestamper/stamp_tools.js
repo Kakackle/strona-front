@@ -94,7 +94,7 @@ const calcTimes = function (cat, days, table) {
  * @param {Array} table - tablica poczatkowa
  * @returns {Number} times - ilosc wystapien w podanym przedziale czasowym
  */
-//TODO: walidacja gdzies czy endDate jest po startDate - najpewiej w main pliku przy odbiorzez DOM
+//TODO: walidacja gdzies czy endDate jest po startDate - najpewiej w main pliku przy odbiorze z DOM
 const calcTimesDates = function (cat, start, end, table) {
   let times = 0;
   let startDate = start.getTime();
@@ -112,18 +112,19 @@ const calcTimesDates = function (cat, start, end, table) {
 /**
  * Funkcja obliczajaca ilosc wystapien cat w kazdym dniu z przedzialu od dzisiaj
  * do dzisiaj - days
- * @param {Category} cat
- * @param {*} days
- * @param {*} table
- * @returns {Array<number>} - tablica dziennych wystapien, o dlugosci days
+ * @param {Category} cat - kategoria Category
+ * @param {*} days - dla ilu dni z przeszlosci
+ * @param {*} table - tablica timestamps
+ * @returns {Array<number>} - tablica dziennych wystapien, o dlugosci days, postaci [..., today-2, today-1, today]
  */
 const calcTimesDaily = function (cat, days, table) {
-  let times = [];
+  let times = new Array(days + 1);
+  times.fill(0, 0, days + 1);
   let today = new Date();
   table.forEach((item) => {
     //musi sprawdzic czy miesci sie w DNIU i nalezy do kategorii,
     //dla kazdego dnia z przedzialu od today do today-days
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i <= days; i++) {
       if (item.getCategory() === cat) {
         if (dayDiff(item.date, today) === days - i) {
           times[i] += 1;
@@ -133,7 +134,6 @@ const calcTimesDaily = function (cat, days, table) {
   });
   return times;
 };
-//FIXME: daily zwraca puste i NaN i tylko 6? ehhhh
 /**
  * Funkcja calcTimes dla wielu kategorii - wykorzystujaca istniejaca dla jednej
  * @param {*} cats - lista kategorii
@@ -156,23 +156,28 @@ const calcTimesMulti = function (cats, days, table) {
  * @param {*} cats - lista kategorii
  * @param {*} days
  * @param {*} table
- * @returns {Array<number>} - lista wystapien daily dla kazdej z podanych cat kolejnosci, w podanej kolejnosci
+ * @returns {Array<number>} - lista wystapien daily dla kazdej z podanych cat kolejnosci, w podanej kolejnosci,
+ * odbierane w postaci cat1 = timesM[0][0], cat2=timesM[1][0] itd
  */
 const calcTimesMultiDaily = function (cats, days, table) {
   let timesM = [];
+  // timesM.fill(new Array(cats.length), 0, cats.length);
   let i = 0;
   cats.forEach((cat) => {
-    timesM[i] = calcTimesDaily(cat, days, table);
+    timesM[i] = new Array(calcTimesDaily(cat, days, table));
     i++;
   });
+  // console.log(timesM[0][0]);
   return timesM;
 };
 /**
  * Funkcja calcTimes dla wielu kategorii oraz daily - wykorzystujaca istniejaca dla jednej
  * @param {*} cats - lista kategorii
- * @param {*} days
+ * @param {*} start - start
+ * @param {*} end - end
  * @param {*} table
  * @returns {Array<number>} - lista wystapien daily dla kazdej z podanych cat kolejnosci, w podanej kolejnosci
+ * odbierane w postaci cat1 = timesM[0][0], cat2=timesM[1][0] itd
  */
 const calcTimesMultiDates = function (cats, start, end, table) {
   let timesM = [];
@@ -205,6 +210,12 @@ const timeSinceCat = function (cat, table, stampDate) {
   return diff;
 };
 
+const getCatFromName = function (name, table) {
+  return Array.from(table).find((obj) => {
+    return obj.name === name;
+  });
+};
+
 export {
   timeDiffString,
   timeSinceCat,
@@ -217,4 +228,5 @@ export {
   calcTimesDates,
   calcTimesMultiDates,
   dayDiff,
+  getCatFromName,
 };

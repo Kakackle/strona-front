@@ -28,6 +28,9 @@ class Category {
     this.icon = icon;
     this.color = color;
   }
+  toString() {
+    return `Cat; name: ${this.name}`;
+  }
 }
 
 /**
@@ -57,6 +60,9 @@ class Stamp {
     return this.category;
   }
   //TODO: wiecej setow i getow? zeby sepracja, bo poki co bralem date bezposrednie zamiast getDate
+  toString() {
+    return `[Stamp; cat: ${this.category.name}, dateStr: ${this.dateStr}]`;
+  }
 }
 
 /**
@@ -81,6 +87,8 @@ const createNewCategory = function (name, icon, color) {
 const createNewStamp = function (category, date, table) {
   const interval = timeSinceCat(category, table, date);
   const times = calcTimes(category, 1, table); //1 bo times today
+  // console.log(`creating stamp of category: ${category.name}
+  // with date: ${date}, calcTimes result: ${times} table: ${table}`);
   const newStamp = new Stamp(
     category,
     date,
