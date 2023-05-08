@@ -5,9 +5,11 @@
 // mozna tez tego omijac robiac export default ...
 // ale na jeden plik moze byc tylko jeden export default
 
-//TODO: mam juz funkcje wyciagajace dane - teraz wykorzystac to w biblio do grafow
-//TODO: zbieranie wielu kategorii dla grafow multi, z ograniczeniem max 5 kategorii
-
+//TODO: kwestia wyboru days albo dates
+//mozna moze sprawdzac czy jest cos wpisane w start i end date i jak tak to wersja dates
+//albo latwiej z wykorzystaniem jakiegod dodatkowego checka obok wyboru czasu, ze korzystaj z dates..
+//TODO: limit wybranych checkboxow:
+// https://stackoverflow.com/questions/19001844/how-to-limit-the-number-of-selected-checkboxes
 /* -------------------------------------------------------------------------- */
 /*                                   imports                                  */
 /* -------------------------------------------------------------------------- */
@@ -39,6 +41,7 @@ import {
   renderTimestamps,
   paginateTimestamps,
   renderCatOptions,
+  renderGraphCheckboxes,
 } from "./renderers.js";
 
 import { filterByCategory, filterBySearch, applyFilters } from "./filters.js";
@@ -56,6 +59,7 @@ import {
   add_bar_multi_button,
   add_pie_button,
   submit_bar_graph_button,
+  submit_bar_graph_dates_button,
   submit_multi_graph_button,
   submit_pie_graph_button,
   close_bar_graph_button,
@@ -84,6 +88,14 @@ import {
   bar_days_input,
   bar_start_input,
   bar_end_input,
+  bar_multi_cat_input,
+  multi_days_input,
+  multi_start_input,
+  multi_end_input,
+  pie_cat_input,
+  pie_days_input,
+  pie_start_input,
+  pie_end_input,
 } from "./dom_selectors.js";
 
 import { createDropdownEvents } from "./dropdown_events.js";
@@ -103,9 +115,9 @@ import {
 import { addNewCategory, addNewTimestamp } from "./add_new_functions.js";
 
 import {
-  createTestGraph,
   createBarDailyGraph,
   setupBarDailyData,
+  createPieDailyGraph,
 } from "./bar_chart.js";
 
 /* -------------------------------------------------------------------------- */
@@ -189,13 +201,13 @@ search_input.addEventListener("input", (e) => {
 const mainFunction = function () {
   getFromLocalStorage();
   renderStamps = timestamps;
-  renderCheckboxes(categories, filter_checkboxes, "CATEGORIES:");
+  // renderCheckboxes(categories, filter_checkboxes, "CATEGORIES");
+  renderAllCheckboxes();
   renderCatOptions(categories, stamp_cat_input);
   renderCatOptions(categories, bar_cat_input);
   renderWebsite();
   createEventListeners();
   createDropdownEvents();
-  // createTestGraph();
 };
 
 mainFunction();
@@ -216,6 +228,11 @@ function renderWebsite() {
     selected_page
   );
   createPageEvents();
+}
+function renderAllCheckboxes() {
+  renderCheckboxes(categories, filter_checkboxes, "CATEGORIES");
+  renderGraphCheckboxes(categories, bar_multi_cat_input, "multi-bar-cat");
+  renderGraphCheckboxes(categories, pie_cat_input, "pie-cat");
 }
 /**
  * Funkcja dodajaca eventlistenery do obiektow checkboxow filtrów
@@ -265,14 +282,112 @@ generate_report.addEventListener("click", (e) => {
   let data = undefined;
   let y_max = 0;
   [data, y_max] = setupBarDailyData(catArray, days, timestamps);
+  //reading chosen graph type
+  const one_radios = document.querySelectorAll(".graph-type-radio-one");
+  let one_type = "bar";
+  one_radios.forEach((radio) => {
+    if (radio.checked) one_type = radio.value;
+  });
   //clearing canvas in case a graph already exists
   const bar_graph_background = document.getElementsByClassName(
     "bar-graph-background"
   );
-  bar_graph_background.innerHTML = `<canvas id="bar-graph-background"></canvas>`;
+  console.log(bar_graph_background);
+  // bar_graph_background[0].innerHTML = ``;
+  bar_graph_background[0].innerHTML = `<canvas id="bar-graph-background"></canvas>`;
   //creating new chart
   const bar_graph_canvas = document.getElementById("bar-graph-background");
-  createBarDailyGraph(data, bar_graph_canvas, y_max);
+  createBarDailyGraph(data, bar_graph_canvas, y_max, one_type);
+});
+
+submit_bar_graph_button.addEventListener("click", (e) => {
+  const cat_name = bar_cat_input.value;
+  const cat = getCatFromName(cat_name, categories);
+  const days = parseInt(bar_days_input.value);
+  let data = undefined;
+  let y_max = 0;
+  [data, y_max] = setupBarDailyData([cat], days, timestamps);
+  //reading chosen graph type
+  const one_radios = document.querySelectorAll(".graph-type-radio-one");
+  let one_type = "bar";
+  one_radios.forEach((radio) => {
+    if (radio.checked) one_type = radio.value;
+  });
+  //clearing canvas in case a graph already exists
+  const bar_graph_background = document.getElementsByClassName(
+    "bar-graph-background"
+  );
+  console.log(bar_graph_background);
+  // bar_graph_background[0].innerHTML = ``;
+  bar_graph_background[0].innerHTML = `<canvas id="bar-graph-background"></canvas>`;
+  //creating new chart
+  const bar_graph_canvas = document.getElementById("bar-graph-background");
+  createBarDailyGraph(data, bar_graph_canvas, y_max, one_type);
+});
+
+//TODO: tu robione submit dates graph
+submit_bar_graph_dates_button.addEventListener("click", (e) => {
+  const cat_name = bar_cat_input.value;
+  const cat = getCatFromName(cat_name, categories);
+  const days = parseInt(bar_days_input.value);
+  let data = undefined;
+  let y_max = 0;
+  [data, y_max] = setupBarDailyData([cat], days, timestamps);
+});
+
+submit_multi_graph_button.addEventListener("click", (e) => {
+  // const cat_name = bar_cat_input.value;
+  // const cat = getCatFromName(cat_name, categories);
+  let cats = [];
+  bar_multi_cat_input.querySelectorAll(".multi-bar-cat").forEach((cat) => {
+    console.log(`cat: ${cat}`);
+    if (cat.checked) {
+      cats.push(getCatFromName(cat.value, categories));
+    }
+  });
+  console.log(`cats: ${cats}`);
+  const days = parseInt(multi_days_input.value);
+  let data = undefined;
+  let y_max = 0;
+  [data, y_max] = setupBarDailyData(cats, days, timestamps);
+  //reading chosen graph type
+  const multi_radios = document.querySelectorAll(".graph-type-multi");
+  let multi_type = "bar";
+  multi_radios.forEach((radio) => {
+    if (radio.checked) multi_type = radio.value;
+  });
+  //clearing canvas in case a graph already exists
+  const multi_graph_background = document.getElementsByClassName(
+    "multi-graph-background"
+  );
+  // bar_graph_background[0].innerHTML = ``;
+  multi_graph_background[0].innerHTML = `<canvas id="multi-graph-background"></canvas>`;
+  //creating new chart
+  const multi_graph_canvas = document.getElementById("multi-graph-background");
+  createBarDailyGraph(data, multi_graph_canvas, y_max, multi_type);
+});
+
+submit_pie_graph_button.addEventListener("click", (e) => {
+  // const cat_name = bar_cat_input.value;
+  // const cat = getCatFromName(cat_name, categories);
+  let cats = [];
+  pie_cat_input.querySelectorAll(".pie-cat").forEach((cat) => {
+    console.log(`cat: ${cat}`);
+    if (cat.checked) {
+      cats.push(getCatFromName(cat.value, categories));
+    }
+  });
+  console.log(`cats: ${cats}`);
+  const days = parseInt(pie_days_input.value);
+  //clearing canvas in case a graph already exists
+  const pie_graph_background = document.getElementsByClassName(
+    "pie-graph-background"
+  );
+  // bar_graph_background[0].innerHTML = ``;
+  pie_graph_background[0].innerHTML = `<canvas id="pie-graph-background"></canvas>`;
+  //creating new chart
+  const pie_graph_canvas = document.getElementById("pie-graph-background");
+  createPieDailyGraph(cats, pie_graph_canvas, days, timestamps);
 });
 
 /* -------------------------------------------------------------------------- */
@@ -316,4 +431,5 @@ export {
   renderWebsite,
   createCheckboxEvents,
   createPageEvents,
+  renderAllCheckboxes,
 };

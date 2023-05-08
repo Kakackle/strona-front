@@ -19,6 +19,23 @@ const renderCheckboxes = function (table, container, name) {
   });
   container.innerHTML = renderTemplate;
 };
+/**
+ * Funckja do renderu checkboxow do generacji grafow
+ * @param {*} table - categories array
+ * @param {*} container  - graph checkboxes container element
+ * @param {*} bar_class - multi-bar-cat albo pie-cat
+ */
+const renderGraphCheckboxes = function (table, container, bar_class) {
+  container.innerHTML = ``;
+  let renderTemplate = ``;
+  table.forEach((cat) => {
+    renderTemplate += `<div class="checkbox-style">
+    <input type="checkbox" class="${bar_class}"value="${cat.name}">
+    <label for="${bar_class}">${cat.name}</label>
+  </div>`;
+  });
+  container.innerHTML = renderTemplate;
+};
 
 /**
  * Funkcja do renderu podanej tablicy timestamps (najpewniej po filtracji) z paginacja\
@@ -180,4 +197,5 @@ export {
   renderTimestamps,
   paginateTimestamps,
   renderCatOptions,
+  renderGraphCheckboxes,
 };

@@ -1,6 +1,6 @@
 // import Chart from 'chart.js/auto'
 
-import { calcTimesDaily } from "./stamp_tools.js";
+import { calcTimesDaily, calcTimesMulti } from "./stamp_tools.js";
 
 //TODO: tutaj robione
 /**
@@ -14,8 +14,8 @@ import { calcTimesDaily } from "./stamp_tools.js";
  * @param {*} table - timestamps
  * @returns {Array} [data, y_max] data - object with data for a bar graph with labels and cats.length datasets
  */
-//TODO: odbior typu grafu z boxow graph-type-box
 //TODO: dailydates
+//TODO: wgl odbior danych z wszystkich pol, bo poki co tylko testowe robione
 function setupBarDailyData(cats, days, table) {
   let labels = [];
   for (let i = 0; i <= days; i++) {
@@ -51,16 +51,20 @@ function setupBarDailyData(cats, days, table) {
   return [data, y_max];
 }
 
+//TODO: tu robione data graph dates
+//kwestia generacja dates miedzy dwoma datami
+
 /**
  * Funkcja tworzaca bar graph dla daily wystapien kategorii z dataIn
  * tworzony we wskazanym elemencie typu <canvas>
  * @param {*} dataIn - data stworzona pod graf z @see setupBarDailyData
  * @param {*} canvas - miejsce do renderu
  * @param {*} y_max - max y-axis value
+ * @param {*} chart_type - "line" or "bar"
  */
-function createBarDailyGraph(dataIn, canvas, y_max) {
+function createBarDailyGraph(dataIn, canvas, y_max, chart_type) {
   new Chart(canvas, {
-    type: "bar",
+    type: chart_type,
     options: {
       animation: false,
       plugins: {
@@ -81,41 +85,43 @@ function createBarDailyGraph(dataIn, canvas, y_max) {
     data: dataIn,
   });
 }
-
-function createTestGraph() {
-  const data = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
-  ];
-
-  new Chart(document.getElementById("bar-graph-background"), {
-    type: "bar",
-    options: {
-      animation: false,
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          enabled: false,
-        },
+/**
+ *
+ * @param {*} cats - chosen categories
+ * @param {*} canvas - pie canvas
+ * @param {*} days - pie days
+ * @param {*} table - timestamps
+ */
+function createPieDailyGraph(cats, canvas, days, table) {
+  let data = {
+    labels: [],
+    datasets: [
+      {
+        label: "Times",
+        data: [],
+        backgroundColor: [],
+        hoverOffset: 4,
       },
+    ],
+  };
+  //labels
+  cats.forEach((cat) => {
+    data.labels.push(cat.name);
+  });
+  //data
+  data.datasets[0].data = calcTimesMulti(cats, days, table);
+  //colors
+  cats.forEach((cat) => {
+    data.datasets[0].backgroundColor.push(cat.color);
+  });
+
+  new Chart(canvas, {
+    type: "doughnut",
+    options: {
+      maintainAspectRatio: false,
     },
-    data: {
-      labels: data.map((row) => row.year),
-      datasets: [
-        {
-          label: "Test bar graph",
-          data: data.map((row) => row.count),
-        },
-      ],
-    },
+    data: data,
   });
 }
 
-export { createTestGraph, setupBarDailyData, createBarDailyGraph };
+export { setupBarDailyData, createBarDailyGraph, createPieDailyGraph };

@@ -20,6 +20,9 @@ export const add_bar_multi_button = document.querySelector(".add-bar-multi");
 export const add_pie_button = document.querySelector(".add-pie");
 export const submit_bar_graph_button =
   document.querySelector(".submit-bar-graph");
+export const submit_bar_graph_dates_button = document.querySelector(
+  ".submit-bar-graph-dates"
+);
 export const submit_multi_graph_button = document.querySelector(
   ".submit-multi-graph"
 );
@@ -75,7 +78,20 @@ export const search_input = document.querySelector(".search-input");
 /* -------------------------------------------------------------------------- */
 /*                                   graphs                                   */
 /* -------------------------------------------------------------------------- */
+//bar one
 export const bar_cat_input = document.querySelector(".bar-cat-input");
 export const bar_days_input = document.querySelector(".bar-days-input");
 export const bar_start_input = document.querySelector(".bar-start-input");
 export const bar_end_input = document.querySelector(".bar-star-input");
+//bar multi
+export const bar_multi_cat_input = document.querySelector(
+  ".bar-multi-cat-input"
+);
+export const multi_days_input = document.querySelector(".multi-days-input");
+export const multi_start_input = document.querySelector(".multi-start-input");
+export const multi_end_input = document.querySelector(".multi-star-input");
+//pie
+export const pie_cat_input = document.querySelector(".pie-cat-input");
+export const pie_days_input = document.querySelector(".pie-days-input");
+export const pie_start_input = document.querySelector(".pie-start-input");
+export const pie_end_input = document.querySelector(".pie-star-input");

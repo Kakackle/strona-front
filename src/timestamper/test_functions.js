@@ -16,7 +16,11 @@ import {
   calcTimesMultiDaily,
   calcTimesMultiDates,
 } from "./stamp_tools.js";
-import { renderWebsite, createEventListeners } from "./timestamper.js";
+import {
+  renderWebsite,
+  createEventListeners,
+  renderAllCheckboxes,
+} from "./timestamper.js";
 import {
   renderCatOptions,
   renderCheckboxes,
@@ -88,6 +92,8 @@ const testFunction = function (cats, stamps) {
     )}`
   );
   renderWebsite();
+  renderAllCheckboxes();
+  createEventListeners();
   return [cats, stamps];
 };
 
@@ -136,7 +142,8 @@ const createTestItems = function (cats, stamps, checks) {
       cats.add(newcat);
     }
   });
-  renderCheckboxes(cats, filter_checkboxes, "CATEGORIES");
+  // renderCheckboxes(cats, filter_checkboxes, "CATEGORIES");
+  renderAllCheckboxes();
   renderCatOptions(cats, stamp_cat_input);
   renderCatOptions(cats, bar_cat_input);
   const catArray = Array.from(cats);

@@ -10,7 +10,11 @@ import {
 import { createNewCategory, createNewStamp } from "./timestamper_classes.js";
 
 import { renderCheckboxes, renderCatOptions } from "./renderers.js";
-import { createCheckboxEvents, renderWebsite } from "./timestamper.js";
+import {
+  createCheckboxEvents,
+  renderWebsite,
+  renderAllCheckboxes,
+} from "./timestamper.js";
 import { saveToLocalStorage } from "./storage_functions.js";
 
 /**
@@ -43,7 +47,8 @@ const addNewCategory = function (cats, checks, selIcon) {
   });
   if (createCat) {
     cats.add(newCat);
-    renderCheckboxes(cats, filter_checkboxes, "CATEGORIES");
+    // renderCheckboxes(cats, filter_checkboxes, "CATEGORIES");
+    renderAllCheckboxes();
     renderCatOptions(cats, stamp_cat_input);
     renderCatOptions(cats, bar_cat_input);
     //Setu nie mozna JSON.stringify, tylko array

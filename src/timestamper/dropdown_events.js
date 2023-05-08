@@ -76,27 +76,27 @@ const createDropdownEvents = function () {
   close_bar_graph_button.addEventListener("click", (e) => {
     bar_graph_container.style.display = "none";
   });
-  submit_bar_graph_button.addEventListener("click", (e) => {
-    bar_graph_container.style.display = "none";
-  });
+  // submit_bar_graph_button.addEventListener("click", (e) => {
+  //   bar_graph_container.style.display = "none";
+  // });
   add_bar_multi_button.addEventListener("click", (e) => {
     bar_multi_container.style.display = "block";
   });
   close_multi_graph_button.addEventListener("click", (e) => {
     bar_multi_container.style.display = "none";
   });
-  submit_multi_graph_button.addEventListener("click", (e) => {
-    bar_multi_container.style.display = "none";
-  });
+  // submit_multi_graph_button.addEventListener("click", (e) => {
+  //   bar_multi_container.style.display = "none";
+  // });
   add_pie_button.addEventListener("click", (e) => {
     pie_container.style.display = "block";
   });
   close_pie_graph_button.addEventListener("click", (e) => {
     pie_container.style.display = "none";
   });
-  submit_pie_graph_button.addEventListener("click", (e) => {
-    pie_container.style.display = "none";
-  });
+  // submit_pie_graph_button.addEventListener("click", (e) => {
+  //   pie_container.style.display = "none";
+  // });
 
   submit_cat_button.addEventListener("click", (e) => {
     add_drop_cat.style.display = "none";

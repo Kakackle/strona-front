@@ -462,26 +462,38 @@
               <span>GRAPH TYPE:</span>
 
               <input
-                type="checkbox"
-                class="graph-type-box type-bar"
+                type="radio"
+                class="graph-type-radio-one type-bar-one"
                 value="bar"
+                name="type-one"
+                checked
               />
-              <label for="type-bar">BAR</label>
+              <label for="type-bar-one">BAR</label>
 
               <input
-                type="checkbox"
-                class="graph-type-box type-line"
+                type="radio"
+                class="graph-type-radio-one type-line-one"
                 value="line"
+                name="type-one"
               />
-              <label for="type-line">LINE</label>
+              <label for="type-line-one">LINE</label>
             </div>
-            <button class="submit-bar-graph submit-button hover">
-              CREATE GRAPH
-              <ion-icon
-                class="submit-icon"
-                name="arrow-forward-outline"
-              ></ion-icon>
-            </button>
+            <div class="graph-buttons">
+              <button class="submit-bar-graph submit-button hover">
+                CREATE GRAPH DAYS
+                <ion-icon
+                  class="submit-icon"
+                  name="arrow-forward-outline"
+                ></ion-icon>
+              </button>
+              <button class="submit-bar-graph-dates submit-button hover">
+                CREATE GRAPH DATES
+                <ion-icon
+                  class="submit-icon"
+                  name="arrow-forward-outline"
+                ></ion-icon>
+              </button>
+            </div>
             <ion-icon
               name="close-outline"
               class="close-button close-bar-graph hover"
@@ -530,16 +542,19 @@
               <span>GRAPH TYPE:</span>
 
               <input
-                type="checkbox"
-                class="graph-type-box type-bar-multi"
+                type="radio"
+                class="graph-type-multi type-bar-multi"
                 value="bar"
+                name="multi-type"
+                checked
               />
               <label for="type-bar-multi">BAR</label>
 
               <input
-                type="checkbox"
-                class="graph-type-box type-line-multi"
+                type="radio"
+                class="graph-type-multi type-line-multi"
                 value="line"
+                name="multi-type"
               />
               <label for="type-line-multi">LINE</label>
             </div>
@@ -607,7 +622,7 @@
           <div class="pie-graph-area graph-area">
             <div class="pie-graph-title graph-title">MULTI PIE CHART</div>
             <div class="pie-graph-proper graph-proper">
-              <div class="pie-graph-background graph-background">what</div>
+              <div class="pie-graph-background graph-background"></div>
             </div>
           </div>
         </div>
