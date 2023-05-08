@@ -40,8 +40,8 @@ let test_items_created = 0;
  */
 const testFunction = function (cats, stamps) {
   const newCat1 = createNewCategory("test", "earth-outline", "#5699ff");
-  const newCat2 = createNewCategory("test2", "airplane-outline", "#5699ff");
-  const newCat3 = createNewCategory("test3", "disc-outline", "#5699ff");
+  const newCat2 = createNewCategory("test2", "airplane-outline", "#ff9956");
+  const newCat3 = createNewCategory("test3", "disc-outline", "#56ff99");
   cats.add(newCat1);
   cats.add(newCat2);
   cats.add(newCat3);

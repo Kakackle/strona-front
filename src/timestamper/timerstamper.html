@@ -492,7 +492,9 @@
               CATEGORY1 LAST X DAYS BAR GRAPH
             </div>
             <div class="bar-graph-proper graph-proper">
-              <div class="bar-graph-background graph-background">what</div>
+              <div class="bar-graph-background graph-background">
+                <canvas id="bar-graph-background"></canvas>
+              </div>
             </div>
           </div>
         </div>
@@ -618,6 +620,10 @@
     <script
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.min.js"
     ></script>
     <script type="module" src="timestamper.js"></script>
   </body>

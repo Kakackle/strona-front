@@ -39,4 +39,13 @@ function clearLocalStorage(stamps, rstamps, cats) {
   return [stamps, rstamps, cats];
 }
 
-export { getFromLocalStorage, clearLocalStorage };
+/**
+ * Funkcja do zapisu danych do localStorage
+ * @param {*} arr - tablica do zapisania
+ * @param {*} arr_name - nazwa pod jaka wpisac w local
+ */
+const saveToLocalStorage = function (arr, arr_name) {
+  localStorage.setItem(`${arr_name}`, JSON.stringify(arr));
+};
+
+export { getFromLocalStorage, clearLocalStorage, saveToLocalStorage };
